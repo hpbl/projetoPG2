@@ -24,6 +24,6 @@ func read(from file: String, type: String) -> [String]? {
 
 //MARK: - Vector formulas
 
-func innerProduct(u: Point, v: Point) {
+func innerProduct(u: Point, v: Point) -> Double {
     return (u.x * v.x) + (u.y + v.y) + (u.z! + v.z!)
 }
