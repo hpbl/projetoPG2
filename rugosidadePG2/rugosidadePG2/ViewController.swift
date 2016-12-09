@@ -14,8 +14,6 @@ class ViewController: NSViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        let illumination = Illumination(named: "iluminacao")
-        
     }
 
     override var representedObject: Any? {

@@ -18,21 +18,12 @@ class Camera {
     
     
     // MARK: - inits
-    init(position: Point, vectorN: Point, vectorV: Point, d: Int, hx: Double, hy: Double) {
-        self.position = position
-        self.vectorN = vectorN
-        self.vectorV = vectorV
-        self.d = d
-        self.hx = hx
-        self.hy = hy
-    }
-    
     init(named: String) {
         let cameraStrings = read(from: named, type: "cfg")
         let lastLine = cameraStrings?[3].components(separatedBy: " ")
         
         self.position = (cameraStrings?[0].toPoint())!
-        self.vectorN = (cameraStrings?[1].toPoint())!
+        self.vectorN = (cameraStrings?[1].toPoint())!.normalized()
         self.vectorV = (cameraStrings?[2].toPoint())!
         
         self.d = Int(lastLine![0])!
