@@ -18,6 +18,8 @@
 		71EDD4F91DFA43D700109E4B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD4F81DFA43D700109E4B /* Extensions.swift */; };
 		71EDD4FB1DFA45BE00109E4B /* Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD4FA1DFA45BE00109E4B /* Object.swift */; };
 		71EDD4FD1DFA532C00109E4B /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD4FC1DFA532C00109E4B /* Point.swift */; };
+		71EDD4FF1DFACDF800109E4B /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD4FE1DFACDF800109E4B /* Camera.swift */; };
+		71EDD5041DFADCDB00109E4B /* Illumination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD5031DFADCDB00109E4B /* Illumination.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,6 +87,8 @@
 		71EDD4F81DFA43D700109E4B /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		71EDD4FA1DFA45BE00109E4B /* Object.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Object.swift; sourceTree = "<group>"; };
 		71EDD4FC1DFA532C00109E4B /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
+		71EDD4FE1DFACDF800109E4B /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		71EDD5031DFADCDB00109E4B /* Illumination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Illumination.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,15 +122,13 @@
 		71EDD4A91DFA341A00109E4B /* rugosidadePG2 */ = {
 			isa = PBXGroup;
 			children = (
+				71EDD4F81DFA43D700109E4B /* Extensions.swift */,
 				71EDD4AA1DFA341A00109E4B /* AppDelegate.swift */,
 				71EDD4AC1DFA341A00109E4B /* ViewController.swift */,
 				71EDD4AE1DFA341A00109E4B /* Assets.xcassets */,
 				71EDD4B01DFA341A00109E4B /* Main.storyboard */,
 				71EDD4B31DFA341A00109E4B /* Info.plist */,
-				71EDD4F61DFA412600109E4B /* Triangle.swift */,
-				71EDD4F81DFA43D700109E4B /* Extensions.swift */,
-				71EDD4FA1DFA45BE00109E4B /* Object.swift */,
-				71EDD4FC1DFA532C00109E4B /* Point.swift */,
+				71EDD5021DFADCA100109E4B /* Model */,
 			);
 			path = rugosidadePG2;
 			sourceTree = "<group>";
@@ -216,6 +218,18 @@
 			path = Texturas;
 			sourceTree = "<group>";
 		};
+		71EDD5021DFADCA100109E4B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				71EDD4F61DFA412600109E4B /* Triangle.swift */,
+				71EDD4FC1DFA532C00109E4B /* Point.swift */,
+				71EDD4FA1DFA45BE00109E4B /* Object.swift */,
+				71EDD4FE1DFACDF800109E4B /* Camera.swift */,
+				71EDD5031DFADCDB00109E4B /* Illumination.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -292,9 +306,11 @@
 			files = (
 				71EDD4FB1DFA45BE00109E4B /* Object.swift in Sources */,
 				71EDD4AD1DFA341A00109E4B /* ViewController.swift in Sources */,
+				71EDD5041DFADCDB00109E4B /* Illumination.swift in Sources */,
 				71EDD4FD1DFA532C00109E4B /* Point.swift in Sources */,
 				71EDD4AB1DFA341A00109E4B /* AppDelegate.swift in Sources */,
 				71EDD4F71DFA412600109E4B /* Triangle.swift in Sources */,
+				71EDD4FF1DFACDF800109E4B /* Camera.swift in Sources */,
 				71EDD4F91DFA43D700109E4B /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -448,6 +464,7 @@
 				71EDD4B81DFA341A00109E4B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

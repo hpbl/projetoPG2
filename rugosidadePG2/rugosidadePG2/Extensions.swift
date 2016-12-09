@@ -7,3 +7,27 @@
 //
 
 import Foundation
+
+func read(from file: String, type: String) -> [String]? {
+    if let path = Bundle.main.path(forResource: file, ofType: type) {
+        do {
+            let data = try String(contentsOfFile: path, encoding: .utf8)
+            let strings =  data.components(separatedBy: .newlines)
+            return strings.filter {$0 != ""}
+            
+        } catch {
+            print(error)
+        }
+    }
+    return nil
+}
+
+extension String {
+    func toPoint() -> Point{
+        let xPos = Double((self.components(separatedBy: " ")[0]))
+        let yPos = Double((self.components(separatedBy: " ")[1]))
+        let zPos = Double((self.components(separatedBy: " ")[2]))
+        
+        return Point(x: xPos!, y: yPos!, z: zPos)
+    }
+}
