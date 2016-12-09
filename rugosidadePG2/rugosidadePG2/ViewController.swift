@@ -14,6 +14,7 @@ class ViewController: NSViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+                
     }
 
     override var representedObject: Any? {
@@ -21,6 +22,8 @@ class ViewController: NSViewController {
         // Update the view, if already loaded.
         }
     }
+    
+
 
 
 }

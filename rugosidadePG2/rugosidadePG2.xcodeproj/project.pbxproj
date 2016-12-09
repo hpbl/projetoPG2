@@ -11,6 +11,13 @@
 		71EDD4AD1DFA341A00109E4B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD4AC1DFA341A00109E4B /* ViewController.swift */; };
 		71EDD4AF1DFA341A00109E4B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4AE1DFA341A00109E4B /* Assets.xcassets */; };
 		71EDD4B21DFA341A00109E4B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4B01DFA341A00109E4B /* Main.storyboard */; };
+		71EDD4F31DFA3F6700109E4B /* iluminacao.txt in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4D31DFA3F2B00109E4B /* iluminacao.txt */; };
+		71EDD4F41DFA3FEA00109E4B /* camaro.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4BF1DFA3F2B00109E4B /* camaro.cfg */; };
+		71EDD4F51DFA3FF400109E4B /* camaro.byu in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4DA1DFA3F2B00109E4B /* camaro.byu */; };
+		71EDD4F71DFA412600109E4B /* Triangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD4F61DFA412600109E4B /* Triangle.swift */; };
+		71EDD4F91DFA43D700109E4B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD4F81DFA43D700109E4B /* Extensions.swift */; };
+		71EDD4FB1DFA45BE00109E4B /* Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD4FA1DFA45BE00109E4B /* Object.swift */; };
+		71EDD4FD1DFA532C00109E4B /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD4FC1DFA532C00109E4B /* Point.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +27,64 @@
 		71EDD4AE1DFA341A00109E4B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		71EDD4B11DFA341A00109E4B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		71EDD4B31DFA341A00109E4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		71EDD4BA1DFA3F2B00109E4B /* camera.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = camera.cfg; sourceTree = "<group>"; };
+		71EDD4BC1DFA3F2B00109E4B /* 01_Camera.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = 01_Camera.cfg; sourceTree = "<group>"; };
+		71EDD4BD1DFA3F2B00109E4B /* animais.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = animais.cfg; sourceTree = "<group>"; };
+		71EDD4BE1DFA3F2B00109E4B /* calice2.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = calice2.cfg; sourceTree = "<group>"; };
+		71EDD4BF1DFA3F2B00109E4B /* camaro.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = camaro.cfg; sourceTree = "<group>"; };
+		71EDD4C01DFA3F2B00109E4B /* casa.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = casa.cfg; sourceTree = "<group>"; };
+		71EDD4C11DFA3F2B00109E4B /* CAT.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = CAT.cfg; sourceTree = "<group>"; };
+		71EDD4C21DFA3F2B00109E4B /* COW.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = COW.cfg; sourceTree = "<group>"; };
+		71EDD4C31DFA3F2B00109E4B /* crusader.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = crusader.cfg; sourceTree = "<group>"; };
+		71EDD4C41DFA3F2B00109E4B /* crusader2.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = crusader2.cfg; sourceTree = "<group>"; };
+		71EDD4C51DFA3F2B00109E4B /* maca.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = maca.cfg; sourceTree = "<group>"; };
+		71EDD4C61DFA3F2B00109E4B /* maca2.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = maca2.cfg; sourceTree = "<group>"; };
+		71EDD4C71DFA3F2B00109E4B /* moto.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = moto.cfg; sourceTree = "<group>"; };
+		71EDD4C81DFA3F2B00109E4B /* piramide.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = piramide.cfg; sourceTree = "<group>"; };
+		71EDD4C91DFA3F2B00109E4B /* spaceship.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = spaceship.cfg; sourceTree = "<group>"; };
+		71EDD4CA1DFA3F2B00109E4B /* superficie.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = superficie.cfg; sourceTree = "<group>"; };
+		71EDD4CB1DFA3F2B00109E4B /* triangulo.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = triangulo.cfg; sourceTree = "<group>"; };
+		71EDD4CC1DFA3F2B00109E4B /* trooper.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = trooper.cfg; sourceTree = "<group>"; };
+		71EDD4CD1DFA3F2B00109E4B /* trooper2.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = trooper2.cfg; sourceTree = "<group>"; };
+		71EDD4CE1DFA3F2B00109E4B /* vader.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = vader.cfg; sourceTree = "<group>"; };
+		71EDD4CF1DFA3F2B00109E4B /* vaso.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = vaso.cfg; sourceTree = "<group>"; };
+		71EDD4D01DFA3F2B00109E4B /* vaso2.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = vaso2.cfg; sourceTree = "<group>"; };
+		71EDD4D11DFA3F2B00109E4B /* vaso3.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = vaso3.cfg; sourceTree = "<group>"; };
+		71EDD4D21DFA3F2B00109E4B /* yoda.cfg */ = {isa = PBXFileReference; lastKnownFileType = text; path = yoda.cfg; sourceTree = "<group>"; };
+		71EDD4D31DFA3F2B00109E4B /* iluminacao.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = iluminacao.txt; sourceTree = "<group>"; };
+		71EDD4D41DFA3F2B00109E4B /* multi_iluminacao.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = multi_iluminacao.txt; sourceTree = "<group>"; };
+		71EDD4D51DFA3F2B00109E4B /* objeto.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = objeto.byu; sourceTree = "<group>"; };
+		71EDD4D71DFA3F2B00109E4B /* 01_Objeto.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = 01_Objeto.byu; sourceTree = "<group>"; };
+		71EDD4D81DFA3F2B00109E4B /* calice.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = calice.byu; sourceTree = "<group>"; };
+		71EDD4D91DFA3F2B00109E4B /* calice2.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = calice2.byu; sourceTree = "<group>"; };
+		71EDD4DA1DFA3F2B00109E4B /* camaro.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = camaro.byu; sourceTree = "<group>"; };
+		71EDD4DB1DFA3F2B00109E4B /* casa.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = casa.byu; sourceTree = "<group>"; };
+		71EDD4DC1DFA3F2B00109E4B /* CAT.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = CAT.byu; sourceTree = "<group>"; };
+		71EDD4DD1DFA3F2B00109E4B /* COW.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = COW.byu; sourceTree = "<group>"; };
+		71EDD4DE1DFA3F2B00109E4B /* crusader.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = crusader.byu; sourceTree = "<group>"; };
+		71EDD4DF1DFA3F2B00109E4B /* dalton.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = dalton.byu; sourceTree = "<group>"; };
+		71EDD4E01DFA3F2B00109E4B /* DOG.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = DOG.byu; sourceTree = "<group>"; };
+		71EDD4E11DFA3F2B00109E4B /* maca.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = maca.byu; sourceTree = "<group>"; };
+		71EDD4E21DFA3F2B00109E4B /* maca2.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = maca2.byu; sourceTree = "<group>"; };
+		71EDD4E31DFA3F2B00109E4B /* moto.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = moto.byu; sourceTree = "<group>"; };
+		71EDD4E41DFA3F2B00109E4B /* piramide.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = piramide.byu; sourceTree = "<group>"; };
+		71EDD4E51DFA3F2B00109E4B /* spaceship.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = spaceship.byu; sourceTree = "<group>"; };
+		71EDD4E61DFA3F2B00109E4B /* superficie.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = superficie.byu; sourceTree = "<group>"; };
+		71EDD4E71DFA3F2B00109E4B /* triangulo.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = triangulo.byu; sourceTree = "<group>"; };
+		71EDD4E81DFA3F2B00109E4B /* trooper.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = trooper.byu; sourceTree = "<group>"; };
+		71EDD4E91DFA3F2B00109E4B /* tui.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = tui.byu; sourceTree = "<group>"; };
+		71EDD4EA1DFA3F2B00109E4B /* vader.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = vader.byu; sourceTree = "<group>"; };
+		71EDD4EB1DFA3F2B00109E4B /* vaso.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = vaso.byu; sourceTree = "<group>"; };
+		71EDD4EC1DFA3F2B00109E4B /* yoda.byu */ = {isa = PBXFileReference; lastKnownFileType = text; path = yoda.byu; sourceTree = "<group>"; };
+		71EDD4ED1DFA3F2B00109E4B /* textura.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = textura.jpg; sourceTree = "<group>"; };
+		71EDD4EF1DFA3F2B00109E4B /* textura01.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = textura01.jpg; sourceTree = "<group>"; };
+		71EDD4F01DFA3F2B00109E4B /* textura02.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = textura02.jpg; sourceTree = "<group>"; };
+		71EDD4F11DFA3F2B00109E4B /* textura03.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = textura03.jpg; sourceTree = "<group>"; };
+		71EDD4F21DFA3F2B00109E4B /* textura04.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = textura04.jpg; sourceTree = "<group>"; };
+		71EDD4F61DFA412600109E4B /* Triangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Triangle.swift; sourceTree = "<group>"; };
+		71EDD4F81DFA43D700109E4B /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		71EDD4FA1DFA45BE00109E4B /* Object.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Object.swift; sourceTree = "<group>"; };
+		71EDD4FC1DFA532C00109E4B /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +101,7 @@
 		71EDD49E1DFA341A00109E4B = {
 			isa = PBXGroup;
 			children = (
+				71EDD4B91DFA3F2B00109E4B /* PG-P2-entradas */,
 				71EDD4A91DFA341A00109E4B /* rugosidadePG2 */,
 				71EDD4A81DFA341A00109E4B /* Products */,
 			);
@@ -57,8 +123,97 @@
 				71EDD4AE1DFA341A00109E4B /* Assets.xcassets */,
 				71EDD4B01DFA341A00109E4B /* Main.storyboard */,
 				71EDD4B31DFA341A00109E4B /* Info.plist */,
+				71EDD4F61DFA412600109E4B /* Triangle.swift */,
+				71EDD4F81DFA43D700109E4B /* Extensions.swift */,
+				71EDD4FA1DFA45BE00109E4B /* Object.swift */,
+				71EDD4FC1DFA532C00109E4B /* Point.swift */,
 			);
 			path = rugosidadePG2;
+			sourceTree = "<group>";
+		};
+		71EDD4B91DFA3F2B00109E4B /* PG-P2-entradas */ = {
+			isa = PBXGroup;
+			children = (
+				71EDD4BA1DFA3F2B00109E4B /* camera.cfg */,
+				71EDD4BB1DFA3F2B00109E4B /* Cameras */,
+				71EDD4D31DFA3F2B00109E4B /* iluminacao.txt */,
+				71EDD4D41DFA3F2B00109E4B /* multi_iluminacao.txt */,
+				71EDD4D51DFA3F2B00109E4B /* objeto.byu */,
+				71EDD4D61DFA3F2B00109E4B /* Objetos */,
+				71EDD4ED1DFA3F2B00109E4B /* textura.jpg */,
+				71EDD4EE1DFA3F2B00109E4B /* Texturas */,
+			);
+			path = "PG-P2-entradas";
+			sourceTree = "<group>";
+		};
+		71EDD4BB1DFA3F2B00109E4B /* Cameras */ = {
+			isa = PBXGroup;
+			children = (
+				71EDD4BC1DFA3F2B00109E4B /* 01_Camera.cfg */,
+				71EDD4BD1DFA3F2B00109E4B /* animais.cfg */,
+				71EDD4BE1DFA3F2B00109E4B /* calice2.cfg */,
+				71EDD4BF1DFA3F2B00109E4B /* camaro.cfg */,
+				71EDD4C01DFA3F2B00109E4B /* casa.cfg */,
+				71EDD4C11DFA3F2B00109E4B /* CAT.cfg */,
+				71EDD4C21DFA3F2B00109E4B /* COW.cfg */,
+				71EDD4C31DFA3F2B00109E4B /* crusader.cfg */,
+				71EDD4C41DFA3F2B00109E4B /* crusader2.cfg */,
+				71EDD4C51DFA3F2B00109E4B /* maca.cfg */,
+				71EDD4C61DFA3F2B00109E4B /* maca2.cfg */,
+				71EDD4C71DFA3F2B00109E4B /* moto.cfg */,
+				71EDD4C81DFA3F2B00109E4B /* piramide.cfg */,
+				71EDD4C91DFA3F2B00109E4B /* spaceship.cfg */,
+				71EDD4CA1DFA3F2B00109E4B /* superficie.cfg */,
+				71EDD4CB1DFA3F2B00109E4B /* triangulo.cfg */,
+				71EDD4CC1DFA3F2B00109E4B /* trooper.cfg */,
+				71EDD4CD1DFA3F2B00109E4B /* trooper2.cfg */,
+				71EDD4CE1DFA3F2B00109E4B /* vader.cfg */,
+				71EDD4CF1DFA3F2B00109E4B /* vaso.cfg */,
+				71EDD4D01DFA3F2B00109E4B /* vaso2.cfg */,
+				71EDD4D11DFA3F2B00109E4B /* vaso3.cfg */,
+				71EDD4D21DFA3F2B00109E4B /* yoda.cfg */,
+			);
+			path = Cameras;
+			sourceTree = "<group>";
+		};
+		71EDD4D61DFA3F2B00109E4B /* Objetos */ = {
+			isa = PBXGroup;
+			children = (
+				71EDD4D71DFA3F2B00109E4B /* 01_Objeto.byu */,
+				71EDD4D81DFA3F2B00109E4B /* calice.byu */,
+				71EDD4D91DFA3F2B00109E4B /* calice2.byu */,
+				71EDD4DA1DFA3F2B00109E4B /* camaro.byu */,
+				71EDD4DB1DFA3F2B00109E4B /* casa.byu */,
+				71EDD4DC1DFA3F2B00109E4B /* CAT.byu */,
+				71EDD4DD1DFA3F2B00109E4B /* COW.byu */,
+				71EDD4DE1DFA3F2B00109E4B /* crusader.byu */,
+				71EDD4DF1DFA3F2B00109E4B /* dalton.byu */,
+				71EDD4E01DFA3F2B00109E4B /* DOG.byu */,
+				71EDD4E11DFA3F2B00109E4B /* maca.byu */,
+				71EDD4E21DFA3F2B00109E4B /* maca2.byu */,
+				71EDD4E31DFA3F2B00109E4B /* moto.byu */,
+				71EDD4E41DFA3F2B00109E4B /* piramide.byu */,
+				71EDD4E51DFA3F2B00109E4B /* spaceship.byu */,
+				71EDD4E61DFA3F2B00109E4B /* superficie.byu */,
+				71EDD4E71DFA3F2B00109E4B /* triangulo.byu */,
+				71EDD4E81DFA3F2B00109E4B /* trooper.byu */,
+				71EDD4E91DFA3F2B00109E4B /* tui.byu */,
+				71EDD4EA1DFA3F2B00109E4B /* vader.byu */,
+				71EDD4EB1DFA3F2B00109E4B /* vaso.byu */,
+				71EDD4EC1DFA3F2B00109E4B /* yoda.byu */,
+			);
+			path = Objetos;
+			sourceTree = "<group>";
+		};
+		71EDD4EE1DFA3F2B00109E4B /* Texturas */ = {
+			isa = PBXGroup;
+			children = (
+				71EDD4EF1DFA3F2B00109E4B /* textura01.jpg */,
+				71EDD4F01DFA3F2B00109E4B /* textura02.jpg */,
+				71EDD4F11DFA3F2B00109E4B /* textura03.jpg */,
+				71EDD4F21DFA3F2B00109E4B /* textura04.jpg */,
+			);
+			path = Texturas;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -120,6 +275,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71EDD4F51DFA3FF400109E4B /* camaro.byu in Resources */,
+				71EDD4F41DFA3FEA00109E4B /* camaro.cfg in Resources */,
+				71EDD4F31DFA3F6700109E4B /* iluminacao.txt in Resources */,
 				71EDD4AF1DFA341A00109E4B /* Assets.xcassets in Resources */,
 				71EDD4B21DFA341A00109E4B /* Main.storyboard in Resources */,
 			);
@@ -132,8 +290,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71EDD4FB1DFA45BE00109E4B /* Object.swift in Sources */,
 				71EDD4AD1DFA341A00109E4B /* ViewController.swift in Sources */,
+				71EDD4FD1DFA532C00109E4B /* Point.swift in Sources */,
 				71EDD4AB1DFA341A00109E4B /* AppDelegate.swift in Sources */,
+				71EDD4F71DFA412600109E4B /* Triangle.swift in Sources */,
+				71EDD4F91DFA43D700109E4B /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
