@@ -87,12 +87,17 @@ class ViewController: NSViewController {
         
         //Conversão por varredura
         for triangle in objeto.triangles2D {
+            
             //achar Ymin e Ymax do triangulo
             let controlPoints = [triangle.firstVertex, triangle.secondVertex, triangle.thirdVertex]
-            //Sorting the points by y-coordinate (in case of a tie, sorting by x-coordinate)
-            let sortedPoints = controlPoints.sorted { (pointA, pointB) -> Bool in
-                return (pointA.y == pointB.y) ? (pointA.x > pointB.x) : (pointA.y > pointB.y)
-            }
+            
+            let arrayY = [triangle.firstVertex.y, triangle.secondVertex.y, triangle.thirdVertex.y]
+            let maxY = arrayY.max()
+            let minY = arrayY.min()
+            
+            let arrayX = [triangle.firstVertex.x, triangle.secondVertex.x, triangle.thirdVertex.x]
+            let maxX = arrayX.max()
+            let minX = arrayX.min()
             
         }
     }
