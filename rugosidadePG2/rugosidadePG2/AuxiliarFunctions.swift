@@ -54,4 +54,17 @@ func * (matrix: [[Double]], vector: Point) -> Point {
     return Point(x: x, y: y, z: z)
 }
 
+// Algebra
+func tan(pointA: Point, pointB: Point) -> Double {
+    return (pointA.y - pointB.y) / (pointA.x - pointB.x)
+}
+
+func lineEquation(pointA: Point, pointB: Point) -> (Double, Double) {
+    let a = tan(pointA: pointA, pointB: pointB)
+    
+    let b = pointA.y - (a * pointA.x)
+    
+    return (a, b)
+}
+
 

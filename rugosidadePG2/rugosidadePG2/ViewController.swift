@@ -94,13 +94,10 @@ class ViewController: NSViewController {
                 return (pointA.y == pointB.y) ? (pointA.x > pointB.x) : (pointA.y > pointB.y)
             }
             
-            
-            
         }
-        
-        
-        
     }
+    
+
 
 }
 
