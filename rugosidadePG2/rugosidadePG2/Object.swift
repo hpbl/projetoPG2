@@ -9,8 +9,15 @@
 import Foundation
 
 class Object {
-    var points: [Point]
-    var triangles: [Triangle] { return self.getTriangles(from: self.trianglesVerticesList!)}
+    var rwPoints: [Point]
+    var viewPoints = [Point]()
+    var screenPoints = [Point]()
+    var pointsNormalsDict: [Point: Point]?
+    var triangles3D: [Triangle] { return self.getTriangles(from: self.trianglesVerticesList!,
+                                                           of: self.viewPoints)}
+    var triangles2D: [Triangle] { return self.getTriangles(from: self.trianglesVerticesList!,
+                                                           of: self.screenPoints)}
+
 
     private var trianglesVerticesList: [String]?
     
@@ -22,23 +29,28 @@ class Object {
         
         let numberOfPoints = Int(objectSpecs![0])!
         
-        self.points = Object.getPoints(from: Array(objectStrings![1...numberOfPoints]))
+        self.rwPoints = Object.getPoints(from: Array(objectStrings![1...numberOfPoints]))
         self.trianglesVerticesList = Array(objectStrings![numberOfPoints+1..<(objectStrings!.count)])
     }
     
     
     // MARK: - instance methods
-    func getTriangles(from array: [String]) -> [Triangle] {
+    private func getTriangles(from array: [String], of points:[Point]) -> [Triangle] {
         let objectTrianglesArray = array.map{$0.components(separatedBy: " ")}
         
-        return objectTrianglesArray.map{Triangle(firstVertex: self.points[Int($0[0])!-1], secondVertex: self.points[Int($0[1])!-1], thirdVertex: self.points[Int($0[2])!-1])}
+        return objectTrianglesArray.map{Triangle(firstVertex: points[Int($0[0])!-1],
+                                                 secondVertex: points[Int($0[1])!-1],
+                                                 thirdVertex: points[Int($0[2])!-1])}
     }
     
     
     // MARK: - class methods
     class func getPoints(from array: [String]) -> [Point] {
         let objectPointsArray = array.map{$0.components(separatedBy: " ")}
-        return objectPointsArray.map{Point(x: Double($0[0])!, y: Double($0[1])!, z: Double($0[2])!)}
+        
+        return objectPointsArray.map{Point(x: Double($0[0])!,
+                                           y: Double($0[1])!,
+                                           z: Double($0[2])!)}
     }
     
 

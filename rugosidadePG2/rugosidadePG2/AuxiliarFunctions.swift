@@ -22,34 +22,34 @@ func read(from file: String, type: String) -> [String]? {
     return nil
 }
 
-//MARK: - Vector formulas
+//MARK: - Vector geometry
 
 func innerProduct(u: Point, v: Point) -> Double {
     return (u.x * v.x) + (u.y * v.y) + (u.z! * v.z!)
 }
 
-func vectorByScalar(a: Double , v: Point) -> Point {
-    return Point(x: a*(v.x), y: a*(v.y), z: a*(v.z)!)
-    
-}
-
 func projection(u: Point, v: Point) ->  Point {
-    return vectorByScalar(a: innerProduct(u: v, v: u)/innerProduct(u: u, v: u) , v: u)
+    return u * (innerProduct(u: u, v: v) / innerProduct(u: u, v: u))
 }
 
-func vectorSubtraction(u: Point, v: Point) -> Point {
-    return Point(x: u.x - v.x , y: u.y - v.y , z: u.z! - v.z!)
-    
-}
 
-func orthogonalization(N: Point, V: Point) -> Point {
-    return vectorSubtraction(u: V, v: projection(u: N, v: V))
+func orthogonalization(n: Point, v: Point) -> Point {
+    return  v - projection(u: n, v: v)
 }
 
 func crossProduct(u: Point , v: Point) -> Point {
-    let x = (u.y*v.z!) - (v.z!*v.y)
-    let y = (u.z!*v.x) - (u.x*v.z!)
-    let z = (u.x*v.y) - (u.y*v.x)
+    let x = (u.y * v.z!) - (v.z! * v.y)
+    let y = (u.z! * v.x) - (u.x * v.z!)
+    let z = (u.x * v.y) - (u.y * v.x)
+    
+    return Point(x: x, y: y, z: z)
+}
+
+// 3x3 Matrix multiplied by 3x1 vector 😱
+func * (matrix: [[Double]], vector: Point) -> Point {
+    let x = matrix[0][0] * vector.x + matrix[0][1] * vector.y + matrix[0][2] * vector.z!
+    let y = matrix[1][0] * vector.x + matrix[1][1] * vector.y + matrix[1][2] * vector.z!
+    let z = matrix[2][0] * vector.x + matrix[2][1] * vector.y + matrix[2][2] * vector.z!
     
     return Point(x: x, y: y, z: z)
 }

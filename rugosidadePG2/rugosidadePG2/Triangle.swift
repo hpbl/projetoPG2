@@ -12,4 +12,10 @@ struct Triangle {
     var firstVertex: Point
     var secondVertex: Point
     var thirdVertex: Point
+    
+    func normal() -> Point {
+        return crossProduct(u: (self.thirdVertex - self.firstVertex),
+                            v: (self.thirdVertex - self.secondVertex))
+    }
 }
+

@@ -14,6 +14,6 @@ extension String {
         let yPos = Double((self.components(separatedBy: " ")[1]))
         let zPos = Double((self.components(separatedBy: " ")[2]))
         
-        return Point(x: xPos!, y: yPos!, z: zPos)
+        return Point(x: xPos!, y: yPos!, z: zPos!)
     }
 }

@@ -10,6 +10,7 @@ import Foundation
 
 class Illumination {
     var rwLightPosition: Point
+    var viewLightPosition: Point?
     var ambientReflection: Double
     var ambientColorVector: Point
     var difuseConstant: Double
