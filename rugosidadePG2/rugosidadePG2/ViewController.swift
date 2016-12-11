@@ -88,9 +88,9 @@ class ViewController: NSViewController {
         
         //Conversão por varredura
         //for triangle in objeto.triangles2D {
-        let first = Point(x: 0, y: 2)
-        let second = Point(x: 2, y: 2)
-        let third = Point(x: 4, y: 1)
+        let first = Point(x: 8, y: 0)
+        let second = Point(x: 4, y: 0)
+        let third = Point(x: 0, y: 4)
         
         
         let triangle = Triangle(firstVertex: first, secondVertex: second, thirdVertex: third)
@@ -157,6 +157,24 @@ class ViewController: NSViewController {
             let a2 = lineEquation2?.0
             let b2 = lineEquation2?.1
             
+            //tratando o flat-bottom
+            var Xmin = sortedPoints[0].x
+            var Xmax = sortedPoints[0].x
+            var currentY = sortedPoints[0].y
+            var Ymin = sortedPoints[2].y
+            
+            
+            while currentY >= Ymin {
+                trianglePoints = trianglePoints + self.getPointsInside(currentY: currentY, currentX: Xmin, Xmax: Xmax, a1: a1!)
+                
+                //decrementando o currentY
+                Xmin = Xmin - 1/a1!
+                Xmax = Xmax - 1/a2!
+                currentY = a1! * Xmin + b1!
+            }
+            
+            print(trianglePoints.count)
+
             
         } else {
             //triangulo normal
