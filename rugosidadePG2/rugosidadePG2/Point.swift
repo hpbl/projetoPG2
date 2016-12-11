@@ -8,6 +8,7 @@
 
 import Foundation
 
+// Manter como struct, para perder referência quando valor mudar
 struct Point: Hashable{
     var x: Double
     var y: Double
@@ -54,7 +55,8 @@ struct Point: Hashable{
     
     //MARK: - Equatable protocol
     static func ==(lhs: Point, rhs: Point) -> Bool {
-        return (lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.z! == rhs.z!)
+        
+        return (lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.z == rhs.z)
     }
 
 }

@@ -8,13 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		714045D41DFAEEF000F4742E /* AuxiliarFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714045D31DFAEEF000F4742E /* AuxiliarFunctions.swift */; };
+		714045D61DFDCF8700F4742E /* PointTuple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714045D51DFDCF8700F4742E /* PointTuple.swift */; };
+		714045D71DFDD9B900F4742E /* vaso.byu in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4EB1DFA3F2B00109E4B /* vaso.byu */; };
+		714045D81DFDD9D400F4742E /* vaso.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4CF1DFA3F2B00109E4B /* vaso.cfg */; };
 		71EDD4AB1DFA341A00109E4B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD4AA1DFA341A00109E4B /* AppDelegate.swift */; };
 		71EDD4AD1DFA341A00109E4B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD4AC1DFA341A00109E4B /* ViewController.swift */; };
 		71EDD4AF1DFA341A00109E4B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4AE1DFA341A00109E4B /* Assets.xcassets */; };
 		71EDD4B21DFA341A00109E4B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4B01DFA341A00109E4B /* Main.storyboard */; };
 		71EDD4F31DFA3F6700109E4B /* iluminacao.txt in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4D31DFA3F2B00109E4B /* iluminacao.txt */; };
-		71EDD4F41DFA3FEA00109E4B /* camaro.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4BF1DFA3F2B00109E4B /* camaro.cfg */; };
-		71EDD4F51DFA3FF400109E4B /* camaro.byu in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4DA1DFA3F2B00109E4B /* camaro.byu */; };
 		71EDD4F71DFA412600109E4B /* Triangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD4F61DFA412600109E4B /* Triangle.swift */; };
 		71EDD4F91DFA43D700109E4B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD4F81DFA43D700109E4B /* Extensions.swift */; };
 		71EDD4FB1DFA45BE00109E4B /* Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD4FA1DFA45BE00109E4B /* Object.swift */; };
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		714045D31DFAEEF000F4742E /* AuxiliarFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuxiliarFunctions.swift; sourceTree = "<group>"; };
+		714045D51DFDCF8700F4742E /* PointTuple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointTuple.swift; sourceTree = "<group>"; };
 		71EDD4A71DFA341A00109E4B /* rugosidadePG2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rugosidadePG2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		71EDD4AA1DFA341A00109E4B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		71EDD4AC1DFA341A00109E4B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				71EDD4FA1DFA45BE00109E4B /* Object.swift */,
 				71EDD4FE1DFACDF800109E4B /* Camera.swift */,
 				71EDD5031DFADCDB00109E4B /* Illumination.swift */,
+				714045D51DFDCF8700F4742E /* PointTuple.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -292,8 +295,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71EDD4F51DFA3FF400109E4B /* camaro.byu in Resources */,
-				71EDD4F41DFA3FEA00109E4B /* camaro.cfg in Resources */,
+				714045D81DFDD9D400F4742E /* vaso.cfg in Resources */,
+				714045D71DFDD9B900F4742E /* vaso.byu in Resources */,
 				71EDD4F31DFA3F6700109E4B /* iluminacao.txt in Resources */,
 				71EDD4AF1DFA341A00109E4B /* Assets.xcassets in Resources */,
 				71EDD4B21DFA341A00109E4B /* Main.storyboard in Resources */,
@@ -308,6 +311,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				71EDD4FB1DFA45BE00109E4B /* Object.swift in Sources */,
+				714045D61DFDCF8700F4742E /* PointTuple.swift in Sources */,
 				71EDD4AD1DFA341A00109E4B /* ViewController.swift in Sources */,
 				714045D41DFAEEF000F4742E /* AuxiliarFunctions.swift in Sources */,
 				71EDD5041DFADCDB00109E4B /* Illumination.swift in Sources */,

@@ -12,7 +12,7 @@ class Object {
     var rwPoints: [Point]
     var viewPoints = [Point]()
     var screenPoints = [Point]()
-    var pointsNormalsDict: [Point: Point]?
+    var pointsNormalsDict = [Point: Point]()
     var triangles3D: [Triangle] { return self.getTriangles(from: self.trianglesVerticesList!,
                                                            of: self.viewPoints)}
     var triangles2D: [Triangle] { return self.getTriangles(from: self.trianglesVerticesList!,

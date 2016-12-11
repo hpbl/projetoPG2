@@ -12,7 +12,7 @@ class Triangle {
     var firstVertex: Point
     var secondVertex: Point
     var thirdVertex: Point
-    var edges: [(Double, Double)]?
+    var edges: [PointTuple: (Double, Double)]?
     
     func normal() -> Point {
         return crossProduct(u: (self.thirdVertex - self.firstVertex),
@@ -26,14 +26,22 @@ class Triangle {
         self.edges = findEdges()
     }
     
-    func findEdges() -> [(Double, Double)] {
-        var edgesArray = [(Double, Double)]()
+    func findEdges() -> [PointTuple: (Double, Double)] {
+        var edgesDict = [PointTuple: (Double, Double)]()
         
-        edgesArray.append(lineEquation(pointA: self.firstVertex, pointB: self.secondVertex))
-        edgesArray.append(lineEquation(pointA: self.firstVertex, pointB: self.thirdVertex))
-        edgesArray.append(lineEquation(pointA: self.secondVertex, pointB: self.thirdVertex))
+        edgesDict[PointTuple(pointA: self.firstVertex,
+                             pointB: self.secondVertex)] = lineEquation(pointA: self.firstVertex,
+                                                                        pointB: self.secondVertex)
+        
+        edgesDict[PointTuple(pointA: self.firstVertex,
+                             pointB: self.thirdVertex)] = lineEquation(pointA: self.firstVertex,
+                                                                       pointB: self.thirdVertex)
+        
+        edgesDict[PointTuple(pointA: self.secondVertex,
+                             pointB: self.thirdVertex)] = lineEquation(pointA: self.secondVertex,
+                                                                       pointB: self.thirdVertex)
 
-        return edgesArray
+        return edgesDict
     }
     
 
