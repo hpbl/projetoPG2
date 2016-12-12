@@ -94,90 +94,53 @@ class ViewController: NSViewController {
         
         
         let triangle = Triangle(firstVertex: first, secondVertex: second, thirdVertex: third)
-        let controlPoints = [triangle.firstVertex, triangle.secondVertex, triangle.thirdVertex]
+        var controlPoints = [triangle.firstVertex, triangle.secondVertex, triangle.thirdVertex]
         
-        let sortedPoints = controlPoints.sorted {(pointA, pointB) -> Bool in
+        var sortedPoints = controlPoints.sorted {(pointA, pointB) -> Bool in
             return (pointA.y == pointB.y) ? (pointA.x < pointB.x) : (pointA.y > pointB.y)
         }
         
-        let edges = triangle.edges
         var trianglePoints = [Point]()
         
         if (sortedPoints.filter{$0.y == sortedPoints[0].y}).count > 1 {
             //triangulo é flat-top
-            let maxYPoints = [sortedPoints[0], sortedPoints[1]]
+            trianglePoints = self.flatTopPoints(triangle: triangle, sortedPoints: sortedPoints)
             
-            //pegando a e b das equações
-            let lineEquation1 = triangle.edges?[PointTuple(pointA: maxYPoints[0],
-                                                           pointB: sortedPoints[2])]
-            
-            let a1 = lineEquation1?.0
-            let b1 = lineEquation1?.1
-            
-            
-            let lineEquation2 = triangle.edges?[PointTuple(pointA: maxYPoints[1],
-                                                           pointB: sortedPoints[2])]
-            
-            let a2 = lineEquation2?.0
-            let b2 = lineEquation2?.1
-            
-            //tratando o flat-top
-            var Xmin = maxYPoints[0].x
-            var Xmax = maxYPoints[1].x
-            var currentY = maxYPoints[0].y
-            var Ymin = sortedPoints[2].y
-            
-            
-            while currentY >= Ymin {
-                trianglePoints = trianglePoints + self.getPointsInside(currentY: currentY, currentX: Xmin, Xmax: Xmax, a1: a1!)
-                
-                //decrementando o currentY
-                Xmin = Xmin - 1/a1!
-                Xmax = Xmax - 1/a2!
-                currentY = a1! * Xmin + b1!
-            }
-            
-            print(trianglePoints.count)
             
         } else if (sortedPoints.filter{$0.y == sortedPoints[2].y}).count > 1 {
             //triangulo é flat-bottom
-            let minYPoints = [sortedPoints[1], sortedPoints[2]]
-            
-            //pegando a e b das equações
-            let lineEquation1 = triangle.edges?[PointTuple(pointA: minYPoints[0],
-                                                           pointB: sortedPoints[0])]
-            
-            let a1 = lineEquation1?.0
-            let b1 = lineEquation1?.1
-            
-            
-            let lineEquation2 = triangle.edges?[PointTuple(pointA: minYPoints[1],
-                                                           pointB: sortedPoints[0])]
-            
-            let a2 = lineEquation2?.0
-            let b2 = lineEquation2?.1
-            
-            //tratando o flat-bottom
-            var Xmin = sortedPoints[0].x
-            var Xmax = sortedPoints[0].x
-            var currentY = sortedPoints[0].y
-            var Ymin = sortedPoints[2].y
-            
-            
-            while currentY >= Ymin {
-                trianglePoints = trianglePoints + self.getPointsInside(currentY: currentY, currentX: Xmin, Xmax: Xmax, a1: a1!)
-                
-                //decrementando o currentY
-                Xmin = Xmin - 1/a1!
-                Xmax = Xmax - 1/a2!
-                currentY = a1! * Xmin + b1!
-            }
-            
-            print(trianglePoints.count)
+            trianglePoints = self.flatBottomPoints(triangle: triangle, sortedPoints: sortedPoints)
 
             
         } else {
             //triangulo normal
+            
+            //achando ponto com y médio
+            let midPoint = sortedPoints[1]
+            
+            //cálculando x do novo vértice
+            let newVertexX = sortedPoints[0].x +
+                            ((midPoint.y - sortedPoints[0].y) / (sortedPoints[2].y - sortedPoints[0].y)) *
+                            (sortedPoints[2].x - sortedPoints[0].x)
+            
+            //criando novo vértice
+            let newVertex = Point(x: newVertexX, y: midPoint.y)
+            
+            //calculando pixels dentro do prieiro triangulo (flat-bottom)
+            let flatBottomPart = Triangle(firstVertex: sortedPoints[0], secondVertex: midPoint, thirdVertex: newVertex)
+            let controlPointsFB = [flatBottomPart.firstVertex, flatBottomPart.secondVertex, flatBottomPart.thirdVertex]
+            let sortedPointsFB = controlPointsFB.sorted {(pointA, pointB) -> Bool in
+                return (pointA.y == pointB.y) ? (pointA.x < pointB.x) : (pointA.y > pointB.y)
+            }
+            trianglePoints = self.flatBottomPoints(triangle: flatBottomPart, sortedPoints: sortedPointsFB)
+            
+            //calculando pixels dentro do segundo triangulo (flat-top)
+            let flatTopPart = Triangle(firstVertex: midPoint, secondVertex: newVertex, thirdVertex: sortedPoints[2])
+            let controlPointsFT = [flatTopPart.firstVertex, flatTopPart.secondVertex, flatTopPart.thirdVertex]
+            let sortedPointsFT = controlPointsFT.sorted {(pointA, pointB) -> Bool in
+                return (pointA.y == pointB.y) ? (pointA.x < pointB.x) : (pointA.y > pointB.y)
+            }
+            trianglePoints.append(contentsOf: self.flatTopPoints(triangle: flatTopPart, sortedPoints: sortedPointsFT))
         }
         
     }
@@ -192,5 +155,77 @@ class ViewController: NSViewController {
             currX = currX + 1
         }
         return pointsInside
+    }
+    
+    func flatTopPoints(triangle: Triangle, sortedPoints: [Point]) -> [Point] {
+        //triangulo é flat-top
+        var trianglePoints = [Point]()
+        let maxYPoints = [sortedPoints[0], sortedPoints[1]]
+        
+        //pegando a e b das equações
+        let lineEquation1 = triangle.edges?[PointTuple(pointA: maxYPoints[0],
+                                                       pointB: sortedPoints[2])]
+        
+        let a1 = lineEquation1?.0
+        let b1 = lineEquation1?.1
+        
+        
+        let lineEquation2 = triangle.edges?[PointTuple(pointA: maxYPoints[1],
+                                                       pointB: sortedPoints[2])]
+        
+        let a2 = lineEquation2?.0
+        
+        //tratando o flat-top
+        var Xmin = maxYPoints[0].x
+        var Xmax = maxYPoints[1].x
+        var currentY = maxYPoints[0].y
+        var Ymin = sortedPoints[2].y
+        
+        
+        while currentY >= Ymin {
+            trianglePoints.append(contentsOf: self.getPointsInside(currentY: currentY, currentX: Xmin, Xmax: Xmax, a1: a1!))
+            
+            //decrementando o currentY
+            Xmin = Xmin - 1/a1!
+            Xmax = Xmax - 1/a2!
+            currentY = a1! * Xmin + b1!
+        }
+        return trianglePoints
+    }
+    
+    func flatBottomPoints(triangle: Triangle, sortedPoints: [Point]) -> [Point] {
+        var trianglePoints = [Point]()
+        let minYPoints = [sortedPoints[1], sortedPoints[2]]
+        
+        //pegando a e b das equações
+        let lineEquation1 = triangle.edges?[PointTuple(pointA: minYPoints[0],
+                                                       pointB: sortedPoints[0])]
+        
+        let a1 = lineEquation1?.0
+        let b1 = lineEquation1?.1
+        
+        
+        let lineEquation2 = triangle.edges?[PointTuple(pointA: minYPoints[1],
+                                                       pointB: sortedPoints[0])]
+        
+        let a2 = lineEquation2?.0
+        
+        //tratando o flat-bottom
+        var Xmin = sortedPoints[0].x
+        var Xmax = sortedPoints[0].x
+        var currentY = sortedPoints[0].y
+        let Ymin = sortedPoints[2].y
+        
+        
+        while currentY >= Ymin {
+            trianglePoints.append(contentsOf: self.getPointsInside(currentY: currentY, currentX: Xmin, Xmax: Xmax, a1: a1!))
+            
+            //decrementando o currentY
+            Xmin = Xmin - 1/a1!
+            Xmax = Xmax - 1/a2!
+            currentY = a1! * Xmin + b1!
+        }
+        return trianglePoints
+
     }
 }
