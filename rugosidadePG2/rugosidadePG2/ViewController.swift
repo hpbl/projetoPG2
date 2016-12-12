@@ -88,9 +88,9 @@ class ViewController: NSViewController {
         
         //Conversão por varredura
         //for triangle in objeto.triangles2D {
-        let first = Point(x: 0, y: 0)
-        let second = Point(x: 0, y: 5)
-        let third = Point(x: 4, y: 5)
+        let first = Point(x: 3, y: 2)
+        let second = Point(x: 2, y: 1)
+        let third = Point(x: 1, y: 4)
         
         
         let triangle = Triangle(firstVertex: first, secondVertex: second, thirdVertex: third)
@@ -119,7 +119,7 @@ class ViewController: NSViewController {
             let midPoint = sortedPoints[1]
             
             //cálculando x do novo vértice
-            let newVertexX = ceil(sortedPoints[0].x +
+            let newVertexX = round(sortedPoints[0].x +
                             (((midPoint.y - sortedPoints[0].y) * (sortedPoints[2].x - sortedPoints[0].x)) / (sortedPoints[2].y - sortedPoints[0].y)))
             
             //criando novo vértice
@@ -154,7 +154,7 @@ class ViewController: NSViewController {
         var pointsInside = [Point]()
         var currX = currentX
         while currX <= Xmax {
-            pointsInside.append(Point(x: currX, y: currentY))
+            pointsInside.append(Point(x: round(currX), y: round(currentY)))
             currX = currX + 1
         }
         return pointsInside
@@ -231,11 +231,8 @@ class ViewController: NSViewController {
             //decrementando o currentY
             Xmin = Xmin - 1/a1!
             Xmax = Xmax - 1/a2!
-            if abs(a1!) == Double.infinity || abs(a2!) == Double.infinity{
-                currentY = currentY - 1
-            } else {
-                currentY = a1! * Xmin + b1!
-            }
+            currentY = currentY - 1
+
         }
         return trianglePoints
 
