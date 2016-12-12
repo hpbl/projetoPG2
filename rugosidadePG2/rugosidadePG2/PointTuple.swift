@@ -16,7 +16,7 @@ struct PointTuple {
 extension PointTuple: Hashable {
     var hashValue: Int {
         get {
-            return "\(self.pointA.x)\(self.pointA.y)\(self.pointA.z)\(self.pointB.x)\(self.pointB.y)\(self.pointB.z)".hashValue
+            return pointA.hashValue < pointB.hashValue ? (pointA.hashValueString + pointB.hashValueString).hashValue : (pointB.hashValueString + pointA.hashValueString).hashValue
         }
     }
     

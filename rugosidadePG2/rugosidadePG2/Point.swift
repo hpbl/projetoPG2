@@ -21,6 +21,12 @@ struct Point: Hashable{
         }
     }
     
+    var hashValueString: String {
+        get {
+            return "\(self.x)\(self.y)\(self.z)"
+        }
+    }
+    
     //MARK: - inits
     init(x: Double, y: Double) {
         self.x = x
