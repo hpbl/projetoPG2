@@ -43,7 +43,14 @@ class Triangle {
 
         return edgesDict
     }
-    
-
 }
 
+
+extension Triangle: Equatable {
+    
+    public static func ==(lhs: Triangle, rhs: Triangle) -> Bool {
+        return lhs.firstVertex == rhs.firstVertex && lhs.secondVertex == rhs.secondVertex && lhs.thirdVertex == rhs.thirdVertex
+    }
+
+
+}

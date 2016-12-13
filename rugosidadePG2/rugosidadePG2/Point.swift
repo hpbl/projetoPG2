@@ -15,6 +15,11 @@ struct Point {
     var z: Double?
     
     //MARK: - inits
+    init() {
+        self.x = Double.infinity
+        self.y = Double.infinity
+    }
+    
     init(x: Double, y: Double) {
         self.x = x
         self.y = y
@@ -48,7 +53,7 @@ struct Point {
     
     
     //MARK: - Geometry
-    func getBarycentricCoord(triangle: Triangle) -> Point{
+    func getBarycentricCoord(triangle: Triangle) -> Point?{
         
         let xA = triangle.firstVertex.x
         let xB = triangle.secondVertex.x
@@ -60,27 +65,27 @@ struct Point {
         
         let den = (yB - yC)*(self.x - xC) + (xC - xB)*(yA - yC)
         
-        //TODO: mudar isso aqui..
-        var point = Point(x: 0, y: 0, z: 0)
-        
         if (den != 0) {
+            var point = Point()
+            
             point.x = ((yB - yC)*(self.x - xC) + (xC - xB)*(self.y - yC)) / den
             point.y = ((yC - yA)*(self.x - xC) + (xA - xC)*(self.y - yC)) / den
             point.z = 1 - point.x - point.y
+            
+            return point
         }
         
-        return point
+        return nil
     }
     
     //usar as coordenadas baricentricas para achar o 3D
-    func convertTo3DCoord(alfaBetaGama: Point) -> Point{
+    func convertTo3DCoord(alfaBetaGama: Point, triangle3D: Triangle) -> Point{
         
         let alfa = alfaBetaGama.x
         let beta = alfaBetaGama.y
         let gama = alfaBetaGama.z
         
-        //TODO: shouldn't it be: alfa*vertice_1_3D + beta*vertice_2_3D + gama*vertice_3_3D
-        return self*alfa + self*beta + self*gama!
+        return triangle3D.firstVertex*alfa + triangle3D.secondVertex*beta + triangle3D.thirdVertex*gama!
     }
 }
 

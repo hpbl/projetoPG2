@@ -88,24 +88,29 @@ class ViewController: NSViewController {
         
         //Conversão por varredura
         for triangle in objeto.triangles2D {
-            var trianglePixels = getPixels(from: triangle)
+            //scanLine
+            let trianglePixels = getPixels(from: triangle)
+            
+            //pegando triangulo 3D correspondente ao 2D
+            let triangleIndex = objeto.triangles2D.index(of: triangle)
+            let triangle3D = objeto.triangles3D[triangleIndex!]
             
             for pixel in trianglePixels {
                 // Calcular coordenadas baricentricas (alfa, beta, gama) de P com relacao aos vertices 2D:
                 let barycentricCoord = pixel.getBarycentricCoord(triangle: triangle)
                 
                 // Multiplicar coordenadas baricentricas pelos vertices 3D originais obtendo P', que eh uma aproximacao pro ponto 3D:
-                //TODO: onde entra o ponto 3d?
-                let pixel3D = pixel.convertTo3DCoord(alfaBetaGama: barycentricCoord)
+
+                let pixel3D = pixel.convertTo3DCoord(alfaBetaGama: barycentricCoord!, triangle3D: triangle3D)
                 
                 // Consulta ao z-buffer:
                 if pixel3D.z! < zBuffer[Int(pixel3D.x)][Int(pixel3D.y)] {//TODO: (nao esquecer de tambem checar os limites do array z-buffer)
                     zBuffer[Int(pixel3D.x)][Int(pixel3D.y)] = pixel3D.z!
                     
                     // Calcular uma aproximacao para a normal do ponto P'
-                    var N = triangle.firstVertex * barycentricCoord.x +
-                            triangle.secondVertex * barycentricCoord.y +
-                            triangle.thirdVertex * barycentricCoord.z!
+                    var N = triangle.firstVertex * (barycentricCoord?.x)! +
+                            triangle.secondVertex * (barycentricCoord?.y)! +
+                            triangle.thirdVertex * (barycentricCoord?.z!)!
                     
                     var V = Point(x: -pixel3D.x, y: -pixel3D.y, z: -pixel3D.z!)
                     var L = iluminacao.viewLightPosition! - pixel3D
