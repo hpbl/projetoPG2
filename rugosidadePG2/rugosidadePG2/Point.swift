@@ -79,7 +79,7 @@ struct Point {
     }
     
     //usar as coordenadas baricentricas para achar o 3D
-    func convertTo3DCoord(alfaBetaGama: Point, triangle3D: Triangle) -> Point{
+    func approx3DCoordinates(alfaBetaGama: Point, triangle3D: Triangle) -> Point{
         
         let alfa = alfaBetaGama.x
         let beta = alfaBetaGama.y
@@ -87,6 +87,7 @@ struct Point {
         
         return triangle3D.firstVertex*alfa + triangle3D.secondVertex*beta + triangle3D.thirdVertex*gama!
     }
+    
 }
 
 //MARK: - Protocols

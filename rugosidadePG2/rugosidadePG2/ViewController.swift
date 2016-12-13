@@ -9,9 +9,15 @@
 import Cocoa
 
 class ViewController: NSViewController {
+    let camera = Camera(named: "vaso")
+    let objeto = Object(named: "vaso")
+    let iluminacao = Illumination(named: "iluminacao")
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Inicializaçao dos objejos (leitura dos arquivos de entrada)
+        
         
         self.parteGeral()
         
@@ -26,21 +32,15 @@ class ViewController: NSViewController {
     
     //MARK: - Algoritmo de execução
     func parteGeral() {
-        //Inicializaçao dos objejos (leitura dos arquivos de entrada)
-        let camera = Camera(named: "vaso")
-        let objeto = Object(named: "vaso")
-        let iluminacao = Illumination(named: "iluminacao")
-        
-        
         
         // Gram-Schmidt
-        let alpha = camera.adjustCamera()
+        let alpha = self.camera.adjustCamera()
         
         //passando posição da fonte de luz para coordenada de vista
-        iluminacao.viewLightPosition = alpha * (iluminacao.rwLightPosition - camera.position)
+        self.iluminacao.viewLightPosition = alpha * (self.iluminacao.rwLightPosition - self.camera.position)
         
         //passando pontos do objeto para coordenadas de vista
-        for point in objeto.rwPoints {
+        for point in self.objeto.rwPoints {
             let viewPoint = alpha * (point - camera.position)
             objeto.viewPoints.append(viewPoint)
             //inicializando normais como zero
@@ -48,7 +48,7 @@ class ViewController: NSViewController {
         }
         
         //calculando a normal dos triangulos e normalizando
-        for triangle in objeto.triangles3D {
+        for triangle in self.objeto.triangles3D {
             let triangleNormal = triangle.normal().normalized()
             
             //somar a normal à de cada um dos pontos
@@ -60,12 +60,12 @@ class ViewController: NSViewController {
         }
         
         //normalizando as normais
-        for (point, normal) in objeto.pointsNormalsDict {
+        for (point, normal) in self.objeto.pointsNormalsDict {
             objeto.pointsNormalsDict[point] = normal.normalized()
         }
         
         //projetar pontos para coordenadas 2D
-        for point in objeto.viewPoints {
+        for point in self.objeto.viewPoints {
             //gerando pontos 2D [-1, 1]
             var screenPoint = Point(x: (camera.d/camera.hx) * (point.x/point.z!),
                                     y: (camera.d/camera.hy) * (point.y)/point.z!)
@@ -87,7 +87,7 @@ class ViewController: NSViewController {
         }
         
         //Conversão por varredura
-        for triangle in objeto.triangles2D {
+        for triangle in self.objeto.triangles2D {
             //scanLine
             let trianglePixels = getPixels(from: triangle)
             
@@ -100,17 +100,18 @@ class ViewController: NSViewController {
                 let barycentricCoord = pixel.getBarycentricCoord(triangle: triangle)
                 
                 // Multiplicar coordenadas baricentricas pelos vertices 3D originais obtendo P', que eh uma aproximacao pro ponto 3D:
-
-                let pixel3D = pixel.convertTo3DCoord(alfaBetaGama: barycentricCoord!, triangle3D: triangle3D)
+                let pixel3D = pixel.approx3DCoordinates(alfaBetaGama: barycentricCoord!, triangle3D: triangle3D)
                 
                 // Consulta ao z-buffer:
-                if pixel3D.z! < zBuffer[Int(pixel3D.x)][Int(pixel3D.y)] {//TODO: (nao esquecer de tambem checar os limites do array z-buffer)
-                    zBuffer[Int(pixel3D.x)][Int(pixel3D.y)] = pixel3D.z!
+                if pixel3D.z! < zBuffer[Int(pixel.x)][Int(pixel.y)] {//TODO: (nao esquecer de tambem checar os limites do array z-buffer)
+                    zBuffer[Int(pixel.x)][Int(pixel.y)] = pixel3D.z!
                     
                     // Calcular uma aproximacao para a normal do ponto P'
-                    var N = triangle.firstVertex * (barycentricCoord?.x)! +
-                            triangle.secondVertex * (barycentricCoord?.y)! +
-                            triangle.thirdVertex * (barycentricCoord?.z!)!
+                    var N3D = pixel3D.normalized()
+                    
+                    var N = triangle.firstVertex.normalized() * (barycentricCoord?.x)! +
+                        triangle.secondVertex.normalized() * (barycentricCoord?.y)! +
+                        triangle.thirdVertex.normalized() * (barycentricCoord?.z!)!
                     
                     var V = Point(x: -pixel3D.x, y: -pixel3D.y, z: -pixel3D.z!)
                     var L = iluminacao.viewLightPosition! - pixel3D
@@ -120,9 +121,97 @@ class ViewController: NSViewController {
                     V = V.normalized()
                     L = L.normalized()
                     
-
+                    if innerProduct(u: V, v: N) < 0 {
+                        N3D = Point(x: -N3D.x, y: -N3D.y, z: -N3D.z!)
+                    }
+                    
+                    //cor do pixel por phong (R, G, B)
+                    var I : Point
+                    if innerProduct(u: N, v: L)  < 0 {
+                        //não possui componente difusa nem especular
+                        let ambientalComponent = self.getAmbientalComponent(illumination: self.iluminacao)
+                        I = self.phongColor(ambientalComponent: ambientalComponent,
+                                            difuseComponent: nil,
+                                            specularComponent: nil)
+                        
+                    } else {
+                        var R = (N * (2 * innerProduct(u: N, v: L))) - L
+                        R = R.normalized()
+                        
+                        if innerProduct(u: R, v: V) < 0 {
+                            //não possui componente especular
+                            let ambientalComponent = self.getAmbientalComponent(illumination: self.iluminacao)
+                            let difuseComponent = self.getDifuseComponent(illumination: self.iluminacao,
+                                                                          N: N,
+                                                                          L: L)
+                            I = self.phongColor(ambientalComponent: ambientalComponent,
+                                                difuseComponent: difuseComponent,
+                                                specularComponent: nil)
+                        } else {
+                            //TODO: Conferir se é assim
+                            let ambientalComponent = self.getAmbientalComponent(illumination: self.iluminacao)
+                            let difuseComponent = self.getDifuseComponent(illumination: self.iluminacao,
+                                                                          N: N,
+                                                                          L: L)
+                            let specularComponent = self.getSpecularComponent(illumination: self.iluminacao,
+                                                                              R: R,
+                                                                              V: V)
+                            
+                            I = self.phongColor(ambientalComponent: ambientalComponent,
+                                                difuseComponent: difuseComponent,
+                                                specularComponent: specularComponent)
+                        }
+                    }
+                    //TODO: Substituir em phong
+                    
                 }
+                
             }
         }
     }
+    
+    
+    func phongColor(ambientalComponent: Point, difuseComponent: Point?, specularComponent: Point? ) -> Point {
+        var I = Point()
+        
+        if difuseComponent != nil {
+            if specularComponent != nil {
+                I = ambientalComponent + difuseComponent! + specularComponent!
+            } else {
+                I = ambientalComponent + difuseComponent!
+            }
+        } else {
+            I = ambientalComponent
+        }
+        
+        return I
+        
+    }
+    
+    func getAmbientalComponent(illumination: Illumination) -> Point {
+        let ka = illumination.ambientReflection
+        let Ia = illumination.ambientColorVector
+        
+        return Ia * ka
+    }
+    
+    func getDifuseComponent(illumination: Illumination, N: Point, L: Point) -> Point {
+        let kd = illumination.difuseConstant
+        let Od = illumination.difuseVector
+        let Il = illumination.lightSourceColor
+        
+        let double: Double = (innerProduct(u: N, v: L) * kd)
+        let vector: Point = Point(x: Il.x * Od.x, y: Il.y * Od.y, z: Il.z! * Od.z!)
+        
+        return vector * double
+    }
+    
+    func getSpecularComponent(illumination: Illumination, R: Point, V: Point) -> Point {
+        let ks = illumination.specularPart
+        let n = illumination.rugosityConstant
+        let Il = illumination.lightSourceColor
+        
+        return Il * (ks * pow(innerProduct(u: R, v: V), n))
+    }
 }
+

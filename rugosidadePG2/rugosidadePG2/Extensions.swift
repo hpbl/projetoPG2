@@ -32,3 +32,4 @@ func read(from file: String, type: String) -> [String]? {
     }
     return nil
 }
+
