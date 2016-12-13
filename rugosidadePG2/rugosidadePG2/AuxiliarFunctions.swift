@@ -68,3 +68,33 @@ func lineEquation(pointA: Point, pointB: Point) -> (Double, Double) {
 }
 
 
+//retorna um vetor com alfa, beta e gama
+func getBarycentricCoord(currentPoint: Point , triangle: Triangle) -> Point{
+    
+    let xA = triangle.firstVertex.x
+    let xB = triangle.secondVertex.x
+    let xC = triangle.thirdVertex.x
+    
+    let yA = triangle.firstVertex.y
+    let yB = triangle.secondVertex.y
+    let yC = triangle.thirdVertex.y
+    
+    let den = (yB - yC)*(currentPoint.x - xC) + (xC - xB)*(yA - yC)
+    
+    //mudar isso aqui..
+    var point = Point(x: 0, y: 0, z: 0)
+    
+    if (den != 0) {
+        point.x = ((yB - yC)*(currentPoint.x - xC) + (xC - xB)*(currentPoint.y - yC)) / den
+        point.y = ((yC - yA)*(currentPoint.x - xC) + (xA - xC)*(currentPoint.y - yC)) / den
+        point.z = 1 - point.x - point.y
+    }
+    
+    return point
+    
+}
+
+
+
+
+
