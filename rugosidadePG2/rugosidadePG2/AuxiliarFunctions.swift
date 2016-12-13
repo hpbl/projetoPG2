@@ -94,6 +94,16 @@ func getBarycentricCoord(currentPoint: Point , triangle: Triangle) -> Point{
     
 }
 
+//usar as coordenadas baricentricas para achar o 3D
+func convertTo3DCoord(originalPoint3D: Point , alfaBetaGama: Point) -> Point{
+    
+    let alfa = alfaBetaGama.x
+    let beta = alfaBetaGama.y
+    let gama = alfaBetaGama.z
+    
+    return originalPoint3D*alfa + originalPoint3D*beta + originalPoint3D*gama!
+}
+
 
 
 
