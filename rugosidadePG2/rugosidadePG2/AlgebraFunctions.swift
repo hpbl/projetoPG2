@@ -8,22 +8,32 @@
 
 import Foundation
 
-func read(from file: String, type: String) -> [String]? {
-    if let path = Bundle.main.path(forResource: file, ofType: type) {
-        do {
-            let data = try String(contentsOfFile: path, encoding: .utf8)
-            let strings =  data.components(separatedBy: .newlines)
-            return strings.filter {$0 != ""}
-            
-        } catch {
-            print(error)
-        }
-    }
-    return nil
+
+//MARK: - Algebra
+func tan(pointA: Point, pointB: Point) -> Double {
+    return (pointA.y - pointB.y) / (pointA.x - pointB.x)
 }
 
-//MARK: - Vector geometry
+func lineEquation(pointA: Point, pointB: Point) -> (Double, Double) {
+    let a = tan(pointA: pointA, pointB: pointB)
+    
+    let b = pointA.y - (a * pointA.x)
+    
+    return (a, b)
+}
+// 3x3 Matrix multiplied by 3x1 vector 😱
+func * (matrix: [[Double]], vector: Point) -> Point {
+    let x = matrix[0][0] * vector.x + matrix[0][1] * vector.y + matrix[0][2] * vector.z!
+    let y = matrix[1][0] * vector.x + matrix[1][1] * vector.y + matrix[1][2] * vector.z!
+    let z = matrix[2][0] * vector.x + matrix[2][1] * vector.y + matrix[2][2] * vector.z!
+    
+    return Point(x: x, y: y, z: z)
+}
 
+
+
+
+//MARK: - Vector geometry
 func innerProduct(u: Point, v: Point) -> Double {
     return (u.x * v.x) + (u.y * v.y) + (u.z! * v.z!)
 }
@@ -31,7 +41,6 @@ func innerProduct(u: Point, v: Point) -> Double {
 func projection(u: Point, v: Point) ->  Point {
     return u * (innerProduct(u: u, v: v) / innerProduct(u: u, v: u))
 }
-
 
 func orthogonalization(n: Point, v: Point) -> Point {
     return  v - projection(u: n, v: v)
@@ -44,29 +53,6 @@ func crossProduct(u: Point , v: Point) -> Point {
     
     return Point(x: x, y: y, z: z)
 }
-
-// 3x3 Matrix multiplied by 3x1 vector 😱
-func * (matrix: [[Double]], vector: Point) -> Point {
-    let x = matrix[0][0] * vector.x + matrix[0][1] * vector.y + matrix[0][2] * vector.z!
-    let y = matrix[1][0] * vector.x + matrix[1][1] * vector.y + matrix[1][2] * vector.z!
-    let z = matrix[2][0] * vector.x + matrix[2][1] * vector.y + matrix[2][2] * vector.z!
-    
-    return Point(x: x, y: y, z: z)
-}
-
-// Algebra
-func tan(pointA: Point, pointB: Point) -> Double {
-    return (pointA.y - pointB.y) / (pointA.x - pointB.x)
-}
-
-func lineEquation(pointA: Point, pointB: Point) -> (Double, Double) {
-    let a = tan(pointA: pointA, pointB: pointB)
-    
-    let b = pointA.y - (a * pointA.x)
-    
-    return (a, b)
-}
-
 
 //retorna um vetor com alfa, beta e gama
 func getBarycentricCoord(currentPoint: Point , triangle: Triangle) -> Point{
@@ -107,4 +93,4 @@ func convertTo3DCoord(originalPoint3D: Point , alfaBetaGama: Point) -> Point{
 
 
 
-
+//MARK: - 
