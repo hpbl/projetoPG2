@@ -89,13 +89,13 @@ class ViewController: NSViewController {
         //Conversão por varredura
         for triangle in self.objeto.triangles2D {
             //scanLine
-            let trianglePixels = getPixels(from: triangle)
+            var trianglePixels = getPixels(from: triangle)
             
             //pegando triangulo 3D correspondente ao 2D
             let triangleIndex = objeto.triangles2D.index(of: triangle)
             let triangle3D = objeto.triangles3D[triangleIndex!]
             
-            for pixel in trianglePixels {
+            for var pixel in trianglePixels {
                 // Calcular coordenadas baricentricas (alfa, beta, gama) de P com relacao aos vertices 2D:
                 let barycentricCoord = pixel.getBarycentricCoord(triangle: triangle)
                 
@@ -162,8 +162,9 @@ class ViewController: NSViewController {
                                                 specularComponent: specularComponent)
                         }
                     }
-                    //TODO: Substituir em phong
-                    
+                    //TODO: pintar pixel com cor (I) correspondente
+                    let index = trianglePixels.index(of: pixel)
+                    trianglePixels[index!].color = verifyRGB(I: I)
                 }
                 
             }

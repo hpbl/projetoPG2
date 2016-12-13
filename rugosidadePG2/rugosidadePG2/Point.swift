@@ -13,6 +13,7 @@ struct Point {
     var x: Double
     var y: Double
     var z: Double?
+    var color: (Double, Double, Double)?
     
     //MARK: - inits
     init() {
@@ -29,6 +30,13 @@ struct Point {
         self.x = x
         self.y = y
         self.z = z
+    }
+    
+    init(x: Double, y: Double, z: Double, color: (Double, Double, Double)) {
+        self.x = x
+        self.y = y
+        self.z = z
+        self.color = color
     }
     
     
