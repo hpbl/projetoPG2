@@ -42,7 +42,11 @@ struct Point {
     
     //MARK: - Vector Basic Operations
     static func * (vector: Point, scalar: Double) -> Point {
-        return Point(x: scalar*(vector.x), y: scalar*(vector.y), z: scalar*(vector.z)!)
+        guard let z = vector.z else {
+            return Point(x: scalar*(vector.x), y: scalar*(vector.y))
+        }
+        
+        return Point(x: scalar * (vector.x), y: scalar * (vector.y), z: scalar * z)
     }
     
     static func - (u: Point, v: Point) -> Point {
@@ -50,11 +54,23 @@ struct Point {
     }
     
     static func + (u: Point, v: Point) -> Point {
-        return Point(x: u.x + v.x , y: u.y + v.y , z: u.z! + v.z!)
+        if u.z != nil && v.z != nil {
+            return Point(x: u.x + v.x , y: u.y + v.y , z: u.z! + v.z!)
+
+        } else {
+            return Point(x: u.x + v.x , y: u.y + v.y)
+        }
     }
     
     func normalized() -> Point {
-        let norm = sqrt((self.x * self.x) + (self.y * self.y) + (self.z! * self.z!))
+        guard let z = self.z else {
+            
+            let norm = sqrt((self.x * self.x) + (self.y * self.y))
+
+            return Point(x: self.x/norm, y: self.y/norm)
+        }
+        
+        let norm = sqrt((self.x * self.x) + (self.y * self.y) + (z * z))
         
         return Point(x: self.x/norm, y: self.y/norm, z: self.z!/norm)
     }

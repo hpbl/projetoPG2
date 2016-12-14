@@ -35,7 +35,11 @@ func * (matrix: [[Double]], vector: Point) -> Point {
 
 //MARK: - Vector geometry
 func innerProduct(u: Point, v: Point) -> Double {
-    return (u.x * v.x) + (u.y * v.y) + (u.z! * v.z!)
+    if u.z != nil && v.z != nil {
+        return (u.x * v.x) + (u.y * v.y) + (u.z! * v.z!)
+    } else {
+        return (u.x * v.x) + (u.y * v.y)
+    }
 }
 
 func projection(u: Point, v: Point) ->  Point {
