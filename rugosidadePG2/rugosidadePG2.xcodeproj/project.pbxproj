@@ -13,6 +13,7 @@
 		714045D71DFDD9B900F4742E /* vaso.byu in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4EB1DFA3F2B00109E4B /* vaso.byu */; };
 		714045D81DFDD9D400F4742E /* vaso.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4CF1DFA3F2B00109E4B /* vaso.cfg */; };
 		71BAC0F81E00C28400548563 /* PhongFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BAC0F71E00C28400548563 /* PhongFunctions.swift */; };
+		71BAC0FA1E00C4BD00548563 /* OpenGLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BAC0F91E00C4BD00548563 /* OpenGLView.swift */; };
 		71EDD4AB1DFA341A00109E4B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD4AA1DFA341A00109E4B /* AppDelegate.swift */; };
 		71EDD4AD1DFA341A00109E4B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD4AC1DFA341A00109E4B /* ViewController.swift */; };
 		71EDD4AF1DFA341A00109E4B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4AE1DFA341A00109E4B /* Assets.xcassets */; };
@@ -31,6 +32,7 @@
 		714045D31DFAEEF000F4742E /* AlgebraFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlgebraFunctions.swift; sourceTree = "<group>"; };
 		714045D51DFDCF8700F4742E /* PointTuple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointTuple.swift; sourceTree = "<group>"; };
 		71BAC0F71E00C28400548563 /* PhongFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhongFunctions.swift; sourceTree = "<group>"; };
+		71BAC0F91E00C4BD00548563 /* OpenGLView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenGLView.swift; sourceTree = "<group>"; };
 		71EDD4A71DFA341A00109E4B /* rugosidadePG2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rugosidadePG2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		71EDD4AA1DFA341A00109E4B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		71EDD4AC1DFA341A00109E4B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				71EDD4B01DFA341A00109E4B /* Main.storyboard */,
 				71EDD4B31DFA341A00109E4B /* Info.plist */,
 				71EDD5021DFADCA100109E4B /* Model */,
+				71BAC0F91E00C4BD00548563 /* OpenGLView.swift */,
 			);
 			path = rugosidadePG2;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 				71EDD4FD1DFA532C00109E4B /* Point.swift in Sources */,
 				71EDD4AB1DFA341A00109E4B /* AppDelegate.swift in Sources */,
 				71EDD4F71DFA412600109E4B /* Triangle.swift in Sources */,
+				71BAC0FA1E00C4BD00548563 /* OpenGLView.swift in Sources */,
 				71EDD4FF1DFACDF800109E4B /* Camera.swift in Sources */,
 				71BAC0F81E00C28400548563 /* PhongFunctions.swift in Sources */,
 				71EDD4F91DFA43D700109E4B /* Extensions.swift in Sources */,
