@@ -32,20 +32,3 @@ func read(from file: String, type: String) -> [String]? {
     }
     return nil
 }
-
-
-func verifyRGB(I: Point) -> (Double, Double, Double){
-    var newI = I
-    
-    if I.x > 255 {
-        newI.x = 255
-    }
-    if I.y > 255 {
-        newI.y = 255
-    }
-    if I.z! > 255 {
-        newI.z = 255
-    }
-    
-    return (newI.x, newI.y, newI.z!)
-}

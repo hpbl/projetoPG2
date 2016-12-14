@@ -13,6 +13,7 @@ class Triangle {
     var secondVertex: Point
     var thirdVertex: Point
     var edges: [PointTuple: (Double, Double)]?
+    var pixels = [Point]()
     
     func normal() -> Point {
         return crossProduct(u: (self.thirdVertex - self.firstVertex),
