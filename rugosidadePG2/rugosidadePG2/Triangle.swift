@@ -24,6 +24,12 @@ class Triangle {
         self.firstVertex = firstVertex
         self.secondVertex = secondVertex
         self.thirdVertex = thirdVertex
+        
+        if thirdVertex.x == secondVertex.x {
+            if thirdVertex.x == firstVertex.x {
+                print("é o ponto \(firstVertex, secondVertex, thirdVertex)")
+            }
+        }
         self.edges = findEdges()
     }
     

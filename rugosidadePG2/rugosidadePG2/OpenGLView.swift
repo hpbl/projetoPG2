@@ -18,15 +18,19 @@ class OpenGLView: NSOpenGLView {
     let objeto = Object(named: "calice2")
     let iluminacao = Illumination(named: "iluminacao")
     var shouldDraw: Bool = false
+    var pixelToDraw: Point = Point() {
+        didSet {
+            self.setNeedsDisplay(self.frame)
+        }
+    }
     
     override var acceptsFirstResponder: Bool { return true }
     override func viewDidMoveToWindow() {}
     
     override func keyDown(with event: NSEvent) {
         if event.keyCode == 8 {
-            //self.parteGeral()
+            self.parteGeral()
             shouldDraw = !shouldDraw
-            self.setNeedsDisplay(self.frame)
         }
     }
     
@@ -41,23 +45,11 @@ class OpenGLView: NSOpenGLView {
         
         //draw points routine
         if shouldDraw{
-            self.draw(points: self.objeto.triangles2D[0].pixels)
+            🖌(self.pixelToDraw)
         }
         
         //forcando execucao dos comandos OpenGL
         glFlush()
-    }
-    
-    func draw(points: [Point]) {
-        glPointSize(2.0)
-        glColor3f(0, 170/255, 202/255)
-        glBegin(GLenum(GL_POINTS))
-        
-        for point in points {
-            glVertex3fv([Float(point.x), Float(point.y), 0])
-        }
-        
-        glEnd()
     }
     
     //MARK: - Algoritmo de execução
@@ -153,7 +145,17 @@ class OpenGLView: NSOpenGLView {
                 while currentY >= Ymin {
                     var currX = Xmin
                     while currX <= Xmax {
-                        //TODO: run phong and draw Point(x: round(currX), y: round(currentY)))
+                        
+                        if currX >= 0 && currentY >= 0 {
+                            let phongReturn = phongRoutine(triangle: triangle,
+                                                           objeto: objeto,
+                                                           iluminacao: iluminacao,
+                                                           pixel: Point(x: round(currX), y: round(currentY)),
+                                                           zBuffer: zBuffer)
+                            zBuffer = phongReturn.1
+                            let pixel = phongReturn.0
+                            self.pixelToDraw = pixel
+                        }
                         currX = currX + 1
                     }
                     
@@ -196,7 +198,16 @@ class OpenGLView: NSOpenGLView {
                 while currentY >= Ymin {
                     var currX = Xmin
                     while currX <= Xmax {
-                        //TODO: run phong and draw Point(x: round(currX), y: round(currentY)))
+                        if currX >= 0 && currentY >= 0 {
+                            let phongReturn = phongRoutine(triangle: triangle,
+                                                           objeto: objeto,
+                                                           iluminacao: iluminacao,
+                                                           pixel: Point(x: round(currX), y: round(currentY)),
+                                                           zBuffer: zBuffer)
+                            zBuffer = phongReturn.1
+                            let pixel = phongReturn.0
+                            self.pixelToDraw = pixel
+                        }
                         currX = currX + 1
                     }
                     
@@ -253,7 +264,16 @@ class OpenGLView: NSOpenGLView {
                 while currentY >= Ymin {
                     var currX = Xmin
                     while currX <= Xmax {
-                        //TODO: run phong and draw Point(x: round(currX), y: round(currentY)))
+                        if currX >= 0 && currentY >= 0 {
+                            let phongReturn = phongRoutine(triangle: triangle,
+                                                           objeto: objeto,
+                                                           iluminacao: iluminacao,
+                                                           pixel: Point(x: round(currX), y: round(currentY)),
+                                                           zBuffer: zBuffer)
+                            zBuffer = phongReturn.1
+                            let pixel = phongReturn.0
+                            self.pixelToDraw = pixel
+                        }
                         currX = currX + 1
                     }
                     
@@ -298,7 +318,16 @@ class OpenGLView: NSOpenGLView {
                 while currentY >= Ymin {
                     var currX = Xmin
                     while currX <= Xmax {
-                        //TODO: run phong and draw Point(x: round(currX), y: round(currentY)))
+                        if currX >= 0 && currentY >= 0 {
+                            let phongReturn = phongRoutine(triangle: triangle,
+                                                           objeto: objeto,
+                                                           iluminacao: iluminacao,
+                                                           pixel: Point(x: round(currX), y: round(currentY)),
+                                                           zBuffer: zBuffer)
+                            zBuffer = phongReturn.1
+                            let pixel = phongReturn.0
+                            self.pixelToDraw = pixel
+                        }
                         currX = currX + 1
                     }
                     
@@ -316,4 +345,23 @@ class OpenGLView: NSOpenGLView {
             }
         }
     }
+    
+    
+    //MARK: - OpenGL methods
+    func 🖌(_ pixel: Point) {
+        
+        let r = Float(pixel.color!.0 / 255)
+        let g = Float(pixel.color!.1 / 255)
+        let b = Float(pixel.color!.2 / 255)
+        
+        glPointSize(2.0)
+        glColor3f(r, g, b)
+        glBegin(GLenum(GL_POINTS))
+        
+        glVertex2i(Int32(pixel.x), Int32(pixel.y))
+        
+        
+        glEnd()
+    }
+    
 }

@@ -67,3 +67,84 @@ func getSpecularComponent(illumination: Illumination, R: Point, V: Point) -> Poi
     
     return Il * (ks * pow(innerProduct(u: R, v: V), n))
 }
+
+func phongRoutine(triangle: Triangle, objeto: Object, iluminacao: Illumination, pixel: Point, zBuffer: [[Double]]) -> (Point, [[Double]]) {
+    var zBufferLocal = zBuffer
+    var pixelLocal = pixel
+    
+    //pegando triangulo 3D correspondente ao 2D
+    let triangleIndex = objeto.triangles2D.index(of: triangle)
+    let triangle3D = objeto.triangles3D[triangleIndex!]
+    
+        // Calcular coordenadas baricentricas (alfa, beta, gama) de P com relacao aos vertices 2D:
+        let barycentricCoord = pixel.getBarycentricCoords(triangle: triangle)
+        
+        // Multiplicar coordenadas baricentricas pelos vertices 3D originais obtendo P', que eh uma aproximacao pro ponto 3D:
+        let pixel3D = pixel.approx3DCoordinates(alfaBetaGama: barycentricCoord, triangle3D: triangle3D)
+        
+        // Consulta ao z-buffer:
+        if pixel3D.z! < zBufferLocal[Int(pixel.x)][Int(pixel.y)] {//TODO: (nao esquecer de tambem checar os limites do array z-buffer)
+            zBufferLocal[Int(pixel.x)][Int(pixel.y)] = pixel3D.z!
+            
+            // Calcular uma aproximacao para a normal do ponto P'
+            var N3D = pixel3D.normalized()
+            
+            var N = triangle.firstVertex.normalized() * (barycentricCoord.x) +
+                triangle.secondVertex.normalized() * (barycentricCoord.y) +
+                triangle.thirdVertex.normalized() * (barycentricCoord.z!)
+            
+            var V = Point(x: -pixel3D.x, y: -pixel3D.y, z: -pixel3D.z!)
+            var L = iluminacao.viewLightPosition! - pixel3D
+            
+            //Normalizar N, V e L
+            N = N.normalized()
+            V = V.normalized()
+            L = L.normalized()
+            
+            if innerProduct(u: V, v: N) < 0 {
+                N3D = Point(x: -N3D.x, y: -N3D.y, z: -N3D.z!)
+            }
+            
+            //cor do pixel por phong (R, G, B)
+            var I : Point
+            if innerProduct(u: N, v: L)  < 0 {
+                //não possui componente difusa nem especular
+                let ambientalComponent = getAmbientalComponent(illumination: iluminacao)
+                I = phongColor(ambientalComponent: ambientalComponent,
+                               difuseComponent: nil,
+                               specularComponent: nil)
+                
+            } else {
+                var R = (N * (2 * innerProduct(u: N, v: L))) - L
+                R = R.normalized()
+                
+                if innerProduct(u: R, v: V) < 0 {
+                    //não possui componente especular
+                    let ambientalComponent = getAmbientalComponent(illumination: iluminacao)
+                    let difuseComponent = getDifuseComponent(illumination: iluminacao,
+                                                             N: N,
+                                                             L: L)
+                    I = phongColor(ambientalComponent: ambientalComponent,
+                                   difuseComponent: difuseComponent,
+                                   specularComponent: nil)
+                } else {
+                    //TODO: Conferir se é assim
+                    let ambientalComponent = getAmbientalComponent(illumination: iluminacao)
+                    let difuseComponent = getDifuseComponent(illumination: iluminacao,
+                                                             N: N,
+                                                             L: L)
+                    let specularComponent = getSpecularComponent(illumination: iluminacao,
+                                                                 R: R,
+                                                                 V: V)
+                    
+                    I = phongColor(ambientalComponent: ambientalComponent,
+                                   difuseComponent: difuseComponent,
+                                   specularComponent: specularComponent)
+                }
+            }
+            //TODO: pintar pixel com cor (I) correspondente
+            pixelLocal.color = verifyRGB(I: I)
+        }
+    return (pixelLocal, zBufferLocal)
+}
+

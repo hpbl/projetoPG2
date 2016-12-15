@@ -51,7 +51,7 @@ func orthogonalization(n: Point, v: Point) -> Point {
 }
 
 func crossProduct(u: Point , v: Point) -> Point {
-    let x = (u.y * v.z!) - (v.z! * v.y)
+    let x = (u.y * v.z!) - (u.z! * v.y)
     let y = (u.z! * v.x) - (u.x * v.z!)
     let z = (u.x * v.y) - (u.y * v.x)
     

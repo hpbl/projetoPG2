@@ -14,6 +14,8 @@
 		714045D81DFDD9D400F4742E /* vaso.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4CF1DFA3F2B00109E4B /* vaso.cfg */; };
 		717644871E02164000CAE518 /* calice2.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4BE1DFA3F2B00109E4B /* calice2.cfg */; };
 		717644881E02164800CAE518 /* calice2.byu in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4D91DFA3F2B00109E4B /* calice2.byu */; };
+		717644891E023AB300CAE518 /* spaceship.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4C91DFA3F2B00109E4B /* spaceship.cfg */; };
+		7176448A1E023AB900CAE518 /* spaceship.byu in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4E51DFA3F2B00109E4B /* spaceship.byu */; };
 		71BAC0F81E00C28400548563 /* PhongFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BAC0F71E00C28400548563 /* PhongFunctions.swift */; };
 		71BAC0FA1E00C4BD00548563 /* OpenGLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BAC0F91E00C4BD00548563 /* OpenGLView.swift */; };
 		71ED0F451E01AC11000A904B /* dalton.byu in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4DF1DFA3F2B00109E4B /* dalton.byu */; };
@@ -316,6 +318,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7176448A1E023AB900CAE518 /* spaceship.byu in Resources */,
+				717644891E023AB300CAE518 /* spaceship.cfg in Resources */,
 				717644881E02164800CAE518 /* calice2.byu in Resources */,
 				717644871E02164000CAE518 /* calice2.cfg in Resources */,
 				71ED0F461E01ACB2000A904B /* 01_Camera.cfg in Resources */,
