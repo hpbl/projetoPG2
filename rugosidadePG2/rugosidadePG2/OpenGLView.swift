@@ -20,19 +20,19 @@ class OpenGLView: NSOpenGLView {
     var shouldDraw: Bool = false
     
     override var acceptsFirstResponder: Bool { return true }
-    override func viewDidMoveToWindow() {
-        
+    override func viewDidMoveToWindow() {}
+    
     override func keyDown(with event: NSEvent) {
         if event.keyCode == 8 {
-            self.parteGeral()
+            //self.parteGeral()
             shouldDraw = !shouldDraw
             self.setNeedsDisplay(self.frame)
         }
     }
-
+    
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
-
+        
         // Drawing code here.
         
         //Background
@@ -119,88 +119,201 @@ class OpenGLView: NSOpenGLView {
         //Conversão por varredura
         for triangle in self.objeto.triangles2D {
             //scanLine
-            var trianglePixels = getPixels(from: triangle)
+            let controlPoints = [triangle.firstVertex, triangle.secondVertex, triangle.thirdVertex]
             
-            //pegando triangulo 3D correspondente ao 2D
-            let triangleIndex = objeto.triangles2D.index(of: triangle)
-            let triangle3D = objeto.triangles3D[triangleIndex!]
+            var sortedPoints = controlPoints.sorted {(pointA, pointB) -> Bool in
+                return (pointA.y == pointB.y) ? (pointA.x < pointB.x) : (pointA.y > pointB.y)
+            }
             
-            self.objeto.triangles2D[triangleIndex!].pixels = trianglePixels
-            
-            for pixel in trianglePixels {
-                // Calcular coordenadas baricentricas (alfa, beta, gama) de P com relacao aos vertices 2D:
-                let barycentricCoord = pixel.getBarycentricCoord(triangle: triangle)
+            if (sortedPoints.filter{$0.y == sortedPoints[0].y}).count > 1 {
                 
-                // Multiplicar coordenadas baricentricas pelos vertices 3D originais obtendo P', que eh uma aproximacao pro ponto 3D:
-                let pixel3D = pixel.approx3DCoordinates(alfaBetaGama: barycentricCoord!, triangle3D: triangle3D)
+                //triangulo é flat-top
+                let maxYPoints = [sortedPoints[0], sortedPoints[1]]
                 
-                // Consulta ao z-buffer:
-                if pixel3D.z! < zBuffer[Int(pixel.x)][Int(pixel.y)] {//TODO: (nao esquecer de tambem checar os limites do array z-buffer)
-                    zBuffer[Int(pixel.x)][Int(pixel.y)] = pixel3D.z!
-                    
-                    // Calcular uma aproximacao para a normal do ponto P'
-                    var N3D = pixel3D.normalized()
-                    
-                    var N = triangle.firstVertex.normalized() * (barycentricCoord?.x)! +
-                        triangle.secondVertex.normalized() * (barycentricCoord?.y)! +
-                        triangle.thirdVertex.normalized() * (barycentricCoord?.z!)!
-                    
-                    var V = Point(x: -pixel3D.x, y: -pixel3D.y, z: -pixel3D.z!)
-                    var L = iluminacao.viewLightPosition! - pixel3D
-                    
-                    //Normalizar N, V e L
-                    N = N.normalized()
-                    V = V.normalized()
-                    L = L.normalized()
-                    
-                    if innerProduct(u: V, v: N) < 0 {
-                        N3D = Point(x: -N3D.x, y: -N3D.y, z: -N3D.z!)
+                //pegando a e b das equações
+                let lineEquation1 = triangle.edges?[PointTuple(pointA: maxYPoints[0],
+                                                               pointB: sortedPoints[2])]
+                
+                let a1 = lineEquation1?.0
+                //let b1 = lineEquation1?.1
+                
+                
+                let lineEquation2 = triangle.edges?[PointTuple(pointA: maxYPoints[1],
+                                                               pointB: sortedPoints[2])]
+                
+                let a2 = lineEquation2?.0
+                
+                //tratando o flat-top
+                var Xmin = maxYPoints[0].x
+                var Xmax = maxYPoints[1].x
+                var currentY = maxYPoints[0].y
+                let Ymin = sortedPoints[2].y
+                
+                
+                while currentY >= Ymin {
+                    var currX = Xmin
+                    while currX <= Xmax {
+                        //TODO: run phong and draw Point(x: round(currX), y: round(currentY)))
+                        currX = currX + 1
                     }
                     
-                    //cor do pixel por phong (R, G, B)
-                    var I : Point
-                    if innerProduct(u: N, v: L)  < 0 {
-                        //não possui componente difusa nem especular
-                        let ambientalComponent = getAmbientalComponent(illumination: self.iluminacao)
-                        I = phongColor(ambientalComponent: ambientalComponent,
-                                       difuseComponent: nil,
-                                       specularComponent: nil)
-                        
+                    //decrementando o currentY
+                    Xmin = Xmin - 1/a1!
+                    Xmax = Xmax - 1/a2!
+                    
+                    if Xmin == Xmax {
+                        currentY = Ymin
                     } else {
-                        var R = (N * (2 * innerProduct(u: N, v: L))) - L
-                        R = R.normalized()
-                        
-                        if innerProduct(u: R, v: V) < 0 {
-                            //não possui componente especular
-                            let ambientalComponent = getAmbientalComponent(illumination: self.iluminacao)
-                            let difuseComponent = getDifuseComponent(illumination: self.iluminacao,
-                                                                     N: N,
-                                                                     L: L)
-                            I = phongColor(ambientalComponent: ambientalComponent,
-                                           difuseComponent: difuseComponent,
-                                           specularComponent: nil)
-                        } else {
-                            //TODO: Conferir se é assim
-                            let ambientalComponent = getAmbientalComponent(illumination: self.iluminacao)
-                            let difuseComponent = getDifuseComponent(illumination: self.iluminacao,
-                                                                     N: N,
-                                                                     L: L)
-                            let specularComponent = getSpecularComponent(illumination: self.iluminacao,
-                                                                         R: R,
-                                                                         V: V)
-                            
-                            I = phongColor(ambientalComponent: ambientalComponent,
-                                           difuseComponent: difuseComponent,
-                                           specularComponent: specularComponent)
-                        }
+                        currentY = currentY - 1
                     }
-                    //TODO: pintar pixel com cor (I) correspondente
-                    let index = trianglePixels.index(of: pixel)
-                    trianglePixels[index!].color = verifyRGB(I: I)
                 }
                 
+                
+            } else if (sortedPoints.filter{$0.y == sortedPoints[2].y}).count > 1 {
+                //triangulo é flat-bottom
+                let minYPoints = [sortedPoints[1], sortedPoints[2]]
+                
+                //pegando a e b das equações
+                let lineEquation1 = triangle.edges?[PointTuple(pointA: minYPoints[0],
+                                                               pointB: sortedPoints[0])]
+                
+                let a1 = lineEquation1?.0
+                //let b1 = lineEquation1?.1
+                
+                
+                let lineEquation2 = triangle.edges?[PointTuple(pointA: minYPoints[1],
+                                                               pointB: sortedPoints[0])]
+                
+                let a2 = lineEquation2?.0
+                
+                //tratando o flat-bottom
+                var Xmin = sortedPoints[0].x
+                var Xmax = sortedPoints[0].x
+                var currentY = sortedPoints[0].y
+                let Ymin = sortedPoints[2].y
+                
+                
+                while currentY >= Ymin {
+                    var currX = Xmin
+                    while currX <= Xmax {
+                        //TODO: run phong and draw Point(x: round(currX), y: round(currentY)))
+                        currX = currX + 1
+                    }
+                    
+                    //decrementando o currentY
+                    Xmin = Xmin - 1/a1!
+                    Xmax = Xmax - 1/a2!
+                    currentY = currentY - 1
+                    
+                }
+                
+            } else {
+                //triangulo normal
+                
+                //achando ponto com y médio
+                let midPoint = sortedPoints[1]
+                
+                //cálculando x do novo vértice
+                let newVertexX = round(sortedPoints[0].x +
+                    (((midPoint.y - sortedPoints[0].y) * (sortedPoints[2].x - sortedPoints[0].x)) / (sortedPoints[2].y - sortedPoints[0].y)))
+                
+                //criando novo vértice
+                let newVertex = Point(x: newVertexX, y: midPoint.y)
+                
+                //calculando pixels dentro do prieiro triangulo (flat-bottom)
+                let flatBottomPart = Triangle(firstVertex: sortedPoints[0], secondVertex: midPoint, thirdVertex: newVertex)
+                let controlPointsFB = [flatBottomPart.firstVertex, flatBottomPart.secondVertex, flatBottomPart.thirdVertex]
+                let sortedPointsFB = controlPointsFB.sorted {(pointA, pointB) -> Bool in
+                    return (pointA.y == pointB.y) ? (pointA.x < pointB.x) : (pointA.y > pointB.y)
+                }
+                
+                
+                //triangulo é flat-bottom
+                let minYPoints = [sortedPoints[1], sortedPoints[2]]
+                
+                //pegando a e b das equações
+                var lineEquation1 = triangle.edges?[PointTuple(pointA: minYPoints[0],
+                                                               pointB: sortedPointsFB[0])]
+                
+                var a1 = lineEquation1?.0
+                
+                
+                var lineEquation2 = triangle.edges?[PointTuple(pointA: minYPoints[1],
+                                                               pointB: sortedPointsFB[0])]
+                
+                var a2 = lineEquation2?.0
+                
+                //tratando o flat-bottom
+                var Xmin = sortedPointsFB[0].x
+                var Xmax = sortedPointsFB[0].x
+                var currentY = sortedPointsFB[0].y
+                var Ymin = sortedPointsFB[2].y
+                
+                
+                while currentY >= Ymin {
+                    var currX = Xmin
+                    while currX <= Xmax {
+                        //TODO: run phong and draw Point(x: round(currX), y: round(currentY)))
+                        currX = currX + 1
+                    }
+                    
+                    //decrementando o currentY
+                    Xmin = Xmin - 1/a1!
+                    Xmax = Xmax - 1/a2!
+                    currentY = currentY - 1
+                    
+                }
+                
+                
+                //calculando pixels dentro do segundo triangulo (flat-top)
+                let flatTopPart = Triangle(firstVertex: midPoint, secondVertex: newVertex, thirdVertex: sortedPoints[2])
+                let controlPointsFT = [flatTopPart.firstVertex, flatTopPart.secondVertex, flatTopPart.thirdVertex]
+                let sortedPointsFT = controlPointsFT.sorted {(pointA, pointB) -> Bool in
+                    return (pointA.y == pointB.y) ? (pointA.x < pointB.x) : (pointA.y > pointB.y)
+                }
+                
+                //triangulo é flat-top
+                let maxYPoints = [sortedPointsFT[0], sortedPointsFT[1]]
+                
+                //pegando a e b das equações
+                lineEquation1 = triangle.edges?[PointTuple(pointA: maxYPoints[0],
+                                                               pointB: sortedPointsFT[2])]
+                
+                a1 = lineEquation1?.0
+                //let b1 = lineEquation1?.1
+                
+                
+                lineEquation2 = triangle.edges?[PointTuple(pointA: maxYPoints[1],
+                                                               pointB: sortedPointsFT[2])]
+                
+                a2 = lineEquation2?.0
+                
+                //tratando o flat-top
+                Xmin = maxYPoints[0].x
+                Xmax = maxYPoints[1].x
+                currentY = maxYPoints[0].y
+                Ymin = sortedPointsFT[2].y
+                
+                
+                while currentY >= Ymin {
+                    var currX = Xmin
+                    while currX <= Xmax {
+                        //TODO: run phong and draw Point(x: round(currX), y: round(currentY)))
+                        currX = currX + 1
+                    }
+                    
+                    //decrementando o currentY
+                    Xmin = Xmin - 1/a1!
+                    Xmax = Xmax - 1/a2!
+                    
+                    if Xmin == Xmax {
+                        currentY = Ymin
+                    } else {
+                        currentY = currentY - 1
+                    }
+                }
+
             }
         }
     }
-    
 }
