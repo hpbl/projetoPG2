@@ -50,7 +50,11 @@ struct Point {
     }
     
     static func - (u: Point, v: Point) -> Point {
-        return Point(x: u.x - v.x , y: u.y - v.y , z: u.z! - v.z!)
+        if u.z != nil && v.z != nil {
+            return Point(x: u.x - v.x , y: u.y - v.y , z: u.z! - v.z!)
+        } else {
+            return Point(x: u.x - v.x, y: u.y - v.y)
+        }
     }
     
     static func + (u: Point, v: Point) -> Point {
@@ -77,29 +81,27 @@ struct Point {
     
     
     //MARK: - Geometry
-    func getBarycentricCoord(triangle: Triangle) -> Point?{
+    func getBarycentricCoords(triangle: Triangle) -> Point {
+        let v0 = triangle.secondVertex - triangle.firstVertex
+        let v1 = triangle.thirdVertex - triangle.firstVertex
+        let v2 = self - triangle.firstVertex
         
-        let xA = triangle.firstVertex.x
-        let xB = triangle.secondVertex.x
-        let xC = triangle.thirdVertex.x
+        let d00 = innerProduct(u: v0, v: v0)
+        let d01 = innerProduct(u: v0, v: v1)
+        let d11 = innerProduct(u: v1, v: v1)
+        let d20 = innerProduct(u: v2, v: v0)
+        let d21 = innerProduct(u: v2, v: v1)
         
-        let yA = triangle.firstVertex.y
-        let yB = triangle.secondVertex.y
-        let yC = triangle.thirdVertex.y
+        let denom = (d00 * d11) - (d01 * d01)
         
-        let den = (yB - yC)*(self.x - xC) + (xC - xB)*(yA - yC)
+        var point = Point()
         
-        if (den != 0) {
-            var point = Point()
-            
-            point.x = ((yB - yC)*(self.x - xC) + (xC - xB)*(self.y - yC)) / den
-            point.y = ((yC - yA)*(self.x - xC) + (xA - xC)*(self.y - yC)) / den
-            point.z = 1 - point.x - point.y
-            
-            return point
-        }
+        point.y = ((d11 * d20) - (d01 * d21)) / denom
+        point.z = ((d00 * d21) - (d01 * d20)) / denom
+        point.x = 1 - point.y - point.z!
+
+        return point
         
-        return nil
     }
     
     //usar as coordenadas baricentricas para achar o 3D

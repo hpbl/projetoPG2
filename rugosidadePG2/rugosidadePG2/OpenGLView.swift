@@ -6,20 +6,28 @@
 //  Copyright © 2016 Chien&Pintor&Melo. All rights reserved.
 //
 
+import Foundation
+import AppKit
 import Cocoa
 import OpenGL
 import GLKit
 import GLUT
 
 class OpenGLView: NSOpenGLView {
-    let camera = Camera(named: "vaso")
-    let objeto = Object(named: "vaso")
+    let camera = Camera(named: "calice2")
+    let objeto = Object(named: "calice2")
     let iluminacao = Illumination(named: "iluminacao")
+    var shouldDraw: Bool = false
     
+    override var acceptsFirstResponder: Bool { return true }
     override func viewDidMoveToWindow() {
-        self.parteGeral()
         
-        self.setNeedsDisplay(self.frame)
+    override func keyDown(with event: NSEvent) {
+        if event.keyCode == 8 {
+            self.parteGeral()
+            shouldDraw = !shouldDraw
+            self.setNeedsDisplay(self.frame)
+        }
     }
 
     override func draw(_ dirtyRect: NSRect) {
@@ -32,7 +40,9 @@ class OpenGLView: NSOpenGLView {
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
         
         //draw points routine
-        self.draw(points: self.objeto.triangles2D[0].pixels)
+        if shouldDraw{
+            self.draw(points: self.objeto.triangles2D[0].pixels)
+        }
         
         //forcando execucao dos comandos OpenGL
         glFlush()
