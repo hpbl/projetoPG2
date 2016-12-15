@@ -31,8 +31,8 @@ class OpenGLView: NSOpenGLView {
     
     override func keyDown(with event: NSEvent) {
         if event.keyCode == 8 {
-            self.parteGeral()
             shouldDraw = !shouldDraw
+            self.parteGeral()
         }
     }
     
