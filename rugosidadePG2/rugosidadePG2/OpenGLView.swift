@@ -20,7 +20,9 @@ class OpenGLView: NSOpenGLView {
     var shouldDraw: Bool = false
     var pixelToDraw: Point = Point() {
         didSet {
-            self.setNeedsDisplay(self.frame)
+            DispatchQueue.main.async {
+                self.setNeedsDisplay(self.frame)
+            }
         }
     }
     
@@ -240,16 +242,16 @@ class OpenGLView: NSOpenGLView {
                 
                 
                 //triangulo é flat-bottom
-                let minYPoints = [sortedPoints[1], sortedPoints[2]]
+                let minYPoints = [sortedPointsFB[1], sortedPointsFB[2]]
                 
                 //pegando a e b das equações
-                var lineEquation1 = triangle.edges?[PointTuple(pointA: minYPoints[0],
+                var lineEquation1 = flatBottomPart.edges?[PointTuple(pointA: minYPoints[0],
                                                                pointB: sortedPointsFB[0])]
                 
                 var a1 = lineEquation1?.0
                 
                 
-                var lineEquation2 = triangle.edges?[PointTuple(pointA: minYPoints[1],
+                var lineEquation2 = flatBottomPart.edges?[PointTuple(pointA: minYPoints[1],
                                                                pointB: sortedPointsFB[0])]
                 
                 var a2 = lineEquation2?.0
@@ -296,14 +298,14 @@ class OpenGLView: NSOpenGLView {
                 let maxYPoints = [sortedPointsFT[0], sortedPointsFT[1]]
                 
                 //pegando a e b das equações
-                lineEquation1 = triangle.edges?[PointTuple(pointA: maxYPoints[0],
+                lineEquation1 = flatTopPart.edges?[PointTuple(pointA: maxYPoints[0],
                                                                pointB: sortedPointsFT[2])]
                 
                 a1 = lineEquation1?.0
                 //let b1 = lineEquation1?.1
                 
                 
-                lineEquation2 = triangle.edges?[PointTuple(pointA: maxYPoints[1],
+                lineEquation2 = flatTopPart.edges?[PointTuple(pointA: maxYPoints[1],
                                                                pointB: sortedPointsFT[2])]
                 
                 a2 = lineEquation2?.0
