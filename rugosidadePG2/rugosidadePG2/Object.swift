@@ -31,6 +31,17 @@ class Object {
         
         self.rwPoints = Object.getPoints(from: Array(objectStrings![1...numberOfPoints]))
         self.trianglesVerticesList = Array(objectStrings![numberOfPoints+1..<(objectStrings!.count)])
+        
+        let teste = self.getTriangles(from: self.trianglesVerticesList!, of: self.rwPoints)
+        
+        //TODO: delete test code
+        for triangle in teste {
+            if triangle.thirdVertex.x == triangle.secondVertex.x {
+                if triangle.thirdVertex.x == triangle.firstVertex.x {
+                    print("é o ponto \(triangle.firstVertex, triangle.secondVertex, triangle.thirdVertex)")
+                }
+            }
+        }
     }
     
     

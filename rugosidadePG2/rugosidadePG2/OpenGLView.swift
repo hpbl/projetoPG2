@@ -21,7 +21,7 @@ class OpenGLView: NSOpenGLView {
     var pixelToDraw: Point = Point() {
         didSet {
             DispatchQueue.main.async {
-                self.setNeedsDisplay(self.frame)
+                self.displayIfNeeded()
             }
         }
     }
@@ -32,7 +32,10 @@ class OpenGLView: NSOpenGLView {
     override func keyDown(with event: NSEvent) {
         if event.keyCode == 8 {
             shouldDraw = !shouldDraw
-            self.parteGeral()
+            self.pixelToDraw = Point(x: 100, y: 100)
+            DispatchQueue.main.async {
+                self.parteGeral()
+            }
         }
     }
     
@@ -65,7 +68,7 @@ class OpenGLView: NSOpenGLView {
         
         //passando pontos do objeto para coordenadas de vista
         for point in self.objeto.rwPoints {
-            let viewPoint = alpha * (point - camera.position)
+            let viewPoint = alpha * (point - self.camera.position)
             objeto.viewPoints.append(viewPoint)
             //inicializando normais como zero
             objeto.pointsNormalsDict[viewPoint] = Point(x: 0, y: 0, z: 0)
@@ -73,6 +76,7 @@ class OpenGLView: NSOpenGLView {
         
         //calculando a normal dos triangulos e normalizando
         for triangle in self.objeto.triangles3D {
+            
             let triangleNormal = triangle.normal().normalized()
             
             //somar a normal à de cada um dos pontos
@@ -91,14 +95,18 @@ class OpenGLView: NSOpenGLView {
         //projetar pontos para coordenadas 2D
         for point in self.objeto.viewPoints {
             //gerando pontos 2D [-1, 1]
-            var screenPoint = Point(x: (camera.d/camera.hx) * (point.x/point.z!),
-                                    y: (camera.d/camera.hy) * (point.y)/point.z!)
+            var screenPoint = Point(x: (camera.d * point.x)/(camera.hx * point.z!),
+                                    y: (camera.d * point.y)/(camera.hy * point.z!))
             
             //parametrizando pontos em relação à janela e transformando em inteiro
             screenPoint.x = Double(Int((screenPoint.x + 1) * Double(self.frame.width) / 2))
             screenPoint.y = Double(Int((1 - screenPoint.y) * Double(self.frame.height) / 2))
             
             objeto.screenPoints.append(screenPoint)
+            
+            if screenPoint.x > Double(self.frame.width) || screenPoint.x < 0 || screenPoint.y > Double(self.frame.height) || screenPoint.y < 0 {
+                Swift.print("passou dos limites jovenzinho \(screenPoint)")
+            }
         }
         
         //Inicializar z-buffer com dimensoes [width][height] e +infinto em todas as posições
@@ -112,6 +120,7 @@ class OpenGLView: NSOpenGLView {
         
         //Conversão por varredura
         for triangle in self.objeto.triangles2D {
+            
             //scanLine
             let controlPoints = [triangle.firstVertex, triangle.secondVertex, triangle.thirdVertex]
             
@@ -121,6 +130,7 @@ class OpenGLView: NSOpenGLView {
             
             if (sortedPoints.filter{$0.y == sortedPoints[0].y}).count > 1 {
                 
+                Swift.print(sortedPoints.filter{$0.y == sortedPoints[0].y}.count)
                 //triangulo é flat-top
                 let maxYPoints = [sortedPoints[0], sortedPoints[1]]
                 
@@ -156,7 +166,9 @@ class OpenGLView: NSOpenGLView {
                                                            zBuffer: zBuffer)
                             zBuffer = phongReturn.1
                             let pixel = phongReturn.0
-                            self.pixelToDraw = pixel
+                            
+                            Swift.print("Pixel: \(pixel.x), \(pixel.y), \(pixel.z)")
+                            
                         }
                         currX = currX + 1
                     }
@@ -208,7 +220,8 @@ class OpenGLView: NSOpenGLView {
                                                            zBuffer: zBuffer)
                             zBuffer = phongReturn.1
                             let pixel = phongReturn.0
-                            self.pixelToDraw = pixel
+                            
+                            Swift.print("Pixel: \(pixel.x), \(pixel.y), \(pixel.z)")
                         }
                         currX = currX + 1
                     }
@@ -246,13 +259,13 @@ class OpenGLView: NSOpenGLView {
                 
                 //pegando a e b das equações
                 var lineEquation1 = flatBottomPart.edges?[PointTuple(pointA: minYPoints[0],
-                                                               pointB: sortedPointsFB[0])]
+                                                                     pointB: sortedPointsFB[0])]
                 
                 var a1 = lineEquation1?.0
                 
                 
                 var lineEquation2 = flatBottomPart.edges?[PointTuple(pointA: minYPoints[1],
-                                                               pointB: sortedPointsFB[0])]
+                                                                     pointB: sortedPointsFB[0])]
                 
                 var a2 = lineEquation2?.0
                 
@@ -274,7 +287,8 @@ class OpenGLView: NSOpenGLView {
                                                            zBuffer: zBuffer)
                             zBuffer = phongReturn.1
                             let pixel = phongReturn.0
-                            self.pixelToDraw = pixel
+                            
+                            Swift.print("Pixel: \(pixel.x), \(pixel.y), \(pixel.z)")
                         }
                         currX = currX + 1
                     }
@@ -299,14 +313,14 @@ class OpenGLView: NSOpenGLView {
                 
                 //pegando a e b das equações
                 lineEquation1 = flatTopPart.edges?[PointTuple(pointA: maxYPoints[0],
-                                                               pointB: sortedPointsFT[2])]
+                                                              pointB: sortedPointsFT[2])]
                 
                 a1 = lineEquation1?.0
                 //let b1 = lineEquation1?.1
                 
                 
                 lineEquation2 = flatTopPart.edges?[PointTuple(pointA: maxYPoints[1],
-                                                               pointB: sortedPointsFT[2])]
+                                                              pointB: sortedPointsFT[2])]
                 
                 a2 = lineEquation2?.0
                 
@@ -328,7 +342,8 @@ class OpenGLView: NSOpenGLView {
                                                            zBuffer: zBuffer)
                             zBuffer = phongReturn.1
                             let pixel = phongReturn.0
-                            self.pixelToDraw = pixel
+                            
+                            Swift.print("Pixel: \(pixel.x), \(pixel.y), \(pixel.z)")
                         }
                         currX = currX + 1
                     }
@@ -343,7 +358,7 @@ class OpenGLView: NSOpenGLView {
                         currentY = currentY - 1
                     }
                 }
-
+                
             }
         }
     }
