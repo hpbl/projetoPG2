@@ -21,9 +21,6 @@ class DrawingView: NSView {
     var pixelsToDraw: [NSRect] = []
     var pixelToDraw: Point? {
         didSet {
-            //mandando redesenhar a view
-            //🖌(self.pixelToDraw)
-            //self.pixelsToDraw.append(NSRect(x: self.pixelToDraw.x, y: self.pixelToDraw.y, width: 2, height: 2))
             self.shouldDraw = true
             self.pixelsToDraw.append(NSRect(x: (self.pixelToDraw?.x)!, y: (self.pixelToDraw?.y)!, width: 2, height: 2))
             
