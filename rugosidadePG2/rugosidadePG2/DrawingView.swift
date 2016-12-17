@@ -131,8 +131,9 @@ class DrawingView: NSView {
                                     y: (camera.d * point.y)/(camera.hy * point.z!))
             
             //parametrizando pontos em relação à janela e transformando em inteiro
-            screenPoint.x = Double(Int((screenPoint.x + 1) * Double(self.frame.width) / 2))
-            screenPoint.y = Double(Int((1 - screenPoint.y) * Double(self.frame.height) / 2))
+            screenPoint.x = Double(Int((screenPoint.x + 1)/2 * Double(self.frame.width)))
+            //invertendo a formula pra se adpater a uma tela de orientacao invertida
+            screenPoint.y = Double(Int((1 + screenPoint.y)/2 * Double(self.frame.height)))
             
             objeto.screenPoints.append(screenPoint)
             
