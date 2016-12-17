@@ -9,33 +9,48 @@
 import Foundation
 import AppKit
 import Cocoa
-import OpenGL
-import GLKit
-import GLUT
+import CoreGraphics
 
-class OpenGLView: NSOpenGLView {
+class DrawingView: NSView {
+    var backgroundQueue : DispatchQueue?
     let camera = Camera(named: "calice2")
     let objeto = Object(named: "calice2")
     let iluminacao = Illumination(named: "iluminacao")
     var shouldDraw: Bool = false
-    var pixelToDraw: Point = Point() {
+    var pixelsToDraw: [NSRect] = [] {
         didSet {
-            DispatchQueue.main.async {
-                self.displayIfNeeded()
-            }
+            //if self.pixelsToDraw.count == 10 {
+
+            //}
+        }
+    }
+    var pixelToDraw: Point = Point(x: 10, y: 10) {
+        didSet {
+            //mandando redesenhar a view
+            //🖌(self.pixelToDraw)
+            //self.pixelsToDraw.append(NSRect(x: self.pixelToDraw.x, y: self.pixelToDraw.y, width: 2, height: 2))
+            self.shouldDraw = true
+            self.pixelsToDraw.append(NSRect(x: self.pixelToDraw.x, y: self.pixelToDraw.y, width: 2, height: 2))
+            self.setNeedsDisplay(NSRect(x: self.pixelToDraw.x, y: self.pixelToDraw.y, width: 2, height: 2))
         }
     }
     
     override var acceptsFirstResponder: Bool { return true }
-    override func viewDidMoveToWindow() {}
+    override func viewDidMoveToWindow() {
+        backgroundQueue = DispatchQueue(label: "com.app.queue",
+                                            qos: .background,
+                                            target: nil)
+        
+    }
     
     override func keyDown(with event: NSEvent) {
+        
         if event.keyCode == 8 {
             shouldDraw = !shouldDraw
-            self.pixelToDraw = Point(x: 100, y: 100)
-            DispatchQueue.main.async {
+            backgroundQueue?.async {
                 self.parteGeral()
             }
+            
         }
     }
     
@@ -44,17 +59,26 @@ class OpenGLView: NSOpenGLView {
         
         // Drawing code here.
         
-        //Background
-        glClearColor(40/255, 43/255, 53/255, 1)
-        glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
+        //NSColor.black.setFill()
+        //NSRectFill(self.bounds)
         
-        //draw points routine
-        if shouldDraw{
-            🖌(self.pixelToDraw)
+        //if shouldDraw{
+        if shouldDraw {
+            NSColor.red.set()
+            //NSRectFill(NSRect(x: self.pixelToDraw.x, y: self.pixelToDraw.y, width: 2, height: 2))
+            NSRectFillList(self.pixelsToDraw, self.pixelsToDraw.count)
+        } else {
+            NSColor.black.set()
+            NSRectFill(NSRect(x: 20, y: 20, width: 2, height: 2))
+            NSRectFill(NSRect(x: 24, y: 24, width: 2, height: 2))
+            NSRectFill(NSRect(x: 28, y: 28, width: 2, height: 2))
         }
         
-        //forcando execucao dos comandos OpenGL
-        glFlush()
+        //Swift.print("Executou")
+
+        //teste
+        //shouldDraw = !shouldDraw
+        //self.pixelToDraw = Point(x: 100, y: 100)
     }
     
     //MARK: - Algoritmo de execução
@@ -120,7 +144,7 @@ class OpenGLView: NSOpenGLView {
         
         //Conversão por varredura
         for triangle in self.objeto.triangles2D {
-            
+            //let triangle = self.objeto.triangles2D[0]
             //scanLine
             let controlPoints = [triangle.firstVertex, triangle.secondVertex, triangle.thirdVertex]
             
@@ -130,7 +154,6 @@ class OpenGLView: NSOpenGLView {
             
             if (sortedPoints.filter{$0.y == sortedPoints[0].y}).count > 1 {
                 
-                Swift.print(sortedPoints.filter{$0.y == sortedPoints[0].y}.count)
                 //triangulo é flat-top
                 let maxYPoints = [sortedPoints[0], sortedPoints[1]]
                 
@@ -167,8 +190,12 @@ class OpenGLView: NSOpenGLView {
                             zBuffer = phongReturn.1
                             let pixel = phongReturn.0
                             
-                            Swift.print("Pixel: \(pixel.x), \(pixel.y), \(pixel.z)")
-                            
+                            //TODO: Aqui
+                            //executeAfter(delay: 2) {
+                            DispatchQueue.main.sync {
+                                self.pixelToDraw = pixel
+                            }
+                            //}
                         }
                         currX = currX + 1
                     }
@@ -221,7 +248,14 @@ class OpenGLView: NSOpenGLView {
                             zBuffer = phongReturn.1
                             let pixel = phongReturn.0
                             
-                            Swift.print("Pixel: \(pixel.x), \(pixel.y), \(pixel.z)")
+                            //TODO: Aqui
+                            //executeAfter(delay: 2) {
+                            DispatchQueue.main.sync {
+                                self.pixelToDraw = pixel
+                            }
+
+                            //}
+
                         }
                         currX = currX + 1
                     }
@@ -288,7 +322,13 @@ class OpenGLView: NSOpenGLView {
                             zBuffer = phongReturn.1
                             let pixel = phongReturn.0
                             
-                            Swift.print("Pixel: \(pixel.x), \(pixel.y), \(pixel.z)")
+                            //TODO: Aqui
+                            //executeAfter(delay: 2) {
+                            DispatchQueue.main.sync {
+                                self.pixelToDraw = pixel
+                            }
+                            //}
+
                         }
                         currX = currX + 1
                     }
@@ -343,7 +383,13 @@ class OpenGLView: NSOpenGLView {
                             zBuffer = phongReturn.1
                             let pixel = phongReturn.0
                             
-                            Swift.print("Pixel: \(pixel.x), \(pixel.y), \(pixel.z)")
+                            //TODO: Aqui
+                            //executeAfter(delay: 2) {
+                            DispatchQueue.main.sync {
+                                self.pixelToDraw = pixel
+                            }
+                            //}
+
                         }
                         currX = currX + 1
                     }
@@ -361,24 +407,6 @@ class OpenGLView: NSOpenGLView {
                 
             }
         }
-    }
-    
-    
-    //MARK: - OpenGL methods
-    func 🖌(_ pixel: Point) {
-        
-        let r = Float(pixel.color!.0 / 255)
-        let g = Float(pixel.color!.1 / 255)
-        let b = Float(pixel.color!.2 / 255)
-        
-        glPointSize(2.0)
-        glColor3f(r, g, b)
-        glBegin(GLenum(GL_POINTS))
-        
-        glVertex2i(Int32(pixel.x), Int32(pixel.y))
-        
-        
-        glEnd()
     }
     
 }

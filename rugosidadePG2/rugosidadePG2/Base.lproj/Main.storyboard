@@ -683,18 +683,18 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="rugosidadePG2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <openGLView useAuxiliaryDepthBufferStencil="NO" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CaS-ay-1LM" customClass="OpenGLView" customModule="rugosidadePG2" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
-                            </openGLView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="5G1-vW-iXU" customClass="DrawingView" customModule="rugosidadePG2" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                            </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="CaS-ay-1LM" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="8OA-qW-eCM"/>
-                            <constraint firstItem="CaS-ay-1LM" firstAttribute="centerY" secondItem="m2S-Jp-Qdl" secondAttribute="centerY" id="adb-pB-lAU"/>
-                            <constraint firstItem="CaS-ay-1LM" firstAttribute="width" secondItem="m2S-Jp-Qdl" secondAttribute="width" id="hnr-gf-7Qy"/>
-                            <constraint firstItem="CaS-ay-1LM" firstAttribute="height" secondItem="m2S-Jp-Qdl" secondAttribute="height" id="odd-Oi-tDa"/>
+                            <constraint firstItem="5G1-vW-iXU" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="2pa-po-fsD"/>
+                            <constraint firstItem="5G1-vW-iXU" firstAttribute="centerY" secondItem="m2S-Jp-Qdl" secondAttribute="centerY" id="ONd-xx-VgE"/>
+                            <constraint firstItem="5G1-vW-iXU" firstAttribute="height" secondItem="m2S-Jp-Qdl" secondAttribute="height" id="Wce-0h-cBI"/>
+                            <constraint firstItem="5G1-vW-iXU" firstAttribute="width" secondItem="m2S-Jp-Qdl" secondAttribute="width" id="s4D-xW-lNh"/>
                         </constraints>
                     </view>
                 </viewController>
