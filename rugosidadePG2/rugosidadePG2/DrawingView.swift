@@ -13,8 +13,8 @@ import CoreGraphics
 
 class DrawingView: NSView {
     var backgroundQueue : DispatchQueue?
-    let camera = Camera(named: "vader")
-    let objeto = Object(named: "vader")
+    let camera = Camera(named: "calice2")
+    let objeto = Object(named: "calice2")
     let iluminacao = Illumination(named: "iluminacao")
     var shouldDraw: Bool = false
     var pixelColors: [NSColor] = []
