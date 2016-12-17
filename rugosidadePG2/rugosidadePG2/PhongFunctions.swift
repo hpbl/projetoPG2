@@ -69,8 +69,14 @@ func getSpecularComponent(illumination: Illumination, R: Point, V: Point) -> Poi
 }
 
 func phongRoutine(triangle: Triangle, objeto: Object, iluminacao: Illumination, pixel: Point, zBuffer: [[Double]]) -> (Point, [[Double]]) {
+
+    //ignorando pixels fora da tela
+    if pixel.x > Double(zBuffer.count) || pixel.y > Double(zBuffer[0].count) {
+        return (pixel, zBuffer)
+    }
     var zBufferLocal = zBuffer
     var pixelLocal = pixel
+    
     
     //pegando triangulo 3D correspondente ao 2D
     let triangleIndex = objeto.triangles2D.index(of: triangle)
@@ -83,8 +89,8 @@ func phongRoutine(triangle: Triangle, objeto: Object, iluminacao: Illumination, 
         let pixel3D = pixel.approx3DCoordinates(alfaBetaGama: barycentricCoord, triangle3D: triangle3D)
         
         // Consulta ao z-buffer:
-        if pixel3D.z! < zBufferLocal[Int(pixel.x)][Int(pixel.y)] {//TODO: (nao esquecer de tambem checar os limites do array z-buffer)
-            zBufferLocal[Int(pixel.x)][Int(pixel.y)] = pixel3D.z!
+        if pixel3D.z! < zBufferLocal[Int(pixel.x)-1][Int(pixel.y)-1] {//TODO: (nao esquecer de tambem checar os limites do array z-buffer)
+            zBufferLocal[Int(pixel.x)-1][Int(pixel.y)-1] = pixel3D.z!
             
             // Calcular uma aproximacao para a normal do ponto P'
             var N3D = pixel3D.normalized()

@@ -13,10 +13,12 @@ class Object {
     var viewPoints = [Point]()
     var screenPoints = [Point]()
     var pointsNormalsDict = [Point: Point]()
-    var triangles3D: [Triangle] { return self.getTriangles(from: self.trianglesVerticesList!,
-                                                           of: self.viewPoints)}
-    var triangles2D: [Triangle] { return self.getTriangles(from: self.trianglesVerticesList!,
-                                                           of: self.screenPoints)}
+    lazy var triangles2D: [Triangle] = {
+        return self.getTriangles(from: self.trianglesVerticesList!, of: self.screenPoints)
+    }()
+    lazy var triangles3D: [Triangle] = {
+        return self.getTriangles(from: self.trianglesVerticesList!, of: self.viewPoints)
+    }()
 
 
     private var trianglesVerticesList: [String]?
@@ -31,17 +33,6 @@ class Object {
         
         self.rwPoints = Object.getPoints(from: Array(objectStrings![1...numberOfPoints]))
         self.trianglesVerticesList = Array(objectStrings![numberOfPoints+1..<(objectStrings!.count)])
-        
-        let teste = self.getTriangles(from: self.trianglesVerticesList!, of: self.rwPoints)
-        
-        //TODO: delete test code
-        for triangle in teste {
-            if triangle.thirdVertex.x == triangle.secondVertex.x {
-                if triangle.thirdVertex.x == triangle.firstVertex.x {
-                    print("é o ponto \(triangle.firstVertex, triangle.secondVertex, triangle.thirdVertex)")
-                }
-            }
-        }
     }
     
     

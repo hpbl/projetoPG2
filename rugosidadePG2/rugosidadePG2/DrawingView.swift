@@ -20,7 +20,7 @@ class DrawingView: NSView {
     var pixelsToDraw: [NSRect] = [] {
         didSet {
             //if self.pixelsToDraw.count == 10 {
-
+            
             //}
         }
     }
@@ -29,6 +29,7 @@ class DrawingView: NSView {
             //mandando redesenhar a view
             //🖌(self.pixelToDraw)
             //self.pixelsToDraw.append(NSRect(x: self.pixelToDraw.x, y: self.pixelToDraw.y, width: 2, height: 2))
+            Swift.print("\(pixelToDraw.x), \(pixelToDraw.y)")
             self.shouldDraw = true
             self.pixelsToDraw.append(NSRect(x: self.pixelToDraw.x, y: self.pixelToDraw.y, width: 2, height: 2))
             self.setNeedsDisplay(NSRect(x: self.pixelToDraw.x, y: self.pixelToDraw.y, width: 2, height: 2))
@@ -37,9 +38,7 @@ class DrawingView: NSView {
     
     override var acceptsFirstResponder: Bool { return true }
     override func viewDidMoveToWindow() {
-        backgroundQueue = DispatchQueue(label: "com.app.queue",
-                                            qos: .background,
-                                            target: nil)
+        backgroundQueue = DispatchQueue(label: "com.app.backqueue")
         
     }
     
@@ -75,7 +74,7 @@ class DrawingView: NSView {
         }
         
         //Swift.print("Executou")
-
+        
         //teste
         //shouldDraw = !shouldDraw
         //self.pixelToDraw = Point(x: 100, y: 100)
@@ -128,9 +127,7 @@ class DrawingView: NSView {
             
             objeto.screenPoints.append(screenPoint)
             
-            if screenPoint.x > Double(self.frame.width) || screenPoint.x < 0 || screenPoint.y > Double(self.frame.height) || screenPoint.y < 0 {
-                Swift.print("passou dos limites jovenzinho \(screenPoint)")
-            }
+            
         }
         
         //Inicializar z-buffer com dimensoes [width][height] e +infinto em todas as posições
@@ -144,7 +141,10 @@ class DrawingView: NSView {
         
         //Conversão por varredura
         for triangle in self.objeto.triangles2D {
-            //let triangle = self.objeto.triangles2D[0]
+            
+            if triangle.firstVertex.y == triangle.secondVertex.y && triangle.firstVertex.y == triangle.thirdVertex.y {
+                Swift.print("linha reta")
+            }
             //scanLine
             let controlPoints = [triangle.firstVertex, triangle.secondVertex, triangle.thirdVertex]
             
@@ -157,57 +157,101 @@ class DrawingView: NSView {
                 //triangulo é flat-top
                 let maxYPoints = [sortedPoints[0], sortedPoints[1]]
                 
-                //pegando a e b das equações
-                let lineEquation1 = triangle.edges?[PointTuple(pointA: maxYPoints[0],
-                                                               pointB: sortedPoints[2])]
-                
-                let a1 = lineEquation1?.0
-                //let b1 = lineEquation1?.1
-                
-                
-                let lineEquation2 = triangle.edges?[PointTuple(pointA: maxYPoints[1],
-                                                               pointB: sortedPoints[2])]
-                
-                let a2 = lineEquation2?.0
-                
-                //tratando o flat-top
-                var Xmin = maxYPoints[0].x
-                var Xmax = maxYPoints[1].x
-                var currentY = maxYPoints[0].y
-                let Ymin = sortedPoints[2].y
-                
-                
-                while currentY >= Ymin {
-                    var currX = Xmin
-                    while currX <= Xmax {
-                        
-                        if currX >= 0 && currentY >= 0 {
-                            let phongReturn = phongRoutine(triangle: triangle,
-                                                           objeto: objeto,
-                                                           iluminacao: iluminacao,
-                                                           pixel: Point(x: round(currX), y: round(currentY)),
-                                                           zBuffer: zBuffer)
-                            zBuffer = phongReturn.1
-                            let pixel = phongReturn.0
-                            
-                            //TODO: Aqui
-                            //executeAfter(delay: 2) {
-                            DispatchQueue.main.sync {
-                                self.pixelToDraw = pixel
-                            }
-                            //}
-                        }
-                        currX = currX + 1
+                if maxYPoints[0] == maxYPoints[1] || isLine(triangle) {
+                    //é uma linha
+                    
+                    let lineEquation = triangle.edges?[PointTuple(pointA: maxYPoints[0],
+                                                                     pointB: sortedPoints[2])]
+                    var a1: Double?
+                    if lineEquation?.0 == 0 {
+                        a1 = Double.infinity
+                    } else {
+                        a1 = lineEquation?.0
                     }
                     
-                    //decrementando o currentY
-                    Xmin = Xmin - 1/a1!
-                    Xmax = Xmax - 1/a2!
+                    var currentY = maxYPoints[0].y
+                    var currentX = maxYPoints[0].x
                     
-                    if Xmin == Xmax {
-                        currentY = Ymin
+                    let minY = sortedPoints[2].y
+                    let maxX = sortedPoints[2].x
+                    
+                    if currentY == minY {
+                        while currentX <= maxX {
+                            //TODO: Aqui
+                            DispatchQueue.main.async {
+                                self.pixelToDraw = Point(x: currentX, y: currentY)
+                            }
+                            currentX = currentX + 1
+                        }
                     } else {
+                    
+                    while currentY <= minY {
+                        //TODO: Aqui
+                        DispatchQueue.main.async {
+                            self.pixelToDraw = Point(x: currentX, y: currentY)
+                            
+                        }
+                        currentX = currentX - 1/a1!
                         currentY = currentY - 1
+                        }
+                    }
+                    
+                    
+                } else {
+                    
+                    //pegando a e b das equações
+                    let lineEquation1 = triangle.edges?[PointTuple(pointA: maxYPoints[0],
+                                                                   pointB: sortedPoints[2])]
+                    
+                    let a1 = lineEquation1?.0
+                    //let b1 = lineEquation1?.1
+                    
+                    
+                    let lineEquation2 = triangle.edges?[PointTuple(pointA: maxYPoints[1],
+                                                                   pointB: sortedPoints[2])]
+                    
+                    let a2 = lineEquation2?.0
+                    
+                    //tratando o flat-top
+                    var Xmin = maxYPoints[0].x
+                    var Xmax = maxYPoints[1].x
+                    var currentY = maxYPoints[0].y
+                    let Ymin = sortedPoints[2].y
+                    
+                    
+                    while currentY >= Ymin {
+                        var currX = Xmin
+                        while currX <= Xmax {
+                            
+                            if currX >= 0 && currentY >= 0 {
+                                let phongReturn = phongRoutine(triangle: triangle,
+                                                               objeto: objeto,
+                                                               iluminacao: iluminacao,
+                                                               pixel: Point(x: floor(currX), y: floor(currentY)),
+                                                               zBuffer: zBuffer)
+                                zBuffer = phongReturn.1
+                                let pixel = phongReturn.0
+                                
+                                //TODO: Aqui
+                                //executeAfter(delay: 2) {
+                                DispatchQueue.main.async {
+                                    self.pixelToDraw = pixel
+                                }
+                                //}
+                            }
+                            currX = currX + 1
+                            
+                        }
+                        
+                        //decrementando o currentY
+                        Xmin = Xmin - 1/a1!
+                        Xmax = Xmax - 1/a2!
+                        
+                        if Xmin == Xmax {
+                            currentY = Ymin
+                        } else {
+                            currentY = currentY - 1
+                        }
                     }
                 }
                 
@@ -243,19 +287,19 @@ class DrawingView: NSView {
                             let phongReturn = phongRoutine(triangle: triangle,
                                                            objeto: objeto,
                                                            iluminacao: iluminacao,
-                                                           pixel: Point(x: round(currX), y: round(currentY)),
+                                                           pixel: Point(x: floor(currX), y: floor(currentY)),
                                                            zBuffer: zBuffer)
                             zBuffer = phongReturn.1
                             let pixel = phongReturn.0
                             
                             //TODO: Aqui
                             //executeAfter(delay: 2) {
-                            DispatchQueue.main.sync {
+                            DispatchQueue.main.async {
                                 self.pixelToDraw = pixel
                             }
-
+                            
                             //}
-
+                            
                         }
                         currX = currX + 1
                     }
@@ -317,18 +361,18 @@ class DrawingView: NSView {
                             let phongReturn = phongRoutine(triangle: triangle,
                                                            objeto: objeto,
                                                            iluminacao: iluminacao,
-                                                           pixel: Point(x: round(currX), y: round(currentY)),
+                                                           pixel: Point(x: floor(currX), y: floor(currentY)),
                                                            zBuffer: zBuffer)
                             zBuffer = phongReturn.1
                             let pixel = phongReturn.0
                             
                             //TODO: Aqui
                             //executeAfter(delay: 2) {
-                            DispatchQueue.main.sync {
+                            DispatchQueue.main.async {
                                 self.pixelToDraw = pixel
                             }
                             //}
-
+                            
                         }
                         currX = currX + 1
                     }
@@ -348,60 +392,103 @@ class DrawingView: NSView {
                     return (pointA.y == pointB.y) ? (pointA.x < pointB.x) : (pointA.y > pointB.y)
                 }
                 
+                
                 //triangulo é flat-top
                 let maxYPoints = [sortedPointsFT[0], sortedPointsFT[1]]
                 
-                //pegando a e b das equações
-                lineEquation1 = flatTopPart.edges?[PointTuple(pointA: maxYPoints[0],
-                                                              pointB: sortedPointsFT[2])]
-                
-                a1 = lineEquation1?.0
-                //let b1 = lineEquation1?.1
-                
-                
-                lineEquation2 = flatTopPart.edges?[PointTuple(pointA: maxYPoints[1],
-                                                              pointB: sortedPointsFT[2])]
-                
-                a2 = lineEquation2?.0
-                
-                //tratando o flat-top
-                Xmin = maxYPoints[0].x
-                Xmax = maxYPoints[1].x
-                currentY = maxYPoints[0].y
-                Ymin = sortedPointsFT[2].y
-                
-                
-                while currentY >= Ymin {
-                    var currX = Xmin
-                    while currX <= Xmax {
-                        if currX >= 0 && currentY >= 0 {
-                            let phongReturn = phongRoutine(triangle: triangle,
-                                                           objeto: objeto,
-                                                           iluminacao: iluminacao,
-                                                           pixel: Point(x: round(currX), y: round(currentY)),
-                                                           zBuffer: zBuffer)
-                            zBuffer = phongReturn.1
-                            let pixel = phongReturn.0
-                            
-                            //TODO: Aqui
-                            //executeAfter(delay: 2) {
-                            DispatchQueue.main.sync {
-                                self.pixelToDraw = pixel
-                            }
-                            //}
-
-                        }
-                        currX = currX + 1
+                if maxYPoints[0] == maxYPoints[1] || isLine(flatTopPart) {
+                    //é uma linha
+                    let lineEquation = flatTopPart.edges?[PointTuple(pointA: maxYPoints[0],
+                                                                     pointB: sortedPointsFT[2])]
+                    var a1: Double?
+                    if lineEquation?.0 == 0 {
+                        a1 = Double.infinity
+                    } else {
+                        a1 = lineEquation?.0
                     }
                     
-                    //decrementando o currentY
-                    Xmin = Xmin - 1/a1!
-                    Xmax = Xmax - 1/a2!
+                    currentY = maxYPoints[0].y
+                    var currentX = maxYPoints[0].x
                     
-                    if Xmin == Xmax {
-                        currentY = Ymin
+                    let minY = sortedPointsFT[2].y
+                    let maxX = sortedPoints[2].x
+
+                    
+                    if currentY == minY {
+                        while currentX <= maxX {
+                            //TODO: Aqui
+                            DispatchQueue.main.async {
+                                self.pixelToDraw = Point(x: currentX, y: currentY)
+                            }
+                            currentX = currentX + 1
+                        }
                     } else {
-                        currentY = currentY - 1
+                        
+                        while currentY <= minY {
+                            //TODO: Aqui
+                            DispatchQueue.main.async {
+                                self.pixelToDraw = Point(x: currentX, y: currentY)
+                                
+                            }
+                            currentX = currentX - 1/a1!
+                            currentY = currentY - 1
+                        }
+                    }
+                    
+                } else {
+                    
+                    //pegando a e b das equações
+                    lineEquation1 = flatTopPart.edges?[PointTuple(pointA: maxYPoints[0],
+                                                                  pointB: sortedPointsFT[2])]
+                    
+                    a1 = lineEquation1?.0
+                    //let b1 = lineEquation1?.1
+                    
+                    
+                    lineEquation2 = flatTopPart.edges?[PointTuple(pointA: maxYPoints[1],
+                                                                  pointB: sortedPointsFT[2])]
+                    
+                    a2 = lineEquation2?.0
+                    
+                    //tratando o flat-top
+                    Xmin = maxYPoints[0].x
+                    Xmax = maxYPoints[1].x
+                    currentY = maxYPoints[0].y
+                    Ymin = sortedPointsFT[2].y
+                    
+                    
+                    while currentY >= Ymin {
+                        var currX = Xmin
+                        while currX <= Xmax {
+                            if currX >= 0 && currentY >= 0 {
+                                let phongReturn = phongRoutine(triangle: triangle,
+                                                               objeto: objeto,
+                                                               iluminacao: iluminacao,
+                                                               pixel: Point(x: floor(currX), y: floor(currentY)),
+                                                               zBuffer: zBuffer)
+                                zBuffer = phongReturn.1
+                                let pixel = phongReturn.0
+                                
+                                //TODO: Aqui
+                                //executeAfter(delay: 2) {
+                                DispatchQueue.main.async {
+                                    self.pixelToDraw = pixel
+                                }
+                                //}
+                                
+                            }
+                            currX = currX + 1
+                        }
+                        
+                        //decrementando o currentY
+                        Xmin = Xmin - 1/a1!
+                        Xmax = Xmax - 1/a2!
+                        
+                        if Xmin == Xmax {
+                            currentY = Ymin
+                        } else {
+                            currentY = currentY - 1
+                        }
                     }
                 }
                 
