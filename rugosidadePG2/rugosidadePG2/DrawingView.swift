@@ -17,22 +17,29 @@ class DrawingView: NSView {
     let objeto = Object(named: "calice2")
     let iluminacao = Illumination(named: "iluminacao")
     var shouldDraw: Bool = false
-    var pixelsToDraw: [NSRect] = [] {
-        didSet {
-            //if self.pixelsToDraw.count == 10 {
-            
-            //}
-        }
-    }
-    var pixelToDraw: Point = Point(x: 10, y: 10) {
+    var pixelColors: [NSColor] = []
+    var pixelsToDraw: [NSRect] = []
+    var pixelToDraw: Point? {
         didSet {
             //mandando redesenhar a view
             //🖌(self.pixelToDraw)
             //self.pixelsToDraw.append(NSRect(x: self.pixelToDraw.x, y: self.pixelToDraw.y, width: 2, height: 2))
-            Swift.print("\(pixelToDraw.x), \(pixelToDraw.y)")
             self.shouldDraw = true
-            self.pixelsToDraw.append(NSRect(x: self.pixelToDraw.x, y: self.pixelToDraw.y, width: 2, height: 2))
-            self.setNeedsDisplay(NSRect(x: self.pixelToDraw.x, y: self.pixelToDraw.y, width: 2, height: 2))
+            self.pixelsToDraw.append(NSRect(x: (self.pixelToDraw?.x)!, y: (self.pixelToDraw?.y)!, width: 2, height: 2))
+            
+            if pixelToDraw?.color != nil {
+                self.pixelColors.append(NSColor(calibratedRed: CGFloat((self.pixelToDraw?.color!.0)!),
+                                                green: CGFloat((self.pixelToDraw?.color!.1)!),
+                                                blue: CGFloat((self.pixelToDraw?.color!.2)!),
+                                                alpha: 1))
+            } else {
+                self.pixelColors.append(NSColor.black)
+                //Swift.print("NAAAAO0000000")
+            }
+            
+            self.setNeedsDisplay(NSRect(x: (self.pixelToDraw?.x)!,
+                                        y: (self.pixelToDraw?.y)!,
+                                        width: 2, height: 2))
         }
     }
     
@@ -63,9 +70,10 @@ class DrawingView: NSView {
         
         //if shouldDraw{
         if shouldDraw {
+            
             NSColor.red.set()
-            //NSRectFill(NSRect(x: self.pixelToDraw.x, y: self.pixelToDraw.y, width: 2, height: 2))
-            NSRectFillList(self.pixelsToDraw, self.pixelsToDraw.count)
+            NSRectFillListWithColors(self.pixelsToDraw, self.pixelColors, self.pixelsToDraw.count)
+            //NSRectFillList(self.pixelsToDraw, self.pixelsToDraw.count)
         } else {
             NSColor.black.set()
             NSRectFill(NSRect(x: 20, y: 20, width: 2, height: 2))
@@ -177,19 +185,36 @@ class DrawingView: NSView {
                     
                     if currentY == minY {
                         while currentX <= maxX {
-                            //TODO: Aqui
+                            //TODO: Aqui linha
+                            let phongReturn = phongRoutine(triangle: triangle,
+                                                           objeto: objeto,
+                                                           iluminacao: iluminacao,
+                                                           pixel: Point(x: floor(currentX),
+                                                                        y: floor(currentY)),
+                                                           zBuffer: zBuffer)
+                            zBuffer = phongReturn.1
+                            let pixel = phongReturn.0
+                            
                             DispatchQueue.main.async {
-                                self.pixelToDraw = Point(x: currentX, y: currentY)
+                                self.pixelToDraw = pixel
                             }
                             currentX = currentX + 1
                         }
                     } else {
                     
                     while currentY <= minY {
-                        //TODO: Aqui
+                        //TODO: Aqui linha
+                        let phongReturn = phongRoutine(triangle: triangle,
+                                                       objeto: objeto,
+                                                       iluminacao: iluminacao,
+                                                       pixel: Point(x: floor(currentX),
+                                                                    y: floor(currentY)),
+                                                       zBuffer: zBuffer)
+                        zBuffer = phongReturn.1
+                        let pixel = phongReturn.0
+                        
                         DispatchQueue.main.async {
-                            self.pixelToDraw = Point(x: currentX, y: currentY)
-                            
+                            self.pixelToDraw = pixel
                         }
                         currentX = currentX - 1/a1!
                         currentY = currentY - 1
@@ -416,19 +441,36 @@ class DrawingView: NSView {
                     
                     if currentY == minY {
                         while currentX <= maxX {
-                            //TODO: Aqui
+                            //TODO: Aqui linha
+                            let phongReturn = phongRoutine(triangle: triangle,
+                                                           objeto: objeto,
+                                                           iluminacao: iluminacao,
+                                                           pixel: Point(x: floor(currentX),
+                                                                        y: floor(currentY)),
+                                                           zBuffer: zBuffer)
+                            zBuffer = phongReturn.1
+                            let pixel = phongReturn.0
+                            
                             DispatchQueue.main.async {
-                                self.pixelToDraw = Point(x: currentX, y: currentY)
+                                self.pixelToDraw = pixel
                             }
                             currentX = currentX + 1
                         }
                     } else {
                         
                         while currentY <= minY {
-                            //TODO: Aqui
+                            //TODO: Aqui linha
+                            let phongReturn = phongRoutine(triangle: triangle,
+                                                           objeto: objeto,
+                                                           iluminacao: iluminacao,
+                                                           pixel: Point(x: floor(currentX),
+                                                                        y: floor(currentY)),
+                                                           zBuffer: zBuffer)
+                            zBuffer = phongReturn.1
+                            let pixel = phongReturn.0
+                            
                             DispatchQueue.main.async {
-                                self.pixelToDraw = Point(x: currentX, y: currentY)
-                                
+                                self.pixelToDraw = pixel
                             }
                             currentX = currentX - 1/a1!
                             currentY = currentY - 1
