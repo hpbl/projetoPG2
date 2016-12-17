@@ -150,7 +150,12 @@ func phongRoutine(triangle: Triangle, objeto: Object, iluminacao: Illumination, 
             }
             //TODO: pintar pixel com cor (I) correspondente
             pixelLocal.color = verifyRGB(I: I)
-        }
+        } else {
+            
+            
+            
+            
+    }
     return (pixelLocal, zBufferLocal)
 }
 

@@ -21,23 +21,20 @@ class DrawingView: NSView {
     var pixelsToDraw: [NSRect] = []
     var pixelToDraw: Point? {
         didSet {
-            self.shouldDraw = true
-            self.pixelsToDraw.append(NSRect(x: (self.pixelToDraw?.x)!, y: (self.pixelToDraw?.y)!, width: 2, height: 2))
-            
             if pixelToDraw?.color != nil {
+                self.shouldDraw = true
+                self.pixelsToDraw.append(NSRect(x: (self.pixelToDraw?.x)!, y: (self.pixelToDraw?.y)!, width: 1, height: 1))
+                
                 self.pixelColors.append(NSColor(red: CGFloat((self.pixelToDraw?.color!.0)!)/255,
                                                 green: CGFloat((self.pixelToDraw?.color!.1)!)/255,
                                                 blue: CGFloat((self.pixelToDraw?.color!.2)!)/255,
                                                 alpha: 1))
-
-            } else {
-                self.pixelColors.append(NSColor.black)
-                //Swift.print("NAAAAO0000000")
+                
+                self.setNeedsDisplay(NSRect(x: (self.pixelToDraw?.x)!,
+                                            y: (self.pixelToDraw?.y)!,
+                                            width: 1, height: 1))
             }
-            
-            self.setNeedsDisplay(NSRect(x: (self.pixelToDraw?.x)!,
-                                        y: (self.pixelToDraw?.y)!,
-                                        width: 2, height: 2))
+
         }
     }
     
@@ -62,28 +59,12 @@ class DrawingView: NSView {
         super.draw(dirtyRect)
         
         // Drawing code here.
-        
-        //NSColor.black.setFill()
-        //NSRectFill(self.bounds)
-        
-        //if shouldDraw{
         if shouldDraw {
             
             NSColor.red.set()
             NSRectFillListWithColors(self.pixelsToDraw, self.pixelColors, self.pixelsToDraw.count)
             //NSRectFillList(self.pixelsToDraw, self.pixelsToDraw.count)
-        } else {
-            NSColor.black.set()
-            NSRectFill(NSRect(x: 20, y: 20, width: 2, height: 2))
-            NSRectFill(NSRect(x: 24, y: 24, width: 2, height: 2))
-            NSRectFill(NSRect(x: 28, y: 28, width: 2, height: 2))
         }
-        
-        //Swift.print("Executou")
-        
-        //teste
-        //shouldDraw = !shouldDraw
-        //self.pixelToDraw = Point(x: 100, y: 100)
     }
     
     //MARK: - Algoritmo de execução

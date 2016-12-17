@@ -37,6 +37,8 @@
 		71F22F051E05C4CE00EB446C /* yoda.byu in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4EC1DFA3F2B00109E4B /* yoda.byu */; };
 		71F22F061E05C4D800EB446C /* vader.byu in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4EA1DFA3F2B00109E4B /* vader.byu */; };
 		71F22F071E05C4E000EB446C /* vader.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4CE1DFA3F2B00109E4B /* vader.cfg */; };
+		71F22F0A1E05DFC300EB446C /* moto.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4C71DFA3F2B00109E4B /* moto.cfg */; };
+		71F22F0B1E05DFC800EB446C /* moto.byu in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4E31DFA3F2B00109E4B /* moto.byu */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -324,6 +326,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71F22F0B1E05DFC800EB446C /* moto.byu in Resources */,
+				71F22F0A1E05DFC300EB446C /* moto.cfg in Resources */,
 				71F22F071E05C4E000EB446C /* vader.cfg in Resources */,
 				71F22F061E05C4D800EB446C /* vader.byu in Resources */,
 				71F22F051E05C4CE00EB446C /* yoda.byu in Resources */,
