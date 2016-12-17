@@ -31,6 +31,12 @@
 		71EDD4FD1DFA532C00109E4B /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD4FC1DFA532C00109E4B /* Point.swift */; };
 		71EDD4FF1DFACDF800109E4B /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD4FE1DFACDF800109E4B /* Camera.swift */; };
 		71EDD5041DFADCDB00109E4B /* Illumination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EDD5031DFADCDB00109E4B /* Illumination.swift */; };
+		71F22F021E05C4B400EB446C /* CAT.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4C11DFA3F2B00109E4B /* CAT.cfg */; };
+		71F22F031E05C4BF00EB446C /* yoda.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4D21DFA3F2B00109E4B /* yoda.cfg */; };
+		71F22F041E05C4C400EB446C /* CAT.byu in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4DC1DFA3F2B00109E4B /* CAT.byu */; };
+		71F22F051E05C4CE00EB446C /* yoda.byu in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4EC1DFA3F2B00109E4B /* yoda.byu */; };
+		71F22F061E05C4D800EB446C /* vader.byu in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4EA1DFA3F2B00109E4B /* vader.byu */; };
+		71F22F071E05C4E000EB446C /* vader.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4CE1DFA3F2B00109E4B /* vader.cfg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -318,6 +324,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71F22F071E05C4E000EB446C /* vader.cfg in Resources */,
+				71F22F061E05C4D800EB446C /* vader.byu in Resources */,
+				71F22F051E05C4CE00EB446C /* yoda.byu in Resources */,
+				71F22F041E05C4C400EB446C /* CAT.byu in Resources */,
+				71F22F031E05C4BF00EB446C /* yoda.cfg in Resources */,
+				71F22F021E05C4B400EB446C /* CAT.cfg in Resources */,
 				7176448A1E023AB900CAE518 /* spaceship.byu in Resources */,
 				717644891E023AB300CAE518 /* spaceship.cfg in Resources */,
 				717644881E02164800CAE518 /* calice2.byu in Resources */,

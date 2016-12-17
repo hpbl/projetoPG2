@@ -13,8 +13,8 @@ import CoreGraphics
 
 class DrawingView: NSView {
     var backgroundQueue : DispatchQueue?
-    let camera = Camera(named: "calice2")
-    let objeto = Object(named: "calice2")
+    let camera = Camera(named: "vader")
+    let objeto = Object(named: "vader")
     let iluminacao = Illumination(named: "iluminacao")
     var shouldDraw: Bool = false
     var pixelColors: [NSColor] = []
@@ -28,10 +28,11 @@ class DrawingView: NSView {
             self.pixelsToDraw.append(NSRect(x: (self.pixelToDraw?.x)!, y: (self.pixelToDraw?.y)!, width: 2, height: 2))
             
             if pixelToDraw?.color != nil {
-                self.pixelColors.append(NSColor(calibratedRed: CGFloat((self.pixelToDraw?.color!.0)!),
-                                                green: CGFloat((self.pixelToDraw?.color!.1)!),
-                                                blue: CGFloat((self.pixelToDraw?.color!.2)!),
+                self.pixelColors.append(NSColor(red: CGFloat((self.pixelToDraw?.color!.0)!)/255,
+                                                green: CGFloat((self.pixelToDraw?.color!.1)!)/255,
+                                                blue: CGFloat((self.pixelToDraw?.color!.2)!)/255,
                                                 alpha: 1))
+
             } else {
                 self.pixelColors.append(NSColor.black)
                 //Swift.print("NAAAAO0000000")
@@ -151,7 +152,6 @@ class DrawingView: NSView {
         for triangle in self.objeto.triangles2D {
             
             if triangle.firstVertex.y == triangle.secondVertex.y && triangle.firstVertex.y == triangle.thirdVertex.y {
-                Swift.print("linha reta")
             }
             //scanLine
             let controlPoints = [triangle.firstVertex, triangle.secondVertex, triangle.thirdVertex]
