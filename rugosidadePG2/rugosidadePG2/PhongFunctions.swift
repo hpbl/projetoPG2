@@ -93,9 +93,14 @@ func phongRoutine(triangle: Triangle, objeto: Object, iluminacao: Illumination, 
             zBufferLocal[Int(pixel.x)-1][Int(pixel.y)-1] = pixel3D.z!
             
             // Calcular uma aproximacao para a normal do ponto P'
-            var N = objeto.pointsNormalsDict[triangle3D.firstVertex]! * (barycentricCoord.x) +
-                    objeto.pointsNormalsDict[triangle3D.secondVertex]! * (barycentricCoord.y) +
-                    objeto.pointsNormalsDict[triangle3D.thirdVertex]! * (barycentricCoord.z!)
+        
+            //TODO: corrigir rugosidade
+            let perturbacao = Point(x: Double(arc4random_uniform(1000)), y: Double(arc4random_uniform(121)), z: Double(arc4random_uniform(54)))
+            
+            let a = objeto.pointsNormalsDict[triangle3D.firstVertex]! * Double(barycentricCoord.x * perturbacao.x)
+            let b = objeto.pointsNormalsDict[triangle3D.secondVertex]! * Double(barycentricCoord.y * -perturbacao.y)
+            let c = objeto.pointsNormalsDict[triangle3D.thirdVertex]! * Double(barycentricCoord.z! * perturbacao.z!)
+            var N = a + b + c
             
             var V = Point(x: -pixel3D.x, y: -pixel3D.y, z: -pixel3D.z!)
             var L = iluminacao.viewLightPosition! - pixel3D
