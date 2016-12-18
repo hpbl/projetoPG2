@@ -66,7 +66,7 @@ func getSpecularComponent(illumination: Illumination, R: Point, V: Point) -> Poi
     let n = illumination.rugosityConstant
     let Il = illumination.lightSourceColor
     
-    return Il * (ks * pow(innerProduct(u: R, v: V), n))
+    return Il * (ks * pow(innerProduct(u: R, v: V), n * 10000000))
 }
 
 func phongRoutine(triangle: Triangle, objeto: Object, iluminacao: Illumination, pixel: Point, zBuffer: [[Double]]) -> (Point, [[Double]]) {
