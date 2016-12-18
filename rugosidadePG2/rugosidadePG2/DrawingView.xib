@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
@@ -20,16 +20,19 @@
             <rect key="frame" x="0.0" y="0.0" width="1000" height="700"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <textField verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kyC-f5-7bL">
-                    <rect key="frame" x="72" y="609" width="96" height="22"/>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kyC-f5-7bL">
+                    <rect key="frame" x="425" y="568" width="96" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="96" id="cJt-3z-dcq"/>
+                    </constraints>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" placeholderString="rugosidade" drawsBackground="YES" usesSingleLineMode="YES" id="gnx-A9-9CR">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <button verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qFl-Qr-VMz">
-                    <rect key="frame" x="181" y="602" width="81" height="32"/>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qFl-Qr-VMz">
+                    <rect key="frame" x="523" y="562" width="58" height="32"/>
                     <buttonCell key="cell" type="push" title="Go" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="DyU-Mn-Bju">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -38,20 +41,24 @@
                         <action selector="rugosityButtonAction:" target="-2" id="XVp-0G-8Hj"/>
                     </connections>
                 </button>
-                <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6Dw-eu-mRQ">
-                    <rect key="frame" x="459" y="609" width="82" height="17"/>
+                <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Dw-eu-mRQ">
+                    <rect key="frame" x="438" y="513" width="124" height="26"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="UHUUUL 🎉" id="KVQ-wH-xGf">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <font key="font" size="20" name="Helvetica-Bold"/>
+                        <color key="textColor" red="0.059413351118564606" green="0.88876438140869141" blue="0.83784264326095581" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
             </subviews>
             <constraints>
-                <constraint firstItem="6Dw-eu-mRQ" firstAttribute="centerY" secondItem="kyC-f5-7bL" secondAttribute="centerY" constant="2.5" id="33R-dM-kma"/>
+                <constraint firstItem="6Dw-eu-mRQ" firstAttribute="centerY" secondItem="kyC-f5-7bL" secondAttribute="centerY" constant="53" id="33R-dM-kma"/>
+                <constraint firstItem="6Dw-eu-mRQ" firstAttribute="top" secondItem="kyC-f5-7bL" secondAttribute="bottom" constant="29" id="5S7-ka-R07"/>
+                <constraint firstItem="kyC-f5-7bL" firstAttribute="top" secondItem="qFl-Qr-VMz" secondAttribute="top" id="79a-Z1-lCO"/>
                 <constraint firstItem="6Dw-eu-mRQ" firstAttribute="centerX" secondItem="c22-O7-iKe" secondAttribute="centerX" id="Nyh-yW-C1e"/>
-                <constraint firstItem="6Dw-eu-mRQ" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="74" id="bLW-9p-lYa"/>
-                <constraint firstItem="6Dw-eu-mRQ" firstAttribute="centerY" secondItem="qFl-Qr-VMz" secondAttribute="centerY" constant="2" id="cMr-TV-pT9"/>
+                <constraint firstItem="kyC-f5-7bL" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="425" id="Tkg-Wq-8im"/>
+                <constraint firstItem="qFl-Qr-VMz" firstAttribute="leading" secondItem="kyC-f5-7bL" secondAttribute="trailing" constant="8" symbolic="YES" id="apX-8e-lUL"/>
+                <constraint firstItem="6Dw-eu-mRQ" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="161" id="bLW-9p-lYa"/>
+                <constraint firstItem="6Dw-eu-mRQ" firstAttribute="centerY" secondItem="qFl-Qr-VMz" secondAttribute="centerY" constant="53.5" id="cMr-TV-pT9"/>
             </constraints>
         </customView>
     </objects>

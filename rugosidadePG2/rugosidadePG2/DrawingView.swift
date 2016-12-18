@@ -241,11 +241,10 @@ class DrawingView: NSView {
                                 let pixel = phongReturn.0
                                 
                                 //TODO: Aqui
-                                //executeAfter(delay: 2) {
                                 DispatchQueue.main.async {
                                     self.pixelToDraw = pixel
                                 }
-                                //}
+                                
                             }
                             currX = currX + 1
                             
@@ -302,12 +301,11 @@ class DrawingView: NSView {
                             let pixel = phongReturn.0
                             
                             //TODO: Aqui
-                            //executeAfter(delay: 2) {
                             DispatchQueue.main.async {
                                 self.pixelToDraw = pixel
                             }
                             
-                            //}
+                    
                             
                         }
                         currX = currX + 1
@@ -377,11 +375,10 @@ class DrawingView: NSView {
                             let pixel = phongReturn.0
                             
                             //TODO: Aqui
-                            //executeAfter(delay: 2) {
                             DispatchQueue.main.async {
                                 self.pixelToDraw = pixel
                             }
-                            //}
+                            
                             
                         }
                         currX = currX + 1
@@ -500,11 +497,11 @@ class DrawingView: NSView {
                                 let pixel = phongReturn.0
                                 
                                 //TODO: Aqui
-                                //executeAfter(delay: 2) {
+                            
                                 DispatchQueue.main.async {
                                     self.pixelToDraw = pixel
                                 }
-                                //}
+                                
                                 
                             }
                             currX = currX + 1
@@ -562,6 +559,7 @@ class DrawingView: NSView {
     }
     
     
+    /*
     override func keyDown(with event: NSEvent) {
         
         if event.keyCode == 8 {
@@ -571,4 +569,5 @@ class DrawingView: NSView {
             }
         }
     }
+ */
 }

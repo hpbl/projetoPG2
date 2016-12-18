@@ -21,6 +21,7 @@ func lineEquation(pointA: Point, pointB: Point) -> (Double, Double) {
     
     return (a, b)
 }
+
 // 3x3 Matrix multiplied by 3x1 vector 😱
 func * (matrix: [[Double]], vector: Point) -> Point {
     let x = matrix[0][0] * vector.x + matrix[0][1] * vector.y + matrix[0][2] * vector.z!
@@ -29,7 +30,6 @@ func * (matrix: [[Double]], vector: Point) -> Point {
     
     return Point(x: x, y: y, z: z)
 }
-
 
 
 
