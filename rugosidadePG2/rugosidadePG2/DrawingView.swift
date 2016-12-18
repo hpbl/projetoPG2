@@ -13,6 +13,7 @@ import CoreGraphics
 
 class DrawingView: NSView {
     
+    //MARK: - Storyboard
     @IBOutlet weak var rugosityInputTextField: NSTextField!
     @IBOutlet weak var finishedLabel: NSTextField!
     @IBOutlet var drawingView: NSView!
@@ -30,6 +31,8 @@ class DrawingView: NSView {
         }
     }
     
+    
+    //MARK: propriedades
     var backgroundQueue : DispatchQueue?
     let camera = Camera(named: "calice2")
     let objeto = Object(named: "calice2")
@@ -53,45 +56,6 @@ class DrawingView: NSView {
                                             width: 1, height: 1))
             }
 
-        }
-    }
-    
-    override var acceptsFirstResponder: Bool { return true }
-    override func viewDidMoveToWindow() {
-        backgroundQueue = DispatchQueue(label: "com.app.backqueue")
-
-        
-    }
-    
-    func loadNib() {
-        Bundle.main.loadNibNamed("DrawingView", owner: self, topLevelObjects: nil)
-        
-        self.drawingView.frame = self.bounds
-        
-        self.addSubview(self.drawingView)
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        self.loadNib()
-
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        
-        self.loadNib()
-    }
-    
-    
-    override func keyDown(with event: NSEvent) {
-        
-        if event.keyCode == 8 {
-            shouldDraw = !shouldDraw
-            backgroundQueue?.async {
-                self.parteGeral(rugosityFactor: 1)
-            }
         }
     }
     
@@ -567,4 +531,44 @@ class DrawingView: NSView {
         }
     }
     
+    
+    //MARK: - System methods
+    override var acceptsFirstResponder: Bool { return true }
+    override func viewDidMoveToWindow() {
+        backgroundQueue = DispatchQueue(label: "com.app.backqueue")
+        
+        
+    }
+    
+    func loadNib() {
+        Bundle.main.loadNibNamed("DrawingView", owner: self, topLevelObjects: nil)
+        
+        self.drawingView.frame = self.bounds
+        
+        self.addSubview(self.drawingView)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        self.loadNib()
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        
+        self.loadNib()
+    }
+    
+    
+    override func keyDown(with event: NSEvent) {
+        
+        if event.keyCode == 8 {
+            shouldDraw = !shouldDraw
+            backgroundQueue?.async {
+                self.parteGeral(rugosityFactor: 1)
+            }
+        }
+    }
 }
