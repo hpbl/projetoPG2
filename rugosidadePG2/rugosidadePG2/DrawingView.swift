@@ -149,7 +149,7 @@ class DrawingView: NSView {
                     //é uma linha
                     
                     let lineEquation = triangle.edges?[PointTuple(pointA: maxYPoints[0],
-                                                                     pointB: sortedPoints[2])]
+                                                                  pointB: sortedPoints[2])]
                     var a1: Double?
                     if lineEquation?.0 == 0 {
                         a1 = Double.infinity
@@ -344,7 +344,7 @@ class DrawingView: NSView {
                 
                 //pegando a e b das equações
                 var lineEquation1 = flatBottomPart.edges?[PointTuple(pointA: minYPoints[0],
-                                                        pointB: sortedPointsFB[0])]
+                                                                     pointB: sortedPointsFB[0])]
                 
                 var a1 = lineEquation1?.0
                 
