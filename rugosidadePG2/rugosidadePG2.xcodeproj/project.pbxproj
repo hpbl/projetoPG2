@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		710E46B61E003DF600CA11DC /* ScanLineFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710E46B51E003DF600CA11DC /* ScanLineFunctions.swift */; };
+		7117A5E71E07203000B86F98 /* DrawingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7117A5E61E07203000B86F98 /* DrawingView.xib */; };
 		714045D41DFAEEF000F4742E /* AlgebraFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714045D31DFAEEF000F4742E /* AlgebraFunctions.swift */; };
 		714045D61DFDCF8700F4742E /* PointTuple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714045D51DFDCF8700F4742E /* PointTuple.swift */; };
 		714045D71DFDD9B900F4742E /* vaso.byu in Resources */ = {isa = PBXBuildFile; fileRef = 71EDD4EB1DFA3F2B00109E4B /* vaso.byu */; };
@@ -43,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		710E46B51E003DF600CA11DC /* ScanLineFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanLineFunctions.swift; sourceTree = "<group>"; };
+		7117A5E61E07203000B86F98 /* DrawingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DrawingView.xib; sourceTree = "<group>"; };
 		714045D31DFAEEF000F4742E /* AlgebraFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlgebraFunctions.swift; sourceTree = "<group>"; };
 		714045D51DFDCF8700F4742E /* PointTuple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointTuple.swift; sourceTree = "<group>"; };
 		71BAC0F71E00C28400548563 /* PhongFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhongFunctions.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				71EDD4B01DFA341A00109E4B /* Main.storyboard */,
 				71EDD4B31DFA341A00109E4B /* Info.plist */,
 				71EDD5021DFADCA100109E4B /* Model */,
+				7117A5E61E07203000B86F98 /* DrawingView.xib */,
 			);
 			path = rugosidadePG2;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				7176448A1E023AB900CAE518 /* spaceship.byu in Resources */,
 				717644891E023AB300CAE518 /* spaceship.cfg in Resources */,
 				717644881E02164800CAE518 /* calice2.byu in Resources */,
+				7117A5E71E07203000B86F98 /* DrawingView.xib in Resources */,
 				717644871E02164000CAE518 /* calice2.cfg in Resources */,
 				71ED0F461E01ACB2000A904B /* 01_Camera.cfg in Resources */,
 				71ED0F451E01AC11000A904B /* dalton.byu in Resources */,

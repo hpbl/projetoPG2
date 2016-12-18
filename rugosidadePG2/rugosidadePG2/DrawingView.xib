@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="DrawingView" customModule="rugosidadePG2" customModuleProvider="target">
+            <connections>
+                <outlet property="drawingView" destination="c22-O7-iKe" id="Hwf-tT-rSu"/>
+                <outlet property="finishedLabel" destination="6Dw-eu-mRQ" id="K7y-W2-65W"/>
+                <outlet property="rugosityButton" destination="qFl-Qr-VMz" id="osS-Dk-7QG"/>
+                <outlet property="rugosityInputTextField" destination="kyC-f5-7bL" id="tu7-EV-PZF"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="1000" height="700"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kyC-f5-7bL">
+                    <rect key="frame" x="72" y="609" width="96" height="22"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" placeholderString="rugosidade" drawsBackground="YES" usesSingleLineMode="YES" id="gnx-A9-9CR">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qFl-Qr-VMz">
+                    <rect key="frame" x="181" y="602" width="81" height="32"/>
+                    <buttonCell key="cell" type="push" title="Go" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="DyU-Mn-Bju">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="rugosityButtonAction:" target="-2" id="XVp-0G-8Hj"/>
+                    </connections>
+                </button>
+                <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6Dw-eu-mRQ">
+                    <rect key="frame" x="459" y="609" width="82" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="UHUUUL 🎉" id="KVQ-wH-xGf">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="6Dw-eu-mRQ" firstAttribute="centerY" secondItem="kyC-f5-7bL" secondAttribute="centerY" constant="2.5" id="33R-dM-kma"/>
+                <constraint firstItem="6Dw-eu-mRQ" firstAttribute="centerX" secondItem="c22-O7-iKe" secondAttribute="centerX" id="Nyh-yW-C1e"/>
+                <constraint firstItem="6Dw-eu-mRQ" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="74" id="bLW-9p-lYa"/>
+                <constraint firstItem="6Dw-eu-mRQ" firstAttribute="centerY" secondItem="qFl-Qr-VMz" secondAttribute="centerY" constant="2" id="cMr-TV-pT9"/>
+            </constraints>
+        </customView>
+    </objects>
+</document>

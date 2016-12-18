@@ -10,6 +10,7 @@ import Cocoa
 
 class ViewController: NSViewController {
 
+    @IBOutlet weak var drawingView: DrawingView!
     
     override func viewDidLoad() {
         super.viewDidLoad()

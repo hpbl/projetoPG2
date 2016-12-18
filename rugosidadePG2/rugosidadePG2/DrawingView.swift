@@ -13,7 +13,23 @@ import CoreGraphics
 
 class DrawingView: NSView {
     
-    var finishedLabel : NSTextField?
+    @IBOutlet weak var rugosityInputTextField: NSTextField!
+    @IBOutlet weak var finishedLabel: NSTextField!
+    @IBOutlet var drawingView: NSView!
+    @IBOutlet weak var rugosityButton: NSButton!
+    
+    @IBAction func rugosityButtonAction(_ sender: Any) {
+        
+        if !self.rugosityInputTextField.stringValue.isEmpty {
+            self.finishedLabel?.isHidden = true
+            shouldDraw = !shouldDraw
+            backgroundQueue?.async {
+                self.parteGeral(rugosityFactor: Double(self.rugosityInputTextField.stringValue)!)
+            }
+            self.rugosityButton.isEnabled = false
+        }
+    }
+    
     var backgroundQueue : DispatchQueue?
     let camera = Camera(named: "calice2")
     let objeto = Object(named: "calice2")
@@ -43,27 +59,39 @@ class DrawingView: NSView {
     override var acceptsFirstResponder: Bool { return true }
     override func viewDidMoveToWindow() {
         backgroundQueue = DispatchQueue(label: "com.app.backqueue")
-        self.finishedLabel = NSTextField(frame: NSRect(x:self.frame.midX - 60, y: 567, width: 219, height: 41))
-        self.finishedLabel?.textColor = NSColor.blue
-        self.finishedLabel?.stringValue = "#UHUL 🎉"
-        self.finishedLabel?.isBordered = false
-        self.finishedLabel?.drawsBackground = false
-        self.finishedLabel?.isEditable = false
-        self.finishedLabel?.isHidden = true
-        let font = NSFont(name: "Helvetica", size: 30)
-        self.finishedLabel?.font = font
-        self.addSubview(self.finishedLabel!)
+
         
     }
+    
+    func loadNib() {
+        Bundle.main.loadNibNamed("DrawingView", owner: self, topLevelObjects: nil)
+        
+        self.drawingView.frame = self.bounds
+        
+        self.addSubview(self.drawingView)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        self.loadNib()
+
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        
+        self.loadNib()
+    }
+    
     
     override func keyDown(with event: NSEvent) {
         
         if event.keyCode == 8 {
             shouldDraw = !shouldDraw
             backgroundQueue?.async {
-                self.parteGeral()
+                self.parteGeral(rugosityFactor: 1)
             }
-            
         }
     }
     
@@ -80,7 +108,8 @@ class DrawingView: NSView {
     }
     
     //MARK: - Algoritmo de execução
-    func parteGeral() {
+    func parteGeral(rugosityFactor: Double) {
+        iluminacao.rugosityConstant = iluminacao.rugosityConstant * rugosityFactor
         
         // Gram-Schmidt
         let alpha = self.camera.adjustCamera()
@@ -529,6 +558,8 @@ class DrawingView: NSView {
         }
         DispatchQueue.main.async{
             self.finishedLabel?.isHidden = false
+            self.rugosityButton.isEnabled = true
+
         }
     }
     
