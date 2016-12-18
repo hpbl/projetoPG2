@@ -43,7 +43,7 @@ class DrawingView: NSView {
     override var acceptsFirstResponder: Bool { return true }
     override func viewDidMoveToWindow() {
         backgroundQueue = DispatchQueue(label: "com.app.backqueue")
-        self.finishedLabel = NSTextField(frame: NSRect(x:self.frame.midX , y: 567, width: 219, height: 41))
+        self.finishedLabel = NSTextField(frame: NSRect(x:self.frame.midX - 60, y: 567, width: 219, height: 41))
         self.finishedLabel?.textColor = NSColor.blue
         self.finishedLabel?.stringValue = "#UHUL 🎉"
         self.finishedLabel?.isBordered = false
