@@ -62,10 +62,11 @@ func getDifuseComponent(illumination: Illumination, N: Point, L: Point) -> Point
 
 func getSpecularComponent(illumination: Illumination, R: Point, V: Point) -> Point {
     let ks = illumination.specularPart
+    //TODO: deixar usuário escolher esse valor
     let n = illumination.rugosityConstant
     let Il = illumination.lightSourceColor
     
-    return Il * (ks * pow(innerProduct(u: R, v: V), n * 10000000))
+    return Il * (ks * pow(innerProduct(u: R, v: V), n))
 }
 
 func phongRoutine(triangle: Triangle, objeto: Object, iluminacao: Illumination, pixel: Point, zBuffer: [[Double]]) -> (Point, [[Double]]) {
@@ -89,18 +90,32 @@ func phongRoutine(triangle: Triangle, objeto: Object, iluminacao: Illumination, 
         let pixel3D = pixel.approx3DCoordinates(alfaBetaGama: barycentricCoord, triangle3D: triangle3D)
         
         // Consulta ao z-buffer:
-        if pixel3D.z! < zBufferLocal[Int(pixel.x)-1][Int(pixel.y)-1] {//TODO: (nao esquecer de tambem checar os limites do array z-buffer)
+        if pixel3D.z! < zBufferLocal[Int(pixel.x)-1][Int(pixel.y)-1] {
             zBufferLocal[Int(pixel.x)-1][Int(pixel.y)-1] = pixel3D.z!
             
             // Calcular uma aproximacao para a normal do ponto P'
         
-            //TODO: corrigir rugosidade
-            let perturbacao = Point(x: Double(arc4random_uniform(1000)), y: Double(arc4random_uniform(121)), z: Double(arc4random_uniform(54)))
+            //rugosidade
+            let random1 = Double(arc4random_uniform(5))
+            let random2 = Double(arc4random_uniform(5))
+            let random3 = Double(arc4random_uniform(5))
             
-            let a = objeto.pointsNormalsDict[triangle3D.firstVertex]! * Double(barycentricCoord.x * perturbacao.x)
-            let b = objeto.pointsNormalsDict[triangle3D.secondVertex]! * Double(barycentricCoord.y * -perturbacao.y)
-            let c = objeto.pointsNormalsDict[triangle3D.thirdVertex]! * Double(barycentricCoord.z! * perturbacao.z!)
-            var N = a + b + c
+            let firstEdge = triangle3D.thirdVertex - triangle3D.firstVertex
+            let secondEdge = triangle3D.thirdVertex - triangle3D.secondVertex
+            let thirdEdge = triangle3D.secondVertex - triangle3D.firstVertex
+            
+            let perturbacao1 = firstEdge * random1
+            let perturbacao2 = secondEdge * random2
+            let perturbacao3 = thirdEdge * random3
+            
+            let a = objeto.pointsNormalsDict[triangle3D.firstVertex]! * Double(barycentricCoord.x)
+            let b = objeto.pointsNormalsDict[triangle3D.secondVertex]! * Double(barycentricCoord.y)
+            let c = objeto.pointsNormalsDict[triangle3D.thirdVertex]! * Double(barycentricCoord.z!)
+            
+            var N = a + b + c + perturbacao1 + perturbacao2 + perturbacao3
+            
+            //TODO: deixar usuário escolher esse valor
+            N = N * 10
             
             var V = Point(x: -pixel3D.x, y: -pixel3D.y, z: -pixel3D.z!)
             var L = iluminacao.viewLightPosition! - pixel3D
@@ -137,7 +152,6 @@ func phongRoutine(triangle: Triangle, objeto: Object, iluminacao: Illumination, 
                                    difuseComponent: difuseComponent,
                                    specularComponent: nil)
                 } else {
-                    //TODO: Conferir se é assim
                     let ambientalComponent = getAmbientalComponent(illumination: iluminacao)
                     let difuseComponent = getDifuseComponent(illumination: iluminacao,
                                                              N: N,
@@ -151,7 +165,6 @@ func phongRoutine(triangle: Triangle, objeto: Object, iluminacao: Illumination, 
                                    specularComponent: specularComponent)
                 }
             }
-            //TODO: pintar pixel com cor (I) correspondente
             pixelLocal.color = verifyRGB(I: I)
         } else {
             
