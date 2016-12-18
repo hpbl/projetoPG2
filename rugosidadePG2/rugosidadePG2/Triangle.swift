@@ -25,10 +25,10 @@ class Triangle {
         self.secondVertex = secondVertex
         self.thirdVertex = thirdVertex
         
-        self.edges = findEdges()
+        self.edges = findEdgesEquations()
     }
     
-    func findEdges() -> [PointTuple: (Double, Double)] {
+    func findEdgesEquations() -> [PointTuple: (Double, Double)] {
         var edgesDict = [PointTuple: (Double, Double)]()
         
         edgesDict[PointTuple(pointA: self.firstVertex,

@@ -149,7 +149,7 @@ class DrawingView: NSView {
                     //é uma linha
                     
                     let lineEquation = triangle.edges?[PointTuple(pointA: maxYPoints[0],
-                                                                     pointB: sortedPoints[2])]
+                                                                  pointB: sortedPoints[2])]
                     var a1: Double?
                     if lineEquation?.0 == 0 {
                         a1 = Double.infinity
@@ -241,11 +241,10 @@ class DrawingView: NSView {
                                 let pixel = phongReturn.0
                                 
                                 //TODO: Aqui
-                                //executeAfter(delay: 2) {
                                 DispatchQueue.main.async {
                                     self.pixelToDraw = pixel
                                 }
-                                //}
+                                
                             }
                             currX = currX + 1
                             
@@ -302,12 +301,11 @@ class DrawingView: NSView {
                             let pixel = phongReturn.0
                             
                             //TODO: Aqui
-                            //executeAfter(delay: 2) {
                             DispatchQueue.main.async {
                                 self.pixelToDraw = pixel
                             }
                             
-                            //}
+                    
                             
                         }
                         currX = currX + 1
@@ -377,11 +375,10 @@ class DrawingView: NSView {
                             let pixel = phongReturn.0
                             
                             //TODO: Aqui
-                            //executeAfter(delay: 2) {
                             DispatchQueue.main.async {
                                 self.pixelToDraw = pixel
                             }
-                            //}
+                            
                             
                         }
                         currX = currX + 1
@@ -500,11 +497,11 @@ class DrawingView: NSView {
                                 let pixel = phongReturn.0
                                 
                                 //TODO: Aqui
-                                //executeAfter(delay: 2) {
+                            
                                 DispatchQueue.main.async {
                                     self.pixelToDraw = pixel
                                 }
-                                //}
+                                
                                 
                             }
                             currX = currX + 1
@@ -560,15 +557,5 @@ class DrawingView: NSView {
         
         self.loadNib()
     }
-    
-    
-    override func keyDown(with event: NSEvent) {
-        
-        if event.keyCode == 8 {
-            shouldDraw = !shouldDraw
-            backgroundQueue?.async {
-                self.parteGeral(rugosityFactor: 1)
-            }
-        }
-    }
+
 }

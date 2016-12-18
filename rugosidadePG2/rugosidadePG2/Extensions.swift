@@ -32,9 +32,3 @@ func read(from file: String, type: String) -> [String]? {
     }
     return nil
 }
-
-func executeAfter(delay: Int, block: @escaping () -> ()) {
-    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(delay)) {
-        block()
-    }
-}
