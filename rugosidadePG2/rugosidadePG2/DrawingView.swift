@@ -12,6 +12,8 @@ import Cocoa
 import CoreGraphics
 
 class DrawingView: NSView {
+    
+    var finishedLabel : NSTextField?
     var backgroundQueue : DispatchQueue?
     let camera = Camera(named: "calice2")
     let objeto = Object(named: "calice2")
@@ -41,6 +43,16 @@ class DrawingView: NSView {
     override var acceptsFirstResponder: Bool { return true }
     override func viewDidMoveToWindow() {
         backgroundQueue = DispatchQueue(label: "com.app.backqueue")
+        self.finishedLabel = NSTextField(frame: NSRect(x:self.frame.midX , y: 567, width: 219, height: 41))
+        self.finishedLabel?.textColor = NSColor.blue
+        self.finishedLabel?.stringValue = "#UHUL 🎉"
+        self.finishedLabel?.isBordered = false
+        self.finishedLabel?.drawsBackground = false
+        self.finishedLabel?.isEditable = false
+        self.finishedLabel?.isHidden = true
+        let font = NSFont(name: "Helvetica", size: 30)
+        self.finishedLabel?.font = font
+        self.addSubview(self.finishedLabel!)
         
     }
     
@@ -514,6 +526,9 @@ class DrawingView: NSView {
                 }
                 
             }
+        }
+        DispatchQueue.main.async{
+            self.finishedLabel?.isHidden = false
         }
     }
     
