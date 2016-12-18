@@ -46,8 +46,7 @@ class Camera {
         
         let alpha: [[Double]] = [[U.x, U.y, U.z!],
                                  [self.vectorV.x, self.vectorV.y, self.vectorV.z!],
-                                 [self.vectorN.x, self.vectorN.y, self.vectorN.z!]
-                                ]
+                                 [self.vectorN.x, self.vectorN.y, self.vectorN.z!]]
         return alpha
     }
 }

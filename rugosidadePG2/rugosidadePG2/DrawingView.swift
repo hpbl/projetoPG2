@@ -344,7 +344,7 @@ class DrawingView: NSView {
                 
                 //pegando a e b das equações
                 var lineEquation1 = flatBottomPart.edges?[PointTuple(pointA: minYPoints[0],
-                                                                     pointB: sortedPointsFB[0])]
+                                                        pointB: sortedPointsFB[0])]
                 
                 var a1 = lineEquation1?.0
                 
@@ -557,17 +557,5 @@ class DrawingView: NSView {
         
         self.loadNib()
     }
-    
-    
-    /*
-    override func keyDown(with event: NSEvent) {
-        
-        if event.keyCode == 8 {
-            shouldDraw = !shouldDraw
-            backgroundQueue?.async {
-                self.parteGeral(rugosityFactor: 1)
-            }
-        }
-    }
- */
+
 }
