@@ -62,14 +62,13 @@ func getDifuseComponent(illumination: Illumination, N: Point, L: Point) -> Point
 
 func getSpecularComponent(illumination: Illumination, R: Point, V: Point) -> Point {
     let ks = illumination.specularPart
-    //TODO: deixar usuário escolher esse valor
     let n = illumination.rugosityConstant
     let Il = illumination.lightSourceColor
     
-    return Il * (ks * pow(innerProduct(u: R, v: V), n * 10000000))
+    return Il * (ks * pow(innerProduct(u: R, v: V), n))
 }
 
-func phongRoutine(triangle: Triangle, objeto: Object, iluminacao: Illumination, pixel: Point, zBuffer: [[Double]]) -> (Point, [[Double]]) {
+func phongRoutine(triangle: Triangle, objeto: Object, iluminacao: Illumination, pixel: Point, zBuffer: [[Double]], rugosityFactor: Int) -> (Point, [[Double]]) {
 
     //ignorando pixels fora da tela
     if pixel.x > Double(zBuffer.count) || pixel.y > Double(zBuffer[0].count) {
@@ -96,9 +95,9 @@ func phongRoutine(triangle: Triangle, objeto: Object, iluminacao: Illumination, 
             // Calcular uma aproximacao para a normal do ponto P'
         
             //rugosidade
-            let random1 = Double(arc4random_uniform(5))
-            let random2 = Double(arc4random_uniform(5))
-            let random3 = Double(arc4random_uniform(5))
+            let random1 = Double(arc4random_uniform(UInt32(rugosityFactor)))
+            let random2 = Double(arc4random_uniform(UInt32(rugosityFactor)))
+            let random3 = Double(arc4random_uniform(UInt32(rugosityFactor)))
             
             let firstEdge = triangle3D.thirdVertex - triangle3D.firstVertex
             let secondEdge = triangle3D.thirdVertex - triangle3D.secondVertex
@@ -113,9 +112,6 @@ func phongRoutine(triangle: Triangle, objeto: Object, iluminacao: Illumination, 
             let c = objeto.pointsNormalsDict[triangle3D.thirdVertex]! * Double(barycentricCoord.z!)
             
             var N = a + b + c + perturbacao1 + perturbacao2 + perturbacao3
-            
-            //TODO: deixar usuário escolher esse valor
-            N = N * 10
             
             var V = Point(x: -pixel3D.x, y: -pixel3D.y, z: -pixel3D.z!)
             var L = iluminacao.viewLightPosition! - pixel3D

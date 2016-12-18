@@ -24,7 +24,7 @@ class DrawingView: NSView {
             self.finishedLabel?.isHidden = true
             shouldDraw = !shouldDraw
             backgroundQueue?.async {
-                self.parteGeral(rugosityFactor: Double(self.rugosityInputTextField.stringValue)!)
+                self.parteGeral(rugosityFactor: Int(self.rugosityInputTextField.stringValue)!)
             }
             self.rugosityButton.isEnabled = false
         }
@@ -100,16 +100,12 @@ class DrawingView: NSView {
         
         // Drawing code here.
         if shouldDraw {
-            
-            NSColor.red.set()
             NSRectFillListWithColors(self.pixelsToDraw, self.pixelColors, self.pixelsToDraw.count)
-            //NSRectFillList(self.pixelsToDraw, self.pixelsToDraw.count)
         }
     }
     
     //MARK: - Algoritmo de execução
-    func parteGeral(rugosityFactor: Double) {
-        iluminacao.rugosityConstant = iluminacao.rugosityConstant * rugosityFactor
+    func parteGeral(rugosityFactor: Int) {
         
         // Gram-Schmidt
         let alpha = self.camera.adjustCamera()
@@ -211,7 +207,8 @@ class DrawingView: NSView {
                                                            iluminacao: iluminacao,
                                                            pixel: Point(x: floor(currentX),
                                                                         y: floor(currentY)),
-                                                           zBuffer: zBuffer)
+                                                           zBuffer: zBuffer,
+                                                           rugosityFactor: rugosityFactor)
                             zBuffer = phongReturn.1
                             let pixel = phongReturn.0
                             
@@ -229,7 +226,8 @@ class DrawingView: NSView {
                                                        iluminacao: iluminacao,
                                                        pixel: Point(x: floor(currentX),
                                                                     y: floor(currentY)),
-                                                       zBuffer: zBuffer)
+                                                       zBuffer: zBuffer,
+                                                       rugosityFactor: rugosityFactor)
                         zBuffer = phongReturn.1
                         let pixel = phongReturn.0
                         
@@ -273,7 +271,8 @@ class DrawingView: NSView {
                                                                objeto: objeto,
                                                                iluminacao: iluminacao,
                                                                pixel: Point(x: floor(currX), y: floor(currentY)),
-                                                               zBuffer: zBuffer)
+                                                               zBuffer: zBuffer,
+                                                               rugosityFactor: rugosityFactor)
                                 zBuffer = phongReturn.1
                                 let pixel = phongReturn.0
                                 
@@ -333,7 +332,8 @@ class DrawingView: NSView {
                                                            objeto: objeto,
                                                            iluminacao: iluminacao,
                                                            pixel: Point(x: floor(currX), y: floor(currentY)),
-                                                           zBuffer: zBuffer)
+                                                           zBuffer: zBuffer,
+                                                           rugosityFactor: rugosityFactor)
                             zBuffer = phongReturn.1
                             let pixel = phongReturn.0
                             
@@ -407,7 +407,8 @@ class DrawingView: NSView {
                                                            objeto: objeto,
                                                            iluminacao: iluminacao,
                                                            pixel: Point(x: floor(currX), y: floor(currentY)),
-                                                           zBuffer: zBuffer)
+                                                           zBuffer: zBuffer,
+                                                           rugosityFactor: rugosityFactor)
                             zBuffer = phongReturn.1
                             let pixel = phongReturn.0
                             
@@ -467,7 +468,8 @@ class DrawingView: NSView {
                                                            iluminacao: iluminacao,
                                                            pixel: Point(x: floor(currentX),
                                                                         y: floor(currentY)),
-                                                           zBuffer: zBuffer)
+                                                           zBuffer: zBuffer,
+                                                           rugosityFactor: rugosityFactor)
                             zBuffer = phongReturn.1
                             let pixel = phongReturn.0
                             
@@ -485,7 +487,8 @@ class DrawingView: NSView {
                                                            iluminacao: iluminacao,
                                                            pixel: Point(x: floor(currentX),
                                                                         y: floor(currentY)),
-                                                           zBuffer: zBuffer)
+                                                           zBuffer: zBuffer,
+                                                           rugosityFactor: rugosityFactor)
                             zBuffer = phongReturn.1
                             let pixel = phongReturn.0
                             
@@ -527,7 +530,8 @@ class DrawingView: NSView {
                                                                objeto: objeto,
                                                                iluminacao: iluminacao,
                                                                pixel: Point(x: floor(currX), y: floor(currentY)),
-                                                               zBuffer: zBuffer)
+                                                               zBuffer: zBuffer,
+                                                               rugosityFactor: rugosityFactor)
                                 zBuffer = phongReturn.1
                                 let pixel = phongReturn.0
                                 
