@@ -93,11 +93,9 @@ func phongRoutine(triangle: Triangle, objeto: Object, iluminacao: Illumination, 
             zBufferLocal[Int(pixel.x)-1][Int(pixel.y)-1] = pixel3D.z!
             
             // Calcular uma aproximacao para a normal do ponto P'
-            var N3D = pixel3D.normalized()
-            
-            var N = triangle.firstVertex.normalized() * (barycentricCoord.x) +
-                triangle.secondVertex.normalized() * (barycentricCoord.y) +
-                triangle.thirdVertex.normalized() * (barycentricCoord.z!)
+            var N = objeto.pointsNormalsDict[triangle3D.firstVertex]! * (barycentricCoord.x) +
+                    objeto.pointsNormalsDict[triangle3D.secondVertex]! * (barycentricCoord.y) +
+                    objeto.pointsNormalsDict[triangle3D.thirdVertex]! * (barycentricCoord.z!)
             
             var V = Point(x: -pixel3D.x, y: -pixel3D.y, z: -pixel3D.z!)
             var L = iluminacao.viewLightPosition! - pixel3D
@@ -108,7 +106,7 @@ func phongRoutine(triangle: Triangle, objeto: Object, iluminacao: Illumination, 
             L = L.normalized()
             
             if innerProduct(u: V, v: N) < 0 {
-                N3D = Point(x: -N3D.x, y: -N3D.y, z: -N3D.z!)
+                N = Point(x: -N.x, y: -N.y, z: -N.z!)
             }
             
             //cor do pixel por phong (R, G, B)
