@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
@@ -8,6 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="DrawingView" customModule="rugosidadePG2" customModuleProvider="target">
             <connections>
+                <outlet property="clearButton" destination="gTV-lK-aId" id="RrA-ui-xKg"/>
                 <outlet property="drawingView" destination="c22-O7-iKe" id="Hwf-tT-rSu"/>
                 <outlet property="finishedLabel" destination="6Dw-eu-mRQ" id="K7y-W2-65W"/>
                 <outlet property="rugosityButton" destination="qFl-Qr-VMz" id="osS-Dk-7QG"/>
@@ -49,6 +50,17 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gTV-lK-aId">
+                    <rect key="frame" x="586" y="561" width="72" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zGb-ig-50E">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="clearButtonAction:" target="-2" id="MZ4-AG-bcE"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="6Dw-eu-mRQ" firstAttribute="centerY" secondItem="kyC-f5-7bL" secondAttribute="centerY" constant="53" id="33R-dM-kma"/>

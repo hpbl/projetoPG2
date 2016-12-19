@@ -18,7 +18,14 @@ class DrawingView: NSView {
     @IBOutlet weak var finishedLabel: NSTextField!
     @IBOutlet var drawingView: NSView!
     @IBOutlet weak var rugosityButton: NSButton!
+    @IBOutlet weak var clearButton: NSButton!
     
+    @IBAction func clearButtonAction(_ sender: Any) {
+        self.shouldDraw = !self.shouldDraw
+        DispatchQueue.main.async {
+            self.setNeedsDisplay(self.frame)
+        }
+    }
     @IBAction func rugosityButtonAction(_ sender: Any) {
         
         if !self.rugosityInputTextField.stringValue.isEmpty {
@@ -28,6 +35,18 @@ class DrawingView: NSView {
                 self.parteGeral(rugosityFactor: Int(self.rugosityInputTextField.stringValue)!)
             }
             self.rugosityButton.isEnabled = false
+            self.clearButton.isEnabled = false
+        }
+    }
+    
+    func resetVariables() {
+        DispatchQueue.main.async{
+            self.finishedLabel?.isHidden = false
+            self.clearButton.isEnabled = true
+            self.rugosityButton.isEnabled = true
+            self.pixelColors = []
+            self.pixelsToDraw = []
+            self.shouldDraw = false
         }
     }
     
@@ -65,6 +84,9 @@ class DrawingView: NSView {
         // Drawing code here.
         if shouldDraw {
             NSRectFillListWithColors(self.pixelsToDraw, self.pixelColors, self.pixelsToDraw.count)
+        } else {
+            NSColor.clear.set()
+            NSRectFill(dirtyRect)
         }
     }
     
@@ -521,11 +543,7 @@ class DrawingView: NSView {
                 
             }
         }
-        DispatchQueue.main.async{
-            self.finishedLabel?.isHidden = false
-            self.rugosityButton.isEnabled = true
-
-        }
+        self.resetVariables()
     }
     
     
