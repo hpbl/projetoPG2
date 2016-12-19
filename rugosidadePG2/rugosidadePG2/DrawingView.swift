@@ -19,18 +19,24 @@ class DrawingView: NSView {
     @IBOutlet var drawingView: NSView!
     @IBOutlet weak var rugosityButton: NSButton!
     @IBOutlet weak var clearButton: NSButton!
+    @IBOutlet weak var objetoTextField: NSTextField!
     
     @IBAction func clearButtonAction(_ sender: Any) {
         self.shouldDraw = !self.shouldDraw
         DispatchQueue.main.async {
             self.setNeedsDisplay(self.frame)
+            self.rugosityButton.isEnabled = true
         }
     }
     @IBAction func rugosityButtonAction(_ sender: Any) {
         
-        if !self.rugosityInputTextField.stringValue.isEmpty {
+        if !self.rugosityInputTextField.stringValue.isEmpty && !self.objetoTextField.stringValue.isEmpty {
             self.finishedLabel?.isHidden = true
             shouldDraw = !shouldDraw
+            
+            self.camera = Camera(named: objetoTextField.stringValue)
+            self.objeto = Object(named: objetoTextField.stringValue)
+            
             backgroundQueue?.async {
                 self.parteGeral(rugosityFactor: Int(self.rugosityInputTextField.stringValue)!)
             }
@@ -43,7 +49,6 @@ class DrawingView: NSView {
         DispatchQueue.main.async{
             self.finishedLabel?.isHidden = false
             self.clearButton.isEnabled = true
-            self.rugosityButton.isEnabled = true
             self.pixelColors = []
             self.pixelsToDraw = []
             self.shouldDraw = false
@@ -53,8 +58,8 @@ class DrawingView: NSView {
     
     //MARK: propriedades
     var backgroundQueue : DispatchQueue?
-    let camera = Camera(named: "calice2")
-    let objeto = Object(named: "calice2")
+    var camera: Camera?
+    var objeto: Object?
     let iluminacao = Illumination(named: "iluminacao")
     var shouldDraw: Bool = false
     var pixelColors: [NSColor] = []
@@ -94,49 +99,49 @@ class DrawingView: NSView {
     func parteGeral(rugosityFactor: Int) {
         
         // Gram-Schmidt
-        let alpha = self.camera.adjustCamera()
+        let alpha = self.camera?.adjustCamera()
         
         //passando posição da fonte de luz para coordenada de vista
-        self.iluminacao.viewLightPosition = alpha * (self.iluminacao.rwLightPosition - self.camera.position)
+        self.iluminacao.viewLightPosition = alpha! * (self.iluminacao.rwLightPosition - (self.camera?.position)!)
         
         //passando pontos do objeto para coordenadas de vista
-        for point in self.objeto.rwPoints {
-            let viewPoint = alpha * (point - self.camera.position)
-            objeto.viewPoints.append(viewPoint)
+        for point in (self.objeto?.rwPoints)! {
+            let viewPoint = alpha! * (point - (self.camera?.position)!)
+            objeto?.viewPoints.append(viewPoint)
             //inicializando normais como zero
-            objeto.pointsNormalsDict[viewPoint] = Point(x: 0, y: 0, z: 0)
+            objeto?.pointsNormalsDict[viewPoint] = Point(x: 0, y: 0, z: 0)
         }
         
         //calculando a normal dos triangulos e normalizando
-        for triangle in self.objeto.triangles3D {
+        for triangle in (self.objeto?.triangles3D)! {
             
             let triangleNormal = triangle.normal().normalized()
             
             //somar a normal à de cada um dos pontos
-            objeto.pointsNormalsDict[triangle.firstVertex] = (objeto.pointsNormalsDict[triangle.firstVertex]!) + triangleNormal
+            objeto?.pointsNormalsDict[triangle.firstVertex] = (objeto?.pointsNormalsDict[triangle.firstVertex]!)! + triangleNormal
             
-            objeto.pointsNormalsDict[triangle.secondVertex] = (objeto.pointsNormalsDict[triangle.secondVertex]!) + triangleNormal
+            objeto?.pointsNormalsDict[triangle.secondVertex] = (objeto?.pointsNormalsDict[triangle.secondVertex]!)! + triangleNormal
             
-            objeto.pointsNormalsDict[triangle.thirdVertex] = (objeto.pointsNormalsDict[triangle.thirdVertex])! + triangleNormal
+            objeto?.pointsNormalsDict[triangle.thirdVertex] = (objeto?.pointsNormalsDict[triangle.thirdVertex])! + triangleNormal
         }
         
         //normalizando as normais
-        for (point, normal) in self.objeto.pointsNormalsDict {
-            objeto.pointsNormalsDict[point] = normal.normalized()
+        for (point, normal) in (self.objeto?.pointsNormalsDict)! {
+            objeto?.pointsNormalsDict[point] = normal.normalized()
         }
         
         //projetar pontos para coordenadas 2D
-        for point in self.objeto.viewPoints {
+        for point in (self.objeto?.viewPoints)! {
             //gerando pontos 2D [-1, 1]
-            var screenPoint = Point(x: (camera.d * point.x)/(camera.hx * point.z!),
-                                    y: (camera.d * point.y)/(camera.hy * point.z!))
+            var screenPoint = Point(x: ((camera?.d)! * point.x)/((camera?.hx)! * point.z!),
+                                    y: ((camera?.d)! * point.y)/((camera?.hy)! * point.z!))
             
             //parametrizando pontos em relação à janela e transformando em inteiro
             screenPoint.x = Double(Int((screenPoint.x + 1)/2 * Double(self.frame.width)))
             //invertendo a formula pra se adpater a uma tela de orientacao invertida
             screenPoint.y = Double(Int((1 + screenPoint.y)/2 * Double(self.frame.height)))
             
-            objeto.screenPoints.append(screenPoint)
+            objeto?.screenPoints.append(screenPoint)
             
             
         }
@@ -151,7 +156,7 @@ class DrawingView: NSView {
         }
         
         //Conversão por varredura
-        for triangle in self.objeto.triangles2D {
+        for triangle in (self.objeto?.triangles2D)! {
             
             if triangle.firstVertex.y == triangle.secondVertex.y && triangle.firstVertex.y == triangle.thirdVertex.y {
             }
@@ -189,7 +194,7 @@ class DrawingView: NSView {
                         while currentX <= maxX {
                             //TODO: Aqui linha
                             let phongReturn = phongRoutine(triangle: triangle,
-                                                           objeto: objeto,
+                                                           objeto: objeto!,
                                                            iluminacao: iluminacao,
                                                            pixel: Point(x: floor(currentX),
                                                                         y: floor(currentY)),
@@ -208,7 +213,7 @@ class DrawingView: NSView {
                     while currentY <= minY {
                         //TODO: Aqui linha
                         let phongReturn = phongRoutine(triangle: triangle,
-                                                       objeto: objeto,
+                                                       objeto: objeto!,
                                                        iluminacao: iluminacao,
                                                        pixel: Point(x: floor(currentX),
                                                                     y: floor(currentY)),
@@ -254,7 +259,7 @@ class DrawingView: NSView {
                             
                             if currX >= 0 && currentY >= 0 {
                                 let phongReturn = phongRoutine(triangle: triangle,
-                                                               objeto: objeto,
+                                                               objeto: objeto!,
                                                                iluminacao: iluminacao,
                                                                pixel: Point(x: floor(currX), y: floor(currentY)),
                                                                zBuffer: zBuffer,
@@ -314,7 +319,7 @@ class DrawingView: NSView {
                     while currX <= Xmax {
                         if currX >= 0 && currentY >= 0 {
                             let phongReturn = phongRoutine(triangle: triangle,
-                                                           objeto: objeto,
+                                                           objeto: objeto!,
                                                            iluminacao: iluminacao,
                                                            pixel: Point(x: floor(currX), y: floor(currentY)),
                                                            zBuffer: zBuffer,
@@ -388,7 +393,7 @@ class DrawingView: NSView {
                     while currX <= Xmax {
                         if currX >= 0 && currentY >= 0 {
                             let phongReturn = phongRoutine(triangle: triangle,
-                                                           objeto: objeto,
+                                                           objeto: objeto!,
                                                            iluminacao: iluminacao,
                                                            pixel: Point(x: floor(currX), y: floor(currentY)),
                                                            zBuffer: zBuffer,
@@ -447,7 +452,7 @@ class DrawingView: NSView {
                         while currentX <= maxX {
                             //TODO: Aqui linha
                             let phongReturn = phongRoutine(triangle: triangle,
-                                                           objeto: objeto,
+                                                           objeto: objeto!,
                                                            iluminacao: iluminacao,
                                                            pixel: Point(x: floor(currentX),
                                                                         y: floor(currentY)),
@@ -466,7 +471,7 @@ class DrawingView: NSView {
                         while currentY <= minY {
                             //TODO: Aqui linha
                             let phongReturn = phongRoutine(triangle: triangle,
-                                                           objeto: objeto,
+                                                           objeto: objeto!,
                                                            iluminacao: iluminacao,
                                                            pixel: Point(x: floor(currentX),
                                                                         y: floor(currentY)),
@@ -510,7 +515,7 @@ class DrawingView: NSView {
                         while currX <= Xmax {
                             if currX >= 0 && currentY >= 0 {
                                 let phongReturn = phongRoutine(triangle: triangle,
-                                                               objeto: objeto,
+                                                               objeto: objeto!,
                                                                iluminacao: iluminacao,
                                                                pixel: Point(x: floor(currX), y: floor(currentY)),
                                                                zBuffer: zBuffer,

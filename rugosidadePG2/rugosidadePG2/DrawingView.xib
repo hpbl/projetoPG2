@@ -11,6 +11,7 @@
                 <outlet property="clearButton" destination="gTV-lK-aId" id="RrA-ui-xKg"/>
                 <outlet property="drawingView" destination="c22-O7-iKe" id="Hwf-tT-rSu"/>
                 <outlet property="finishedLabel" destination="6Dw-eu-mRQ" id="K7y-W2-65W"/>
+                <outlet property="objetoTextField" destination="NR5-0j-IMN" id="KGE-iV-Zuo"/>
                 <outlet property="rugosityButton" destination="qFl-Qr-VMz" id="osS-Dk-7QG"/>
                 <outlet property="rugosityInputTextField" destination="kyC-f5-7bL" id="tu7-EV-PZF"/>
             </connections>
@@ -50,12 +51,21 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gTV-lK-aId">
-                    <rect key="frame" x="586" y="561" width="72" height="32"/>
+                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NR5-0j-IMN">
+                    <rect key="frame" x="306" y="568" width="111" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zGb-ig-50E">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" placeholderString="Objeto" drawsBackground="YES" id="8bY-zJ-ArU">
                         <font key="font" metaFont="system"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gTV-lK-aId">
+                    <rect key="frame" x="582" y="563" width="70" height="28"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zGb-ig-50E">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
                     </buttonCell>
                     <connections>
                         <action selector="clearButtonAction:" target="-2" id="MZ4-AG-bcE"/>
